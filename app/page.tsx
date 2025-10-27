@@ -6,6 +6,8 @@ import { redirect } from "next/navigation";
 import { checkPostTableExists } from "@/lib/db-utils";
 import Hero from "./_components/Hero/Hero";
 import NewArrival from "./_components/NewArrivals";
+import PromoBanner from "./_components/PromoBanner";
+import Testimonials from "./_components/Testimonials";
 
 export default async function Home() {
   // Check if the post table exists
@@ -34,6 +36,9 @@ export default async function Home() {
     <>
     <Hero />
     <NewArrival />
+    <PromoBanner />
+    <Testimonials />
+    
     
     {/* <div className="min-h-screen bg-gray-50 flex flex-col items-center py-24 px-8">
       <h1 className="text-5xl font-extrabold mb-12 text-[#333333]">Recent Posts</h1>
