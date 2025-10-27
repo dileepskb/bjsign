@@ -1,19 +1,19 @@
 // import { useTranslation } from 'next-i18next';
-import Image from 'next/image';
+// import Image from 'next/image';
 import Link from 'next/link';
 // import { useRouter } from 'next/router';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import type { IconType } from 'react-icons';
-import { FiChevronDown, FiGrid, FiPhone } from 'react-icons/fi';
+import {  FiPhone } from 'react-icons/fi';
 import { MdOutlineMail } from "react-icons/md";
 import { TiSocialFacebook } from "react-icons/ti";
 import { TiSocialLinkedin } from "react-icons/ti";
 import { VscTwitter } from "react-icons/vsc";
 import { FaInstagram } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa6";
-import { FaLinkedinIn } from "react-icons/fa6";
+// import { FaLinkedinIn } from "react-icons/fa6";
 
-import { LocaleSelector } from './LocaleSelector';
+// import { LocaleSelector } from './LocaleSelector';
 
 interface TopbarItemProps {
   label: string;
@@ -33,7 +33,7 @@ const TopbarItem = ({ label, url, Icon }: TopbarItemProps) => (
   </li>
 );
 
-const SocialItem = ({ label, url, Icon }: TopbarItemProps) => (
+const SocialItem = ({ url, Icon }: TopbarItemProps) => (
   <li className="mx-0.5">
     <Link
       href={url}
@@ -46,7 +46,7 @@ const SocialItem = ({ label, url, Icon }: TopbarItemProps) => (
 );
 
 export const TopBar = () => {
-  const [isLocaleSelectorOpen, setIsLocaleSelectorOpen] = useState(false);
+
   // const router = useRouter();
   // const { t } = useTranslation('header');
   const ref = useRef<HTMLDivElement>(null);

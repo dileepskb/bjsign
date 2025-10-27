@@ -9,7 +9,7 @@ import { FiUser, FiHeart, FiShoppingBag } from 'react-icons/fi';
 import { Search } from './Search';
 import { TopBar } from './TopBar';
 import { MegaMenu } from './MegaMenu';
-import { IoMdArrowDropdown } from "react-icons/io";
+// import { IoMdArrowDropdown } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 // import { Collections } from '@/types';
 // import { BottomNavigation } from '@/components';
@@ -36,7 +36,7 @@ export const sideNavLinks: [string, IconType][] = [
   ['/login', FiUser],
 ];
 
-export const HeaderNew = ({ collections }: { collections: any }) => {
+export const HeaderNew = () => {
   // const { t } = useTranslation('header');
 
   
@@ -115,16 +115,16 @@ export const HeaderNew = ({ collections }: { collections: any }) => {
             )} */}
           </ul>
         </div>
-        <Transition as="div" show={Boolean(hoveredNavLink?.collapsible)}>
+        {/* <Transition as="div" show={Boolean(hoveredNavLink?.collapsible)}>
           {hoveredNavLink && (
             <MegaMenu
               type={'View All Products'}
-              collections={collections}
+              collections={{}}
               onShowMenu={() => handleShowMenu(hoveredNavLink)}
               onCloseMenu={handleCloseMenu}
             />
           )}
-        </Transition>
+        </Transition> */}
       </div>
       {/* <BottomNavigation navLinks={navLinks} collections={collections} /> */}
     </header>

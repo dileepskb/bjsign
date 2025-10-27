@@ -1,7 +1,7 @@
 // app/layout.tsx
 import { HeaderNew } from "./_components/HeaderNew/Index";
 import "./globals.css";
-import Header from "./Header";
+// import Header from "./Header";
 import Providers from "./providers";
 
 export const metadata = {
