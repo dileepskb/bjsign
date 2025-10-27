@@ -19,7 +19,7 @@ export default function RootLayout({
       <body>
         <Providers>
           <div className="min-h-screen flex flex-col">
-            <HeaderNew collections={[]} />
+            <HeaderNew />
             {/* <Header /> */}
             <main className="flex-1">{children}</main>
           </div>

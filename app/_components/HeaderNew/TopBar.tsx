@@ -2,7 +2,7 @@
 // import Image from 'next/image';
 import Link from 'next/link';
 // import { useRouter } from 'next/router';
-import { useRef } from 'react';
+// import { useRef } from 'react';
 import type { IconType } from 'react-icons';
 import {  FiPhone } from 'react-icons/fi';
 import { MdOutlineMail } from "react-icons/md";
@@ -49,7 +49,7 @@ export const TopBar = () => {
 
   // const router = useRouter();
   // const { t } = useTranslation('header');
-  const ref = useRef<HTMLDivElement>(null);
+  // const ref = useRef<HTMLDivElement>(null);
 
   
 
