@@ -1,9 +1,11 @@
 export const dynamic = "force-dynamic"; // This disables SSG and ISR
 
-import prisma from "@/lib/prisma";
-import Link from "next/link";
+// import prisma from "@/lib/prisma";
+// import Link from "next/link";
 import { redirect } from "next/navigation";
 import { checkPostTableExists } from "@/lib/db-utils";
+import Hero from "./_components/Hero/Hero";
+import NewArrival from "./_components/NewArrivals";
 
 export default async function Home() {
   // Check if the post table exists
@@ -14,22 +16,26 @@ export default async function Home() {
     redirect("/setup");
   }
 
-  const posts = await prisma.post.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
-    take: 6,
-    include: {
-      author: {
-        select: {
-          name: true,
-        },
-      },
-    },
-  });
+  // const posts = await prisma.post.findMany({
+  //   orderBy: {
+  //     createdAt: "desc",
+  //   },
+  //   take: 6,
+  //   include: {
+  //     author: {
+  //       select: {
+  //         name: true,
+  //       },
+  //     },
+  //   },
+  // });
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center py-24 px-8">
+    <>
+    <Hero />
+    <NewArrival />
+    
+    {/* <div className="min-h-screen bg-gray-50 flex flex-col items-center py-24 px-8">
       <h1 className="text-5xl font-extrabold mb-12 text-[#333333]">Recent Posts</h1>
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl mb-8">
         {posts.map((post) => (
@@ -52,6 +58,7 @@ export default async function Home() {
           </Link>
         ))}
       </div>
-    </div>
+    </div> */}
+    </>
   );
 }
