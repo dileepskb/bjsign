@@ -3,17 +3,25 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import Image from "next/image";
 import Link from "next/link";
 
+type Category = {
+  id: string;
+  name: string;
+  slug:string;
+  status:boolean
+};
+
 export default function FormElementsPage() {
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<{ categories: Category[] }>({
+    categories: [],
+  });
   const [, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadProducts() {
       try {
-        const res = await axios.get("/api/protected/getproduct");
+        const res = await axios.get("/api/protected/categories");
         setProducts(res.data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -25,9 +33,11 @@ export default function FormElementsPage() {
     loadProducts();
   }, []);
 
+  console.log(products)
+
   return (
     <>
-      <Breadcrumb pageName="All Products" />
+      <Breadcrumb pageName="All Categories" />
 
       <div className="relative overflow-x-auto border border-gray-300 rounded p-3 bg-white dark:bg-gray-900">
         <div className="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 ">
@@ -92,7 +102,7 @@ export default function FormElementsPage() {
                 Name
               </th>
               <th scope="col" className="px-6 py-3">
-                Price
+                Slug
               </th>
               <th scope="col" className="px-6 py-3">
                 Status
@@ -103,9 +113,7 @@ export default function FormElementsPage() {
             </tr>
           </thead>
           <tbody>
-            {products?.map((items, index) => {
-              const { imgs } = items;
-              const { previews } = imgs;
+            {products?.categories.map((items, index) => {
               return (
                 <tr
                   key={index}
@@ -130,21 +138,14 @@ export default function FormElementsPage() {
                     scope="row"
                     className="flex py-2 items-center  text-gray-900 whitespace-nowrap dark:text-white"
                   >
-                    <Image
-                      className="w-20 h-16 shadow border"
-                      src={`${previews[0]}`}
-                      alt="Jese image"
-                      width={60}
-                      height={60}
-                    />
+                 
                     <div className="ps-3">
                       <div className="text-base font-semibold">
-                        {items.title}
+                        {items.name}
                       </div>
-                      {/* <div className="font-normal text-gray-500">neil.sims@flowbite.com</div> */}
                     </div>
                   </td>
-                  <td className="px-6">{items.price}</td>
+                  <td className="px-6">{items.slug}</td>
                   <td className="px-6">
                     <div className="flex items-center">
                       <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>{" "}
@@ -178,7 +179,7 @@ export default function FormElementsPage() {
             })}
           </tbody>
         </table>
-      </div>
+      </div> 
     </>
   );
 }
