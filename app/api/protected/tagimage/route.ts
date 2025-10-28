@@ -48,3 +48,20 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
   }
 }
+
+
+
+export async function GET(req: Request) {
+  try {
+ 
+    const tagImage = await prisma.tagImage.findMany({});
+
+    return NextResponse.json(tagImage, { status: 200 });
+  } catch (error: any) {
+    console.error("❌ Error fetching products:", error);
+    return NextResponse.json(
+      { message: error.message || "Failed to fetch products" },
+      { status: 500 }
+    );
+  }
+}
