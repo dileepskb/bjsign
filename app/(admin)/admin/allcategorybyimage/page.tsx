@@ -13,7 +13,7 @@ export default function ListCatImg() {
   useEffect(() => {
     async function loadProducts() {
       try {
-        const res = await axios.get("/api/protected/allca");
+        const res = await axios.get("/api/protected/tagimage");
         setProducts(res.data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -24,6 +24,9 @@ export default function ListCatImg() {
 
     loadProducts();
   }, []);
+
+
+  console.log(products)
 
   return (
     <>
@@ -89,10 +92,10 @@ export default function ListCatImg() {
                 </div>
               </th>
               <th scope="col" className="px-6 py-3">
-                Name
+                Image
               </th>
               <th scope="col" className="px-6 py-3">
-                Price
+                Name
               </th>
               <th scope="col" className="px-6 py-3">
                 Status
@@ -104,8 +107,7 @@ export default function ListCatImg() {
           </thead>
           <tbody>
             {products?.map((items, index) => {
-              const { imgs } = items;
-              const { previews } = imgs;
+              const { previews } = items;
               return (
                 <tr
                   key={index}
@@ -144,7 +146,7 @@ export default function ListCatImg() {
                       {/* <div className="font-normal text-gray-500">neil.sims@flowbite.com</div> */}
                     </div>
                   </td>
-                  <td className="px-6">{items.price}</td>
+                  <td className="px-6">{items.tag}</td>
                   <td className="px-6">
                     <div className="flex items-center">
                       <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>{" "}
