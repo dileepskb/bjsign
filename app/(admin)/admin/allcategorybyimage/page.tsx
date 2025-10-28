@@ -6,7 +6,7 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function FormElementsPage() {
+export default function ListCatImg() {
   const [products, setProducts] = useState<any[]>([]);
   const [, setLoading] = useState(true);
 
