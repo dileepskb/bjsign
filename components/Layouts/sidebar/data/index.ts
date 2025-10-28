@@ -7,6 +7,7 @@ export const NAV_DATA = [
       {
         title: "Dashboard",
         icon: Icons.HomeIcon,
+        child:true,
         items: [
           {
             title: "eCommerce",
@@ -30,11 +31,17 @@ export const NAV_DATA = [
         title: "Category",
         url: "/admin/category",
         icon: Icons.Category,
-        items: [],
+        child:false,
+        items: [
+          // {
+          //   title: "",
+          //   url: "/admin/addCategory",
+          // }
+        ],
       },
         {
         title: "Orders",
-        url: "/admin/category",
+        url: "/admin/orders",
         icon: Icons.Orders,
         items: [],
       },

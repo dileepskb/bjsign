@@ -6,14 +6,14 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function ListCatImg() {
+export default function FormElementsPage() {
   const [products, setProducts] = useState<any[]>([]);
   const [, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadProducts() {
       try {
-        const res = await axios.get("/api/protected/allca");
+        const res = await axios.get("/api/protected/getproduct");
         setProducts(res.data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -33,15 +33,15 @@ export default function ListCatImg() {
         <div className="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 ">
           <div className="flex gap-2">
             <Link
-              href={"/admin/addcategorybyimage"}
+              href={"/admin/addCategory"}
               className="w-[120px] py-2 font-bold text-center text-sm text-white border border-gray-300 rounded  bg-green-500 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
-              + Add Image
+              + Add Category
             </Link>
             <select className="block w-[150px] py-2 px-2 text-sm text-gray-900 border border-gray-300 rounded  bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
               <option>Action</option>
-              <option>Activate Images</option>
-              <option>Delete Images</option>
+              <option>Activate Category</option>
+              <option>Delete Category</option>
             </select>
           </div>
           <label htmlFor="table-search" className="sr-only">

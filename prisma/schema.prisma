@@ -32,7 +32,28 @@ model Post {
   author    User?    @relation(fields: [authorId], references: [id])
 }
 
+model Category {
+  id          Int        @id @default(autoincrement())
+  name        String
+  slug        String     @unique
+  description String?
+  image       String? // optional category image
+  parentId    Int? // for sub-categories
+  parent      Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryHierarchy")
 
+  // SEO fields
+  metaTitle       String?
+  metaDescription String?
+  metaKeywords    String?
+
+  // Relations
+  products Product[]
+
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 
 model Product {
   id                     Int                     @id @default(autoincrement())
@@ -42,9 +63,11 @@ model Product {
   reviews                Int                     @default(0)
   price                  Float
   discountedPrice        String?
-  imgs                   ProductImage?           // one-to-one
-  tagImage               TagImage[]              // many
+  imgs                   ProductImage? // one-to-one
+  tagImage               TagImage[] // many
   productOptions         ProductOption[]
+  categoryId             Int?
+  category               Category?               @relation(fields: [categoryId], references: [id])
   createdAt              DateTime                @default(now())
   updatedAt              DateTime                @updatedAt
 }
@@ -84,11 +107,10 @@ model ProductOption {
 }
 
 model ProductOptionValue {
-  id       Int            @id @default(autoincrement())
+  id       Int           @id @default(autoincrement())
   label    String
   value    Float
-  discount Float          @default(0)
+  discount Float         @default(0)
   optionId Int
-  option   ProductOption  @relation(fields: [optionId], references: [id], onDelete: Cascade)
+  option   ProductOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
 }
-

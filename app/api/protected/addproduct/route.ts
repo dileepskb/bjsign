@@ -8,6 +8,7 @@ import prisma from "@/lib/prisma";
 export async function POST(req: Request) {
   const body = await req.json();
   const {
+    categoryId,
     title,
     description,
     reviews = 0,
@@ -45,6 +46,7 @@ export async function POST(req: Request) {
 
     const product = await prisma.product.create({
       data: {
+        categoryId:Number(categoryId),
         title,
         description,
         reviews: Number(reviews),
