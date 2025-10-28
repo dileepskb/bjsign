@@ -32,4 +32,85 @@ model Post {
   author    User?    @relation(fields: [authorId], references: [id])
 }
 
+model Category {
+  id          Int        @id @default(autoincrement())
+  name        String
+  slug        String     @unique
+  description String?
+  image       String? // optional category image
+  parentId    Int? // for sub-categories
+  parent      Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryHierarchy")
 
+  // SEO fields
+  metaTitle       String?
+  metaDescription String?
+  metaKeywords    String?
+
+  // Relations
+  products Product[]
+
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id                     Int                     @id @default(autoincrement())
+  title                  String
+  description            String
+  additionalDescriptions AdditionalDescription[]
+  reviews                Int                     @default(0)
+  price                  Float
+  discountedPrice        String?
+  imgs                   ProductImage? // one-to-one
+  tagImage               TagImage[] // many
+  productOptions         ProductOption[]
+  categoryId             Int?
+  category               Category?               @relation(fields: [categoryId], references: [id])
+  createdAt              DateTime                @default(now())
+  updatedAt              DateTime                @updatedAt
+}
+
+model AdditionalDescription {
+  id        Int     @id @default(autoincrement())
+  name      String?
+  value     String?
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model ProductImage {
+  id         Int      @id @default(autoincrement())
+  thumbnails String[] // multiple URLs
+  previews   String[]
+  productId  Int      @unique
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model TagImage {
+  id         Int      @id @default(autoincrement())
+  thumbnails String[]
+  previews   String[]
+  tag        String
+  productId  Int
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model ProductOption {
+  id           Int                  @id @default(autoincrement())
+  name         String
+  type         String
+  optionValues ProductOptionValue[]
+  productId    Int
+  product      Product              @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model ProductOptionValue {
+  id       Int           @id @default(autoincrement())
+  label    String
+  value    Float
+  discount Float         @default(0)
+  optionId Int
+  option   ProductOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+}

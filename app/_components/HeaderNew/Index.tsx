@@ -49,7 +49,7 @@ export const HeaderNew = () => {
     <>
       <TopBar />
 
-    <header className='sticky top-0 z-900'>
+    <header className='sticky top-0 z-[900]'>
     
       <div className=" h-14 bg-white shadow-md shadow-black-200">
         <div className="mx-auto flex h-full items-center px-4 xl:container">
