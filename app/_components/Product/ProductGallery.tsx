@@ -54,7 +54,7 @@ export default function ProductGallery({ product }:ProductClientProps) {
       >
         {product?.imgs?.thumbnails.map((img:string, idx:number) => (
           <SwiperSlide key={idx} onClick={() => setActiveIndex(idx)}>
-            <Image src={img} alt={img} className={`border ${activeIndex === idx ? 'active' : ''}`}/>
+            <Image src={img} alt={img} width={140} height={120} className={`border ${activeIndex === idx ? 'active' : ''}`}/>
           </SwiperSlide>
         ))}
       </Swiper>
