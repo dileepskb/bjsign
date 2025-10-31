@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import CategoryForm from "@/app/_components/CategoryForm/CategoryForm";
+// import CategoryForm from "@/app/_components/CategoryForm/CategoryForm";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
@@ -68,7 +68,7 @@ export default function AddCategoryPage() {
   return (
     <div className="min-h-screen">
         <div className="max-w-2xl p-6 bg-white rounded-lg shadow">
-      <h2 className="text-xl font-semibold mb-4">Add FAQ's</h2>
+      <h2 className="text-xl font-semibold mb-4">Add FAQ&apos;s</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
            <div>
           <label className="block text-sm font-medium mb-1">Products</label>

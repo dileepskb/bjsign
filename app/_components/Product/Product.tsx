@@ -8,6 +8,7 @@ import PriceCalculator from "../PriceCalculator/PriceCalulator";
 import { Star } from "lucide-react";
 import { StarEmpty } from "../Star/Star";
 import Image from "next/image";
+import Faq from "../Faq/Faq";
 
 
 export interface ProductImage {
@@ -46,6 +47,16 @@ export interface ProductOption {
   optionValues: OptionValue[];
 }
 
+export interface Category{
+ name:string;
+ slug:string 
+}
+
+export interface FAQ{
+  question:string;
+  answer:string;
+  id:number
+}
 export interface Product {
   id: number;
   title: string;
@@ -60,7 +71,13 @@ export interface Product {
   tagImage: TagImage[];
   additionalDescriptions: AdditionalDescription[];
   productOptions: ProductOption[];
+ 
+  category?:Category
+   faq?: FAQ[];
 }
+
+
+
 interface ProductClientProps {
   product: Product | null;
 }
@@ -264,6 +281,13 @@ export default function ProductClient({product}:ProductClientProps) {
         <div className="container  mx-auto mt-3">
           <div className="p-3 border border-gray-300 bg-white pt-5 rounded">
             <Tabs products={product} />
+          </div>
+        </div>
+      </section>
+       <section>
+        <div className="container  mx-auto mt-3">
+          <div className="p-3 border border-gray-300 bg-white pt-5 rounded">
+            <Faq products={product} />
           </div>
         </div>
       </section>

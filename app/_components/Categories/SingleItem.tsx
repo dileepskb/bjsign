@@ -1,8 +1,14 @@
-import { Category } from "@/types/category";
+
 import React from "react";
 import Image from "next/image";
 
-const SingleItem = ({ item }: { item: Category }) => {
+interface Category{
+  id:number;
+  img:string
+  title:string;
+}
+
+const SingleItem = ({ item }: { item:Category }) => {
   return (
     <a href="#" className="group flex flex-col items-center">
       <div className="max-w-[130px] w-full bg-[#F2F3F8] h-32 rounded-full flex items-center justify-center mb-4">

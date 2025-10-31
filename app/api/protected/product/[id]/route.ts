@@ -1,14 +1,13 @@
-
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
-// ✅ POST (Update)
+// ✅ UPDATE PRODUCT
 export async function POST(
   req: Request,
-  context: { params: Promise<{ id: string }> } // 👈 Correct type for Next.js 15
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await context.params;
+    const { id } = await context.params; // must await
     const data = await req.json();
 
     const updated = await prisma.product.update({
@@ -18,22 +17,21 @@ export async function POST(
 
     return NextResponse.json({ success: true, updated });
   } catch (error) {
-    console.error(error);
+    console.error("UPDATE product error:", error);
     return NextResponse.json(
-      { error: "Failed to update category" },
+      { error: "Failed to update product" },
       { status: 500 }
     );
   }
 }
 
-// ✅ DELETE
+// ✅ DELETE PRODUCT
 export async function DELETE(
   req: Request,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }> } // 👈 must match Next.js 15 spec
 ) {
-    console.log(req)
   try {
-    const { id } = context.params; // ✅ Works properly
+    const { id } = await context.params; // 👈 must await
     console.log("Deleting product with ID:", id);
 
     await prisma.product.delete({

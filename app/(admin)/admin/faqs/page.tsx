@@ -45,7 +45,7 @@ export default function FormElementsPage() {
               href={"/admin/addfaq"}
               className="w-[120px] py-2 font-bold text-center text-sm text-white border border-gray-300 rounded  bg-green-500 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
-              + Add FAQ's
+              + Add FAQ&apos;s
             </Link>
             <select className="block w-[150px] py-2 px-2 text-sm text-gray-900 border border-gray-300 rounded  bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
               <option>Action</option>
