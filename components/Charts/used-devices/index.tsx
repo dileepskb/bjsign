@@ -17,7 +17,7 @@ export async function UsedDevices({
   return (
     <div
       className={cn(
-        "grid grid-cols-1 grid-rows-[auto_1fr] gap-9 rounded-[10px] bg-white p-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card",
+        "grid grid-cols-1 grid-rows-[auto_1fr] gap-9 rounded-[10px] bg-white border px-7 pb-6 pt-7 shadow-1 dark:bg-gray-dark dark:shadow-card",
         className,
       )}
     >
