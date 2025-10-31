@@ -14,14 +14,14 @@ import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | NextAdmin - Next.js Dashboard Kit",
-    default: "NextAdmin - Next.js Dashboard Kit",
+    template: "Bj Sing World Dashboard Admin",
+    default: "Bj Sing World Dashboard Admin",
   },
   description:
     "Next.js admin dashboard toolkit with 200+ templates, UI components, and integrations for fast dashboard development.",
 };
 
-export default function RootLayout({ children }: PropsWithChildren) {
+export default function AdminLayout({ children }: PropsWithChildren) {
   return (
     // <html lang="en" suppressHydrationWarning>
     //   <body>
@@ -35,9 +35,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
             <div className="w-full bg-gray-50 dark:bg-[#020d1a]">
               {/* <Header /> */}
 
-              <main className="isolate mx-auto w-full max-w-screen-2xl overflow-hidden px-4 py-5">
+              <div className="isolate mx-auto w-full max-w-screen-2xl overflow-hidden px-4 py-5">
                 {children}
-              </main>
+              </div>
             </div>
           </div>
        

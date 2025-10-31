@@ -20,3 +20,81 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* button, input, optgroup, select, textarea, input[tpye="checkbox"] {
+  background: #fff;
+}
+button:focus, input:focus, optgroup:focus, select:focus, textarea:focus {
+  background: #fff;
+  outline: none!important;
+} */
+
+
+/* customer CSS */
+
+
+.newarrival .swiper-button-next, .newarrival .swiper-button-prev{
+  margin: calc(var(--spacing) * 0);
+    height:38px;
+    width: 38px;
+    border-style: solid;
+    border-width: 1px;
+    border-color:  #000;
+    background-color: var(--color-white);
+    color: var(--color-dark);
+    --tw-duration: .2s;
+    --tw-ease: var(--ease-out);
+    transition-duration: .2s;
+    transition-timing-function: var(--ease-out);
+    border-radius: 3.40282e+38px;
+    position: static !important;
+
+}
+
+.newarrival .swiper-button-next svg, .newarrival .swiper-button-prev svg{
+  width: 20px;
+  height: 20px;
+}
+
+.newarrival .swiper-button-next:hover, .newarrival .swiper-button-prev:hover{
+border-color: var(--color-orange-400);
+        background-color: var(--color-orange-400);
+        color: var(--color-white);
+}
+
+
+.common-carousel .swiper-button-next, .common-carousel .swiper-button-prev{
+  margin: calc(var(--spacing) * 0);
+    height:38px;
+    width: 38px;
+    border-style: solid;
+    border-width: 1px;
+    border-color:  #000;
+    background-color: var(--color-white);
+    color: var(--color-dark);
+    --tw-duration: .2s;
+    --tw-ease: var(--ease-out);
+    transition-duration: .2s;
+    transition-timing-function: var(--ease-out);
+    border-radius: 3.40282e+38px;
+    position: static !important;
+
+}
+
+.common-carousel .swiper-button-next svg, .common-carousel .swiper-button-prev svg{
+  width: 20px;
+  height: 20px;
+}
+
+.common-carousel .swiper-button-next:hover, .common-carousel .swiper-button-prev:hover{
+border-color: var(--color-orange-400);
+        background-color: var(--color-orange-400);
+        color: var(--color-white);
+}
+
+.swiper-button-prev:after, .swiper-rtl .swiper-button-next:after{
+  content: ""!important;
+}
+.swiper-button-next:after, .swiper-rtl .swiper-button-next:after{
+  content: ""!important;
+}

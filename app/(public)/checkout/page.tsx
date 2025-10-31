@@ -1,3 +1,4 @@
+import Image from "next/image"
 const Checkout = () => {
     return(
         <div className="bg-white container mx-auto">
@@ -60,9 +61,9 @@ const Checkout = () => {
                                     <div className="flex items-center">
                                         <input type="radio" name="method" className="w-5 h-5 cursor-pointer" id="card" checked />
                                         <label htmlFor="card" className="ml-4 flex gap-2 cursor-pointer">
-                                            <img src="https://readymadeui.com/images/visa.webp" className="w-12" alt="card1" />
-                                            <img src="https://readymadeui.com/images/american-express.webp" className="w-12" alt="card2" />
-                                            <img src="https://readymadeui.com/images/master.webp" className="w-12" alt="card3" />
+                                            <Image src="https://readymadeui.com/images/visa.webp" className="w-12" alt="cart1" width={100} height={100} />
+                                            <Image src="https://readymadeui.com/images/american-express.webp" className="w-12" alt="card2"  width={100} height={100} />
+                                            <Image src="https://readymadeui.com/images/master.webp" className="w-12" alt="card3"  width={100} height={100} />
                                         </label>
                                     </div>
                                 </div>
@@ -73,7 +74,7 @@ const Checkout = () => {
                                     <div className="flex items-center">
                                         <input type="radio" name="method" className="w-5 h-5 cursor-pointer" id="paypal" />
                                         <label htmlFor="paypal" className="ml-4 flex gap-2 cursor-pointer">
-                                            <img src="https://readymadeui.com/images/paypal.webp" className="w-20" alt="paypalCard" />
+                                            <Image src="https://readymadeui.com/images/paypal.webp" className="w-20" alt="paypalCard" width={100} height={100} />
                                         </label>
                                     </div>
                                 </div>
@@ -100,7 +101,7 @@ const Checkout = () => {
                         <div className="space-y-4">
                             <div className="flex items-start gap-4">
                                 <div className="w-24 h-24 flex p-3 shrink-0 bg-white rounded-md">
-                                    <img src='https://bjsignworld.com/wp-content/uploads/2025/02/Automative-Brochure.jpg' className="w-full object-contain" />
+                                    <Image src='https://bjsignworld.com/wp-content/uploads/2025/02/Automative-Brochure.jpg' alt="" className="w-full object-contain" width={100} height={100} />
                                 </div>
                                 <div className="w-full">
                                     <h3 className="text-sm text-slate-900 font-semibold">brochures</h3>

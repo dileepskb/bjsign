@@ -53,6 +53,7 @@ export async function GET(
         },
       },
       include: {
+          faq:true,
           imgs: true,
           tagImage:true,
           additionalDescriptions: true,

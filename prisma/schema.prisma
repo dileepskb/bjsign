@@ -66,6 +66,7 @@ model Product {
   imgs                   ProductImage? // one-to-one
   tagImage               TagImage[] // many
   productOptions         ProductOption[]
+  faq                    FAQ[]
   categoryId             Int?
   category               Category?               @relation(fields: [categoryId], references: [id])
   createdAt              DateTime                @default(now())
@@ -113,4 +114,17 @@ model ProductOptionValue {
   discount Float         @default(0)
   optionId Int
   option   ProductOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+}
+
+
+model FAQ {
+  id          Int      @id @default(autoincrement())
+  question    String
+  answer      String
+  // category    String?   // Optional: to group FAQs (e.g. "Shipping", "Payment")
+  productId    Int
+  product      Product              @relation(fields: [productId], references: [id], onDelete: Cascade)
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }

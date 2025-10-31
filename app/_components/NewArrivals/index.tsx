@@ -1,10 +1,10 @@
 'use client';
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import { ProductsDummy } from "../dummydata/DummyData";
+import { Navigation, Autoplay } from 'swiper/modules';
+//import { ProductsDummy } from "../dummydata/DummyData";
 // import ProductItem from "@/app/components/Common/ProductItem";
 // import shopData from "@/app/components/Shop/shopData";
 // import { ProductsDummy } from "@/app/components/Shop/ProductsDummy";
@@ -12,8 +12,33 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/zoom';
+import axios from "axios";
+import { Product } from "../Product/Product";
 
 const NewArrival = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [, setLoading] = useState(true);
+  // const [reload, setReload] = useState(true);
+
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        const res = await axios.get("/api/protected/getproduct");
+        setProducts(res.data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadProducts();
+  }, []);
+
+  console.log(products)
+
+
+
   return (
     <section className="overflow-hidden py-10">
       <div className="container mx-auto">
@@ -55,27 +80,30 @@ const NewArrival = () => {
           </Link>
         </div>
 
-        <div className="">
+        <div className="newarrival">
            <Swiper
-      modules={[Navigation, Pagination, Autoplay]}
-      navigation
-      pagination={{ clickable: true }}
-      autoplay={{ delay: 3000 }}
-      loop={true}
-      spaceBetween={20}
-      slidesPerView={4}
-      className="h-64 w-full"
+      modules={[Navigation, Autoplay]}
+  navigation={false}
+  autoplay={{delay:3000}}
+  loop={true}
+  spaceBetween={20}
+  slidesPerView={4}
+  className="h-100 w-full"
+    
     >
           {/* <!-- New Arrivals item --> */}
-          {ProductsDummy.map((item, key) => (
-                    <SwiperSlide  key={key}>
+          {products.map((item, key) => (
+                    <SwiperSlide  key={key}
+                    
+                    >
             <div className="group">
-              <div className="relative overflow-hidden flex items-center justify-center rounded-lg bg-[#F6F7FB] min-h-[270px] mb-4">
+              <div className="relative overflow-hidden flex items-center justify-center rounded-lg bg-[#F6F7FB] min-h-[270px] min-width-[270px] mb-4">
                 <Image
                   src={`${item?.imgs?.previews[0]}`}
                   alt=""
                   width={250}
                   height={250}
+                  className="w-full"
                 />
 
                 <div className="absolute left-0 bottom-0 translate-y-full w-full flex items-center justify-center gap-2.5 pb-5 ease-linear duration-200 group-hover:translate-y-0">
@@ -89,8 +117,8 @@ const NewArrival = () => {
             className="flex items-center justify-center w-9 h-9 rounded-[5px] shadow-1 ease-out duration-200 text-dark bg-white hover:text-blue"
           > */}
                   <Link
-                    href={`/product/${item?.id}`}
-                    className="flex items-center justify-center w-9 h-9 rounded-[5px] shadow-1 ease-out duration-200 text-dark bg-white hover:text-blue"
+                    href={`/${item?.category?.slug+'/'+item?.title}`}
+                    className="flex items-center justify-center w-9 h-9 rounded-[5px] shadow ease-out duration-200 text-dark bg-white hover:text-blue"
                   >
                     <svg
                       className="fill-current"
@@ -117,8 +145,8 @@ const NewArrival = () => {
                   {/* </button> */}
 
                   <Link
-                    href={`/product/${item?.id}`}
-                    className="inline-flex font-medium text-custom-sm py-[7px] px-5 rounded-[5px] bg-orange-400 text-white ease-out duration-200 hover:bg-blue-dark"
+                    href={`/${item?.category?.slug+'/'+item?.title}`}
+                    className="inline-flex font-medium text-custom-sm py-[7px] px-5 rounded-[5px] shadow bg-orange-400 text-white ease-out duration-200 hover:bg-blue-dark"
                   >
                     Order Now
                   </Link>
@@ -133,7 +161,7 @@ const NewArrival = () => {
                   <button
                     aria-label="button for favorite select"
                     id="favOne"
-                    className="flex items-center justify-center w-9 h-9 rounded-[5px] shadow-1 ease-out duration-200 text-dark bg-white hover:text-blue"
+                    className="flex items-center justify-center w-9 h-9 rounded-[5px] shadow ease-out duration-200 text-dark bg-white hover:text-blue"
                   >
                     <svg
                       className="fill-current"
@@ -153,7 +181,7 @@ const NewArrival = () => {
                   </button>
                 </div>
               </div>
-
+         
               <div className="flex items-center gap-2.5 mb-2">
                 <div className="flex items-center gap-1">
                   <Image
@@ -191,15 +219,15 @@ const NewArrival = () => {
                 <p className="text-custom-sm">({item.reviews})</p>
               </div>
 
-              <h3 className="font-medium text-dark ease-out duration-200 hover:text-blue mb-1.5">
-                <Link href={`/product/${item?.id}`} className="text-xl">
+              <h3 className="font-bold text-black ease-out duration-200 hover:text-orange-400 mb-1">
+                <Link    href={`/${item?.category?.slug+'/'+item?.title}`} className="text-lg">
                   {" "}
                   {item.title}{" "}
                 </Link>
               </h3>
 
               <span className="flex items-center gap-2 font-medium text-sm">
-                <span className="text-dark text-green">
+                <span className="text-dark text-green-600">
                   {item.discountedPrice}
                 </span>
                 {/* <span className="text-dark-4 line-through">${item.price}</span> */}

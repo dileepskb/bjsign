@@ -39,6 +39,7 @@ export async function GET(req: Request) {
     const products = await prisma.product.findMany({
       orderBy: { createdAt: "desc" },
       include: {
+        category:true,
         imgs: true,
         additionalDescriptions: true,
         productOptions: {

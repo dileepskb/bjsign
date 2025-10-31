@@ -5,6 +5,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 
 type ProductFormData = {
@@ -40,6 +41,7 @@ const toBase64 = (file: File): Promise<string> =>
   });
 
 export default function FormElementsPage() {
+    const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [categorylist, setCategorylist] = useState<{ categories: Category[] }>({
@@ -96,6 +98,10 @@ export default function FormElementsPage() {
       });
 
       setMessage("✅ Product added successfully!");
+       setTimeout(() => {
+        router.push("/admin/allproducts");
+        console.log("dileep Kumar")
+      }, 100);
       reset();
     } catch (error: any) {
       console.error(error);
@@ -175,7 +181,7 @@ export default function FormElementsPage() {
                 <label className="block font-medium mb-1">Price ($)</label>
                 <input
                   type="number"
-                  {...register("price", { required: true })}
+                  {...register("price")}
                   className="border w-full py-2 px-3 rounded"
                 />
               </div>

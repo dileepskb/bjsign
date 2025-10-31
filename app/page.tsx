@@ -8,6 +8,7 @@ import Hero from "./_components/Hero/Hero";
 import NewArrival from "./_components/NewArrivals";
 import PromoBanner from "./_components/PromoBanner";
 import Testimonials from "./_components/Testimonials";
+import Categories from "./_components/Categories";
 
 export default async function Home() {
   // Check if the post table exists
@@ -35,6 +36,7 @@ export default async function Home() {
   return (
     <>
     <Hero />
+     <Categories />
     <NewArrival />
     <PromoBanner />
     <Testimonials />

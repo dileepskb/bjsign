@@ -9,6 +9,7 @@ import Link from "next/link";
 export default function FormElementsPage() {
   const [products, setProducts] = useState<any[]>([]);
   const [, setLoading] = useState(true);
+  const [reload, setReload] = useState(true);
 
   useEffect(() => {
     async function loadProducts() {
@@ -23,7 +24,37 @@ export default function FormElementsPage() {
     }
 
     loadProducts();
-  }, []);
+  }, [reload]);
+
+
+
+  const handleDelete = async (id: string) => {
+  const confirmed = confirm(`Are you sure you want to delete this product? id ${id}`);
+  if (!confirmed) return;
+
+
+
+  try {
+    const res = await fetch(`/api/protected/product/${id}`, {
+      method: "DELETE",
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      setReload(res.ok)
+      alert("Product deleted successfully!");
+      // Optionally refetch product list or remove from state
+    } else {
+      alert(data.message || "Failed to delete product");
+    }
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    alert("Something went wrong.");
+  }
+};
+
+
 
   return (
     <>
@@ -162,15 +193,15 @@ export default function FormElementsPage() {
                       >
                         Edit{" "}
                       </a>
-                      <a
-                        href="#"
+                      <button
                         type="button"
                         data-modal-target="editUserModal"
                         data-modal-show="editUserModal"
                         className="bg-red-600 text-white py-1 px-3 rounded font-medium text-red-600 dark:text-blue-500 hover:underline"
+                        onClick={() => handleDelete(items.id)}
                       >
                         Delete
-                      </a>
+                      </button>
                     </div>
                   </td>
                 </tr>
