@@ -20,3 +20,11 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* button, input, optgroup, select, textarea, input[tpye="checkbox"] {
+  background: #fff;
+}
+button:focus, input:focus, optgroup:focus, select:focus, textarea:focus {
+  background: #fff;
+  outline: none!important;
+} */

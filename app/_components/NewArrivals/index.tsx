@@ -1,5 +1,5 @@
 'use client';
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -14,6 +14,28 @@ import 'swiper/css/pagination';
 import 'swiper/css/zoom';
 
 const NewArrival = () => {
+
+  const [products, setProducts] = useState<any[]>([]);
+  const [, setLoading] = useState(true);
+  const [reload, setReload] = useState(true);
+
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        const res = await axios.get("/api/protected/getproduct");
+        setProducts(res.data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadProducts();
+  }, [reload]);
+
+
+
   return (
     <section className="overflow-hidden py-10">
       <div className="container mx-auto">

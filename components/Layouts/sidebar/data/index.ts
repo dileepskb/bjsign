@@ -39,6 +39,18 @@ export const NAV_DATA = [
           // }
         ],
       },
+       {
+        title: "FAQ's",
+        url: "/admin/faqs",
+        icon: Icons.Faq,
+        child:false,
+        items: [
+          // {
+          //   title: "",
+          //   url: "/admin/addCategory",
+          // }
+        ],
+      },
         {
         title: "Orders",
         url: "/admin/orders",
