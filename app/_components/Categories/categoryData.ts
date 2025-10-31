@@ -9,6 +9,7 @@ const data = [
     title: "Marketing Material",
     id: 2,
     img: "/images/categories/cat2.png",
+    path:"/marketing_material/"
   },
   {
     title: "Metal Wall Art",
