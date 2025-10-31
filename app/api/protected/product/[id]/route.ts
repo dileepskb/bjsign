@@ -11,7 +11,7 @@ export async function POST(
     const { id } = await context.params;
     const data = await req.json();
 
-    const updated = await prisma.category.update({
+    const updated = await prisma.product.update({
       where: { id: Number(id) },
       data,
     });
@@ -29,20 +29,25 @@ export async function POST(
 // ✅ DELETE
 export async function DELETE(
   req: Request,
-  context: { params: Promise<{ id: string }> }
+  context: { params: { id: string } }
 ) {
+    console.log(req)
   try {
-    const { id } = await context.params;
+    const { id } = context.params; // ✅ Works properly
+    console.log("Deleting product with ID:", id);
 
-    await prisma.category.delete({
+    await prisma.product.delete({
       where: { id: Number(id) },
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({
+      success: true,
+      message: "Product deleted successfully",
+    });
   } catch (error) {
-    console.error(error);
+    console.error("DELETE product error:", error);
     return NextResponse.json(
-      { error: "Failed to delete category" },
+      { success: false, message: "Failed to delete product" },
       { status: 500 }
     );
   }
