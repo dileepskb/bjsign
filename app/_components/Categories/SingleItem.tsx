@@ -4,10 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface Category{
-  id:number;
+  id?:number;
   img:string
-  title:string;
-  path:string;
+  title?:string;
+  path?:string;
 }
 
 const SingleItem = ({ item }: { item:Category }) => {
