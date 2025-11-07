@@ -1,4 +1,5 @@
 import ProductClient from "@/app/_components/Product/Product";
+import ProductItemBox from "@/app/_components/ProductItemBox/ProductItemBox";
 
 
 export default async function ProductOrCategoryPage(props: {
@@ -11,11 +12,14 @@ export default async function ProductOrCategoryPage(props: {
     // Category-only page
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/products/${category}`);
     const products = await res.json();
-
+   console.log(products)
     return (
       <div>
-        <h1>Category: {category}</h1>
-        <pre>{JSON.stringify(products, null, 2)}</pre>
+<div className="container mx-auto mt-5"><h1 className="uppercase">{category}</h1></div>
+         {/* <pre>{JSON.stringify(products, null, 2)}</pre>  */}
+<ProductItemBox catList={products} />
+        
+        
       </div>
     );
   }

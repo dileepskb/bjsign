@@ -51,6 +51,8 @@ const { register, handleSubmit, formState: { errors } } = useForm<ProfileForm>()
         .catch(() => setUser(null));
     }, []);
 
+
+    console.log(user)
   return (
     <>
      

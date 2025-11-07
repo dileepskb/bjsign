@@ -185,7 +185,7 @@ export default function FormElementsPage() {
                   <td className="px-6 w-20">
                     <div className="flex h-full items-center-safe gap-2">
                       <a
-                        href="#"
+                       href={`/admin/addproduct?id=${items.id}`}
                         type="button"
                         data-modal-target="editUserModal"
                         data-modal-show="editUserModal"
