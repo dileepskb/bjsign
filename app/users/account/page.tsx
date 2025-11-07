@@ -8,8 +8,7 @@ import { WeeksProfit } from "@/components/Charts/weeks-profit";
 import { TopChannels } from "@/components/Tables/top-channels";
 import { TopChannelsSkeleton } from "@/components/Tables/top-channels/skeleton";
 import { createTimeFrameExtractor } from "@/utils/timeframe-extractor";
-import { Suspense } from "react";
-
+import { Suspense, useEffect, useState } from "react";
 
 type PropsType = {
   searchParams: Promise<{
@@ -17,9 +16,22 @@ type PropsType = {
   }>;
 };
 
+interface User {
+  id: string;
+  name: string;
+  pic: string;
+  email: string;
+  role: string;
+  first_name: string;
+  last_name: string;
+}
+
 export default async function Home({ searchParams }: PropsType) {
+
   const { selected_time_frame } = await searchParams;
   const extractTimeFrame = createTimeFrameExtractor(selected_time_frame);
+
+
 
   return (
     <>

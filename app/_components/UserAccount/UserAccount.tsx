@@ -1,20 +1,34 @@
 'use client'
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 type ProfileForm = {
+  first_name:string;
+  last_name:string;
   name: string;
   gender: string;
   email: string;
   mobile: string;
 };
 
+interface User {
+  id: string;
+  name: string;
+  pic: string;
+  email: string;
+  role: string;
+  first_name: string;
+  last_name: string;
+  mobile:string;
+}
+
 export default function UserAccount() {
 const { register, handleSubmit, formState: { errors } } = useForm<ProfileForm>();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [user, setUser] = useState<User | null>(null);
 
   const onSubmit = async (data: ProfileForm) => {
     try {
@@ -29,6 +43,14 @@ const { register, handleSubmit, formState: { errors } } = useForm<ProfileForm>()
     }
   };
 
+
+    useEffect(() => {
+      fetch("/api/me")
+        .then((res) => res.json())
+        .then((data) => setUser(data.user))
+        .catch(() => setUser(null));
+    }, []);
+
   return (
     <>
      
@@ -41,14 +63,27 @@ const { register, handleSubmit, formState: { errors } } = useForm<ProfileForm>()
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Full Name */}
-          <div>
+          <div className="flex gap-3">
+            <div className="w-[50%]">
             <label className="block text-sm font-bold">Full Name</label>
             <input
-              {...register("name", { required: "Full name is required" })}
+              {...register("first_name", { required: "First name is required" })}
               className="w-full border bg-gray-100 p-2 rounded"
               placeholder="John Doe"
+              value={user?.first_name}
             />
-            {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+            {errors.first_name && <p className="text-red-500 text-sm">{errors.first_name.message}</p>}
+            </div>
+             <div className="w-[50%]">
+            <label className="block text-sm font-bold">Full Name</label>
+            <input
+              {...register("last_name", { required: "Last name is required" })}
+              className="w-full border bg-gray-100 p-2 rounded"
+              placeholder="John Doe"
+              value={user?.last_name}
+            />
+            {errors.last_name && <p className="text-red-500 text-sm">{errors.last_name.message}</p>}
+            </div>
           </div>
 
           {/* Gender */}
@@ -74,6 +109,7 @@ const { register, handleSubmit, formState: { errors } } = useForm<ProfileForm>()
               {...register("email", { required: "Email is required" })}
               className="w-full border p-2  bg-gray-100 rounded"
               placeholder="example@email.com"
+              value={user?.email}
             />
             {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
           </div>
@@ -86,6 +122,7 @@ const { register, handleSubmit, formState: { errors } } = useForm<ProfileForm>()
               {...register("mobile", { required: "Mobile number is required" })}
               className="w-full border p-2  bg-gray-100 rounded"
               placeholder="9876543210"
+              value={user?.mobile}
             />
             {errors.mobile && <p className="text-red-500 text-sm">{errors.mobile.message}</p>}
           </div>
