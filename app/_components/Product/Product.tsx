@@ -9,6 +9,8 @@ import { Star } from "lucide-react";
 import { StarEmpty } from "../Star/Star";
 import Image from "next/image";
 import Faq from "../Faq/Faq";
+import { useState } from "react";
+import ReviewForm from "../addReview/AddReview";
 
 
 export interface ProductImage {
@@ -83,6 +85,7 @@ interface ProductClientProps {
 }
 
 export default function ProductClient({product}:ProductClientProps) {
+const [showModal, setShowModal] = useState(false);
 
   
 //   const params = useParams();
@@ -349,7 +352,14 @@ export default function ProductClient({product}:ProductClientProps) {
               </p>
             </div>
             <div className="col-span-3 p-3 border border-gray-200 ml-4">
-              <h4 className="font-bold text-xl">Latest Reviews</h4>
+              <div className="flex justify-between">
+                  <h4 className="font-bold text-xl">Latest Reviews</h4>
+                  <button
+                  
+                   onClick={() => setShowModal(true)}
+                  className="bg-orange-500 text-white rounded px-3 py-1 hover:bg-orange-700">Add Review</button>
+              </div>
+             
               <div className="mt-3 flex items-start gap-3">
                 {/* Image box (fixed size 60x60) */}
                 <div className="w-[60px] h-[60px] shrink-0">
@@ -410,6 +420,21 @@ export default function ProductClient({product}:ProductClientProps) {
           </div>
         </div>
       </section>
+      {/* Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative">
+                  <h3 className="font-semibold text-lg mb-2">Write a Review</h3>
+         <ReviewForm productId={`${product?.id}`} />
+          <button
+                onClick={() => setShowModal(false)}
+                className="bg-gray-300 w-full text-gray-800 rounded px-3 py-2 hover:bg-gray-400 mt-3"
+              >
+                Cancel
+              </button>
+         </div>
+         </div>
+      )}
     </div>
   );
 }

@@ -14,17 +14,31 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(cuid())
-  name     String?
-  email    String  @unique
-  password String
-  role     String   @default("user") // "admin" | "user"
-  posts    Post[]
+  id          String        @id @default(cuid())
+  name        String?
+  email       String        @unique
+  password    String
+  role        String        @default("user") // "admin" | "user"
+  posts       Post[]
+  userAddress UserAddress[]
+  review      Review[]
 
   gender    String?
   mobile    String?
   createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt 
+  updatedAt DateTime? @updatedAt
+}
+
+model UserAddress {
+  id         String    @id @default(cuid())
+  street     String?
+  city       String?
+  state      String?
+  postalCode String?
+  userId     String?
+  user       User?     @relation(fields: [userId], references: [id])
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @updatedAt
 }
 
 model Post {
@@ -61,6 +75,20 @@ model Category {
   updatedAt DateTime @updatedAt
 }
 
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId    String
+  productId Int
+
+  user    User    @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+}
+
 model Product {
   id                     Int                     @id @default(autoincrement())
   title                  String
@@ -72,6 +100,7 @@ model Product {
   imgs                   ProductImage? // one-to-one
   tagImage               TagImage[] // many
   productOptions         ProductOption[]
+  review                 Review[]
   faq                    FAQ[]
   categoryId             Int?
   category               Category?               @relation(fields: [categoryId], references: [id])
@@ -122,15 +151,14 @@ model ProductOptionValue {
   option   ProductOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
 }
 
-
 model FAQ {
-  id          Int      @id @default(autoincrement())
-  question    String
-  answer      String
+  id        Int      @id @default(autoincrement())
+  question  String
+  answer    String
   // category    String?   // Optional: to group FAQs (e.g. "Shipping", "Payment")
-  productId    Int
-  product      Product              @relation(fields: [productId], references: [id], onDelete: Cascade)
-  isActive    Boolean   @default(true)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

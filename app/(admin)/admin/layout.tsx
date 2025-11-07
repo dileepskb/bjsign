@@ -11,7 +11,8 @@ import type { Metadata } from "next";
 import NextTopLoader from "nextjs-toploader";
 import type { PropsWithChildren } from "react";
 import { Providers } from "./providers";
-import { UserSidebar } from "@/components/Layouts/UserSideBar";
+import { Sidebar } from "@/components/Layouts/sidebar";
+
 
 export const metadata: Metadata = {
   title: {
@@ -31,7 +32,7 @@ export default function AdminLayout({ children }: PropsWithChildren) {
           <NextTopLoader color="#5750F1" showSpinner={false} />
 
           <div className="flex min-h-screen">
-            <UserSidebar />
+            <Sidebar />
 
             <div className="w-full bg-gray-50 dark:bg-[#020d1a]">
               {/* <Header /> */}

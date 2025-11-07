@@ -1,4 +1,6 @@
 import * as Icons from "../icons";
+import { FaRegUser } from "react-icons/fa";
+import { FaThList } from "react-icons/fa";
 
 export const NAV_DATA = [
   {
@@ -6,7 +8,7 @@ export const NAV_DATA = [
     items: [
       {
         title: "Account Setting",
-        icon: Icons.HomeIcon,
+        icon: FaRegUser,
         child:true,
         items: [
           {
@@ -22,13 +24,14 @@ export const NAV_DATA = [
       {
         title: "My Orders",
         url: "/users/orders",
-        icon: Icons.Product,
+        icon:FaThList,
         items: [],
       },
       {
         title: "Payments",
-        url: "#",
+        url: "",
         icon: Icons.Image,
+        child:true,
         items: [
            {
             title: "Gift Cards",
@@ -48,6 +51,7 @@ export const NAV_DATA = [
       {
         title: "My Stuff",
         url: "#",
+        child:true,
         icon: Icons.Image,
         items: [
            {
@@ -56,15 +60,15 @@ export const NAV_DATA = [
           },
           {
             title: "My Review & Rating",
-            url: "#",
+            url: "/users/review",
           },
           {
             title: "All Notification",
-            url: "#",
+            url: "/users/notifications",
           },
           {
             title: "My Wishlist",
-            url: "#",
+            url: "/users/mywishlist",
           },
         ],
       },

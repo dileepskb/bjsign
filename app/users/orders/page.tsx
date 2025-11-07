@@ -60,8 +60,8 @@ export default function OrdersTable() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-4">
-      <h2 className="text-2xl font-semibold mb-4 text-gray-800 text-center">
+    <div className="max-w-5xl mx-auto p-4 bg-white min-h-screen">
+      <h2 className="text-2xl font-semibold mb-4 text-orange-500 text-left">
         My Orders
       </h2>
 
@@ -93,10 +93,10 @@ export default function OrdersTable() {
                   {getStatusBadge(order.status)}
                 </td>
                 <td className="py-3 px-4 text-center space-x-2">
-                  <button className="text-blue-500 hover:text-blue-700 text-sm font-medium">
+                  <button className="text-black bg-gray-300 rounded-full py-1 px-3 hover:text-blue-700 text-sm font-medium">
                     View
                   </button>
-                  <button className="text-gray-500 hover:text-gray-700 text-sm font-medium">
+                  <button className="text-white bg-green-500 rounded-full py-1 px-3  hover:text-gray-700 text-sm font-medium">
                     Invoice
                   </button>
                 </td>
