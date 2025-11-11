@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Link from "next/link";
+// import { useAuth } from "@/context/AuthContext";
 
 type LoginFormData = {
   email: string;
@@ -18,6 +19,7 @@ export default function LoginPage() {
   const router = useRouter();
 
   const onSubmit = async (data: LoginFormData) => {
+    //  const { refreshUser } = useAuth();
     try {
       setLoading(true);
       setMessage("");
@@ -31,10 +33,13 @@ export default function LoginPage() {
       // ✅ Redirect based on role
       setTimeout(() => {
         router.push(role === "admin" ? "/admin" : "/users");
+       
       }, 100);
-    } catch (err: any) {
-      console.error("Login failed:", err);
-      setMessage(err.response?.data?.error || "Login failed");
+      //  await refreshUser();
+    } catch (err: unknown) {
+     const error = err as { response?: { data?: { error?: string } } };
+     console.error("Login failed:", error);
+     setMessage(error.response?.data?.error || "Login failed");
     } finally {
       setLoading(false);
     }

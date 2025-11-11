@@ -262,7 +262,7 @@ const [showModal, setShowModal] = useState(false);
                 </div>
 
                 <hr className="mt-3 mb-3 border-gray-200 dark:border-gray-800" />
-                <PriceCalculator />
+                <PriceCalculator product={product} />
                 {/* <p className="mb-6 text-gray-500 dark:text-gray-400">
             Studio quality three mic array for crystal clear calls and voice
             recordings. Six-speaker sound system for a remarkably robust and

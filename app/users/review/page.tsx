@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { FaStar, FaRegStar } from "react-icons/fa";
 
 export default function ReviewTable() {
@@ -108,7 +109,7 @@ export default function ReviewTable() {
               >
                 {/* Product */}
                 <td className="py-3 px-4 flex items-center gap-3">
-                  <img
+                  <Image
                     src={review.productImg}
                     alt={review.productName}
                     className="w-14 h-14 object-cover rounded-md border"

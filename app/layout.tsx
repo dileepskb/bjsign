@@ -5,6 +5,7 @@ import Newsletter from "./_components/NewsLetter/Newsletter";
 import "./globals.css";
 // import Header from "./Header";
 import Providers from "./providers";
+import { AuthProvider } from "@/context/AuthContext";
 
 export const metadata = {
   title: "BJ Sign World",
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <AuthProvider>
         <Providers>
           <div className="min-h-screen flex flex-col">
             <HeaderNew />
@@ -28,6 +30,7 @@ export default function RootLayout({
             <Footer />
           </div>
         </Providers>
+        </AuthProvider>
       </body>
     </html>
   );

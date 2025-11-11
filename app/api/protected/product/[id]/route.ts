@@ -1,8 +1,15 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 // app/api/protected/product/[id]/route.ts
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import fs from "fs";
 import path from "path";
+
+interface Context {
+  params: {
+    id: string; // Dynamic segment [id]
+  };
+}
 
 const saveBase64Image = (base64Str: string, prefix: string) => {
   const matches = base64Str.match(/^data:(image\/\w+);base64,(.+)$/);
@@ -56,8 +63,10 @@ export async function GET(
 // ✅ PUT (Update Product)
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } }
+  context: Context
 ) {
+  const { params } = context;
+
   try {
     const body = await req.json();
     const {
@@ -71,16 +80,15 @@ export async function PUT(
       productOptions,
     } = body;
 
-    // Convert & save base64 images (if any new ones)
-    let thumbnails = [];
-    let previews = [];
+    let thumbnails: string[] = [];
+    let previews: string[] = [];
 
     if (imgs) {
       thumbnails = imgs.thumbnails
         ?.map((img: any, i: number) =>
           img.value?.startsWith("data:image")
             ? saveBase64Image(img.value, `thumb${i}`)
-            : img.value // already stored path
+            : img.value
         )
         .filter(Boolean);
 
@@ -108,14 +116,14 @@ export async function PUT(
           },
         },
         additionalDescriptions: {
-          deleteMany: {}, // remove old
+          deleteMany: {},
           create: (additionalDescriptions ?? []).map((d: any) => ({
             name: d.name,
             value: d.value,
           })),
         },
         productOptions: {
-          deleteMany: {}, // remove old options
+          deleteMany: {},
           create: (productOptions ?? []).map((opt: any) => ({
             name: opt.name,
             type: opt.type,
@@ -136,10 +144,16 @@ export async function PUT(
       },
     });
 
-    return NextResponse.json({ message: "Updated Successfully", product: updated });
+    return NextResponse.json({
+      message: "Updated Successfully",
+      product: updated,
+    });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: "Error updating product" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Error updating product" },
+      { status: 500 }
+    );
   }
 }
 

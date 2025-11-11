@@ -50,6 +50,7 @@ export default function UserAddress() {
       setLoading(true);
       const res = await axios.get("/api/user/address");
       setAddresses(res.data);
+      console.log(res.data)
     } catch (error) {
       console.error(error);
       alert("Error fetching addresses");
@@ -115,9 +116,12 @@ export default function UserAddress() {
     setShowForm(false);
   };
 
+
+
+
   return (
     <>
-      <div className="p-6 px-0">
+      <div className="p-0 px-0">
         {addresses.length > 0 ? (
           <div className="space-y-6">
             <div className="flex justify-between items-center mb-3">
@@ -192,52 +196,101 @@ export default function UserAddress() {
             </div>
 
             {/* ✏️ Add / Edit Form */}
-            {showForm && (
-              <div className="bg-white p-6 rounded shadow mt-6">
+           
+          </div>
+        ) : (
+          // 🟢 No addresses yet
+          <>
+          {!showForm && (
+           <div className="max-w-md mx-auto text-center p-3">
+            <div className="inline-block text-5xl text-green-500">
+              <FaAddressBook />
+            </div>
+            <h2 className="font-bold text-xl">
+              No Addresses found in your account!
+            </h2>
+            <p>Add a delivery address.</p>
+            <button
+              className="bg-green-500 text-white p-3 py-2 rounded mt-3"
+              onClick={() => setShowForm(true)}
+            >
+              Add Address
+            </button>
+          </div>
+          )}
+          </>
+          
+        )}
+      </div>
+      <>
+       {showForm && (
+              <div className="bg-white p-6 rounded border mt-0">
                 <h2 className="text-left text-2xl font-bold text-orange-600 mb-6">
                   {editingAddress ? "Edit Address" : "Add New Address"}
                 </h2>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
-                  <input
+                <form 
+              //  onSubmit={handleSubmit(onSubmit)} 
+              onSubmit={(e) => {
+    e.preventDefault(); // Manually ensure the default browser action is stopped
+    handleSubmit(onSubmit)(e); // Then, execute the react-hook-form handler
+  }}
+   className="space-y-3">
+                  <div className="grid grid-cols-2 gap-4">
+                     <div>
+                        <input
                     {...register("name", { required: true })}
                     placeholder="Address Name"
                     className="w-full border p-2 rounded"
                   />
-                  <input
+                     </div>
+                     <div>
+                       <input
                     {...register("address_mobile", { required: true })}
                     placeholder="Address Mobile"
                     className="w-full border p-2 rounded"
                   />
-                  <input
+                     </div>
+                     <div>
+                       <input
                     {...register("street", { required: true })}
                     placeholder="Street"
                     className="w-full border p-2 rounded"
                   />
-                  <input
+                     </div>
+                     <div>
+                         <input
                     {...register("city", { required: true })}
                     placeholder="City"
                     className="w-full border p-2 rounded"
                   />
-                  <input
+                     </div>
+                     <div>
+                      <input
                     {...register("state", { required: true })}
                     placeholder="State"
                     className="w-full border p-2 rounded"
                   />
-                  <input
+                     </div>
+                     <div>
+                       <input
                     {...register("postalCode", { required: true })}
                     placeholder="Postal Code"
                     className="w-full border p-2 rounded"
                   />
-                  <label className="flex items-center space-x-2">
+                     </div>
+                      <div>
+                        <div>
+                      <label className="">
                     <input
                       type="checkbox"
                       {...register("default")}
                       className="w-4 h-4"
                     />
-                    <span>Set as default address</span>
+                    { " "}<span>Set as default address</span>
                   </label>
+                  </div>
 
-                  <div className="flex justify-end gap-3">
+                  <div className="flex gap-3 mt-3">
                     <button
                       type="button"
                       onClick={handleCancel}
@@ -256,71 +309,21 @@ export default function UserAddress() {
                         ? "Update"
                         : "Save"}
                     </button>
+                     </div>
+                  </div>
+                  
+                 
+                 
+                 
+                  
+                  
+                  
                   </div>
                 </form>
               </div>
             )}
-          </div>
-        ) : (
-          // 🟢 No addresses yet
-          <div className="max-w-md mx-auto text-center p-3">
-            <div className="inline-block text-5xl text-green-500">
-              <FaAddressBook />
-            </div>
-            <h2 className="font-bold text-xl">
-              No Addresses found in your account!
-            </h2>
-            <p>Add a delivery address.</p>
-            <button
-              className="bg-green-500 text-white p-3 py-2 rounded mt-3"
-              onClick={() => setShowForm(true)}
-            >
-              Add Address
-            </button>
-          </div>
-        )}
-      </div>
-       <div className="py-4 mt-2">
-        <h2 className="font-bold mb-4 text-xl">Update Delivery Address</h2>
-        <p className="mb-3">
-          Keep your delivery information up to date so your orders reach you on
-          time.
-          <br />
-          Please review and edit your address details below.
-          <br />
-        </p>
-        <ul>
-          <li>
-            <strong>Full Name -</strong> Enter the name for delivery
-          </li>
-
-          <li>
-            <strong>Phone Number -</strong> Your active contact number
-          </li>
-
-          <li>
-            <strong>Street Address -</strong> House number, building name,
-            street
-          </li>
-
-          <li>
-            <strong>City -</strong> Enter your city
-          </li>
-
-          <li>
-            <strong>State / Province -</strong> Enter your state or province
-          </li>
-
-          <li>
-            <strong>Postal Code -</strong> Enter a valid ZIP or PIN code
-          </li>
-
-          <li>
-            <strong>Landmark (optional) -</strong> Nearby landmark for easy
-            delivery reference
-          </li>
-        </ul>
-      </div>
+      </>
+      
     </>
   );
 }

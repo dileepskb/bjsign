@@ -5,7 +5,8 @@ import prisma from "@/lib/prisma"; // your Prisma instance
 
 export async function POST(req: Request) {
   try {
-    const user = getUserFromToken();
+    const user = await getUserFromToken();
+    console.log("dileep kumar", user)
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -45,7 +46,7 @@ export async function POST(req: Request) {
 }
 
 export async function GET() {
-  const user = getUserFromToken();
+  const user = await getUserFromToken();
 
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

@@ -2,6 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
+import { useAuth } from "@/context/AuthContext";
 // import { useTranslation } from 'next-i18next';
 // import { Transition } from '@headlessui/react';
 import { IconType } from "react-icons";
@@ -42,22 +43,14 @@ export const sideNavLinks: [string, IconType][] = [
   // ['/login', FiUser],
 ];
 
-interface User {
-  id: string;
-  name: string;
-  pic: string;
-  email: string;
-  role: string;
-  first_name: string;
-  last_name: string;
-}
+
 
 export const HeaderNew = () => {
+  const { user } = useAuth();
   // const { t } = useTranslation('header');
   const [showUserMenu, setShowUserName] = useState<boolean>(false);
-  const [user, setUser] = useState<User | null>(null);
+  // const [user, setUser] = useState<User | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
-
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -69,19 +62,21 @@ export const HeaderNew = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    fetch("/api/me")
-      .then((res) => res.json())
-      .then((data) => setUser(data.user))
-      .catch(() => setUser(null));
-  }, []);
+  // useEffect(() => {
+  //   fetch("/api/me")
+  //     .then((res) => res.json())
+  //     .then((data) => setUser(data.user))
+  //     .catch(() => setUser(null));
+  // }, []);
 
   // console.log(user)
+
 
   const [hoveredNavLink, setHoveredNavLink] = useState<NavLink | null>();
 
   const handleShowMenu = (navLink: NavLink) => setHoveredNavLink(navLink);
   const handleCloseMenu = () => setHoveredNavLink(null);
+
 
   return (
     <>
@@ -137,31 +132,23 @@ export const HeaderNew = () => {
                   />
                 </Link>
               ))}
-              {user ? (
-                <>
-                  <div ref={menuRef}>
-                    <button
-                      className="ml-5 hidden rounded-full border border-gray-300 p-[2px] md:block relative"
-                      onClick={() => {
-                        showUserMenu
-                          ? setShowUserName(false)
-                          : setShowUserName(true);
-                      }}
-                    >
-                      {/* {user?.image && ( */}
-                      <Image
-                        src={"/images/users/blank-profile.png"}
-                        alt="user profile image"
-                        width={26}
-                        height={26}
-                        className="overflow-hidden rounded-full"
-                        quality={100}
-                      />
-                      {/* )} */}
-                      {showUserMenu && <UserMenu user={user} />}
-                    </button>
-                  </div>
-                </>
+              {user !== null ? (
+                <div ref={menuRef}>
+                  <button
+                    className="ml-5 hidden rounded-full border border-gray-300 p-[2px] md:block relative"
+                    onClick={() => setShowUserName((prev) => !prev)}
+                  >
+                    <Image
+                      src={"/images/users/blank-profile.png"}
+                      alt="user profile image"
+                      width={26}
+                      height={26}
+                      className="overflow-hidden rounded-full"
+                      quality={100}
+                    />
+                    {showUserMenu && <UserMenu user={user} />}
+                  </button>
+                </div>
               ) : (
                 <Link href={"/login"} className="ml-5 hidden md:block">
                   <FiUser

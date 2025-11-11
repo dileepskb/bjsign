@@ -1,22 +1,30 @@
 "use client";
 
+import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FaThList } from "react-icons/fa";
+
+interface userData{
+  id?:string;
+  first_name?:string;
+  last_name?:string
+  email?:string
+}
+
 interface Props{
-      user: {
-        id: string;
-        email: string;
-        first_name: string;
-        last_name: string;
-    };
+   user:userData
 }
 export default function UserMenu ({user}:Props){
+
+const { setUser } = useAuth();
+
     const router = useRouter();
   const handleLogout = async () => {
     try {
       await fetch("/api/logout", { method: "POST" });
       router.push("/login"); // redirect to login page
+      setUser(null)
     } catch (error) {
       console.error("Logout failed", error);
     }

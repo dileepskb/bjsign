@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import Image from "next/image";
+import UserAddress from "@/app/_components/UserAddress/UserAddress";
 
 type CheckoutFormData = {
   first_name: string;
@@ -19,25 +20,25 @@ const Checkout = () => {
  const [showLogin, setShowLogin] = useState(false);
   const [showPasswordCreate, setShowPasswordCreate] = useState(false);
   const [userEmail, setUserEmail] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
 
-  const { register, handleSubmit, watch } = useForm<CheckoutFormData>();
-  const emailValue = watch("email");
+  const {  handleSubmit } = useForm<CheckoutFormData>();
+  // const emailValue = watch("email");
 
   // ✅ Check email when user finishes typing
-  const handleEmailBlur = async () => {
-    if (!emailValue) return;
-    const res = await fetch("/api/user/check-email", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: emailValue }),
-    });
-    const data = await res.json();
-    if (data.exists) {
-      setShowLogin(true);
-      setUserEmail(emailValue);
-    }
-  };
+  // const handleEmailBlur = async () => {
+  //   if (!emailValue) return;
+  //   const res = await fetch("/api/user/check-email", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({ email: emailValue }),
+  //   });
+  //   const data = await res.json();
+  //   if (data.exists) {
+  //     setShowLogin(true);
+  //     setUserEmail(emailValue);
+  //   }
+  // };
 
   // ✅ Checkout handler
   const onSubmit = async (data: CheckoutFormData) => {
@@ -64,7 +65,8 @@ const Checkout = () => {
       <div className="flex max-md:flex-col gap-12 max-lg:gap-4 h-full">
         <div className="max-w-4xl w-full h-max rounded-md px-4 py-8 max-md:-order-1">
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
+              <UserAddress />
+            {/* <div>
               <h2 className="text-xl text-slate-900 font-semibold mb-6">
                 Delivery Details
               </h2>
@@ -81,11 +83,6 @@ const Checkout = () => {
                     })}
                     className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-blue-600"
                   />
-                  {/* {errors.first_name && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {errors.first_name.message}
-                    </p>
-                  )} */}
                 </div>
                 <div>
                   <label className="text-sm text-slate-900 font-medium block mb-2">
@@ -99,11 +96,6 @@ const Checkout = () => {
                     })}
                     className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-blue-600"
                   />
-                  {/* {errors.last_name && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {errors.last_name.message}
-                    </p>
-                  )} */}
                 </div>
                 <div>
                   <label className="text-sm text-slate-900 font-medium block mb-2">
@@ -116,11 +108,6 @@ const Checkout = () => {
                     onBlur={handleEmailBlur}
                     className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-blue-600"
                   />
-                  {/* {errors.email && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {errors.email.message}
-                    </p>
-                  )} */}
                 </div>
                 <div>
                   <label className="text-sm text-slate-900 font-medium block mb-2">
@@ -134,11 +121,6 @@ const Checkout = () => {
                     })}
                     className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-blue-600"
                   />
-                  {/* {errors.mobile && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {errors.mobile.message}
-                    </p>
-                  )} */}
                 </div>
                 <div>
                   <label className="text-sm text-slate-900 font-medium block mb-2">
@@ -150,11 +132,6 @@ const Checkout = () => {
                     {...register("street", { required: "Address is required" })}
                     className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-blue-600"
                   />
-                  {/* {errors.street && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {errors.street.message}
-                    </p>
-                  )} */}
                 </div>
                 <div>
                   <label className="text-sm text-slate-900 font-medium block mb-2">
@@ -166,11 +143,7 @@ const Checkout = () => {
                     {...register("city", { required: "City is required" })}
                     className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-blue-600"
                   />
-                  {/* {errors.city && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {errors.city.message}
-                    </p>
-                  )} */}
+                 
                 </div>
                 <div>
                   <label className="text-sm text-slate-900 font-medium block mb-2">
@@ -182,11 +155,7 @@ const Checkout = () => {
                     {...register("state", { required: "State is required" })}
                     className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-blue-600"
                   />
-                  {/* {errors.state && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {errors.state.message}
-                    </p>
-                  )} */}
+              
                 </div>
                 <div>
                   <label className="text-sm text-slate-900 font-medium block mb-2">
@@ -200,11 +169,6 @@ const Checkout = () => {
                     })}
                     className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-blue-600"
                   />
-                  {/* {errors.postalCode && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {errors.postalCode.message}
-                    </p>
-                  )} */}
                 </div>
               </div>
             </div>
@@ -216,7 +180,7 @@ const Checkout = () => {
               >
                 {loading ? "Saving..." : "Save & Continue"}
               </button>
-            </div>
+            </div> */}
 
             <div className="mt-12">
               <h2 className="text-xl text-slate-900 font-semibold mb-6">
@@ -231,7 +195,7 @@ const Checkout = () => {
                         name="method"
                         className="w-5 h-5 cursor-pointer"
                         id="card"
-                        checked
+                        // checked
                       />
                       <label
                         htmlFor="card"
@@ -456,6 +420,7 @@ function PasswordPopup({ email, onClose }: { email: string; onClose: () => void 
   const { register, handleSubmit } = useForm<{ password: string }>();
 
   const onSubmit = async (data: { password: string }) => {
+    console.log(data)
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

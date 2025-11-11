@@ -10,6 +10,6 @@ export async function getUserFromToken() {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!);
     return decoded as { id: string; role: string };
   } catch (error) {
-    return null;
+    return error;
   }
 }

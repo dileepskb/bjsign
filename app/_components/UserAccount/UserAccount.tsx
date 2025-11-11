@@ -34,10 +34,12 @@ const { register, handleSubmit, formState: { errors } } = useForm<ProfileForm>()
     try {
       setLoading(true);
       setMessage("");
-      const res = await axios.post("/api/user/update", data, { withCredentials: true });
+      await axios.post("/api/user/update", data, { withCredentials: true });
       setMessage("✅ Profile updated successfully!");
-    } catch (err: any) {
-      setMessage(err.response?.data?.error || "❌ Failed to update profile");
+    } catch (err: unknown) {
+       const error = err as { response?: { data?: { error?: string } } };
+     console.error("Login failed:", error);
+      setMessage(error.response?.data?.error || "❌ Failed to update profile");
     } finally {
       setLoading(false);
     }
@@ -52,7 +54,7 @@ const { register, handleSubmit, formState: { errors } } = useForm<ProfileForm>()
     }, []);
 
 
-    console.log(user)
+
   return (
     <>
      
@@ -142,7 +144,7 @@ const { register, handleSubmit, formState: { errors } } = useForm<ProfileForm>()
             <h2 className="font-bold mb-4 text-xl">FAQs</h2>
             <p className="mb-3">
 <strong>What happens when I update my email address (or mobile number)?</strong><br />
-Your login email id (or mobile number) changes, likewise. You'll receive all your account related communication on your updated email address (or mobile number).
+Your login email id (or mobile number) changes, likewise. You&#39;ll receive all your account related communication on your updated email address (or mobile number).
 </p>
 <p className="mb-3">
     <strong>
@@ -152,13 +154,13 @@ It happens as soon as you confirm the verification code sent to your email (or m
 <p className="mb-3">
     <strong>
 What happens to my existing BJ Signworld account when I update my email address (or mobile number)?</strong> <br  />
-Updating your email address (or mobile number) doesn't invalidate your account. Your account remains fully functional. You'll continue seeing your Order history, saved information and personal details.
+Updating your email address (or mobile number) doesn&#39;t invalidate your account. Your account remains fully functional. You&#39;ll continue seeing your Order history, saved information and personal details.
 </p>
 <p className="mb-3">
     <strong>
 Does my Seller account get affected when I update my email address?</strong>
 <br />
-BJ Signworld has a 'single sign-on' policy. Any changes will reflect in your Seller account also.
+BJ Signworld has a &#39;single sign-on&#39; policy. Any changes will reflect in your Seller account also.
 </p>
 <div className="mt-4">
 <button className="rounded text-white bg-red-600 px-3 py-2 me-3">Deactivate Account</button>

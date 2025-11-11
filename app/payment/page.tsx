@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 "use client"
 import { useState } from "react";
 import { Product } from "./product"
@@ -30,7 +31,7 @@ const ProductItem = ({data}:any) => {
                     price:itmeData.price
                 })
 
-                 console.log(response)
+                //  console.log(response)
             window.location.href = response?.data?.url   
            
 
@@ -48,11 +49,11 @@ const ProductItem = ({data}:any) => {
     return(
          <div className="lg:w-1/4 md:w-1/2 p-4 w-full border">
             <a className="block relative h-48 rounded overflow-hidden">
-              <img
+              {/* <img
                 alt="ecommerce"
                 className="object-cover object-center w-full h-full block"
                 src={data.image}
-              />
+              /> */}
             </a>
             <div className="mt-4">
               <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">

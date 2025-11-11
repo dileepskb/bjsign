@@ -1,15 +1,12 @@
 'use client';
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Autoplay } from 'swiper/modules';
+
 //import { ProductsDummy } from "../dummydata/DummyData";
 // import ProductItem from "@/app/components/Common/ProductItem";
 // import shopData from "@/app/components/Shop/shopData";
 // import { ProductsDummy } from "@/app/components/Shop/ProductsDummy";
 
-import axios from "axios";
 import { Product } from "../Product/Product";
 
 export interface ProductImage {
@@ -52,10 +49,6 @@ interface ProductItemBoxProps {
 
 const ProductItemBox: React.FC<ProductItemBoxProps> = ({ catList }) => {
   
-
-console.log(catList)
-
-
 
   return (
     <section className="overflow-hidden py-5">

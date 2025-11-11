@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useState } from "react";
 import { FaHeart, FaShoppingCart, FaTrashAlt } from "react-icons/fa";
 
@@ -72,7 +73,7 @@ export default function WishlistPage() {
                   className="border-t hover:bg-gray-50 transition"
                 >
                   <td className="py-3 px-4 flex items-center gap-4">
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.name}
                       className="w-16 h-16 object-cover rounded"
