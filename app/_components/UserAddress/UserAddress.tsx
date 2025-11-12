@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { FaAddressBook } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
+import { IoIosRemoveCircle } from "react-icons/io";
+import H2 from "../H2/H2";
 
 interface Address {
   id: string;
@@ -50,10 +53,10 @@ export default function UserAddress() {
       setLoading(true);
       const res = await axios.get("/api/user/address");
       setAddresses(res.data);
-      console.log(res.data)
+      // console.log(res.data)
     } catch (error) {
       console.error(error);
-      alert("Error fetching addresses");
+      console.log("Error fetching addresses");
     } finally {
       setLoading(false);
     }
@@ -123,11 +126,11 @@ export default function UserAddress() {
     <>
       <div className="p-0 px-0">
         {addresses.length > 0 ? (
-          <div className="space-y-6">
+          <div className="">
             <div className="flex justify-between items-center mb-3">
-              <h2 className="text-2xl font-semibold text-gray-800 text-left">
+              <H2>
                 Saved Addresses
-              </h2>
+              </H2>
               <button
                 onClick={() => {
                   setEditingAddress(null);
@@ -141,7 +144,7 @@ export default function UserAddress() {
             </div>
 
             {/* 🏠 Address Table */}
-            <div className="overflow-x-auto bg-white shadow-md rounded-lg">
+            <div className="overflow-x-auto bg-white text-sm rounded-lg">
               <table className="min-w-full border border-gray-200">
                 <thead className="bg-gray-100 text-gray-700">
                   <tr>
@@ -158,8 +161,8 @@ export default function UserAddress() {
                       key={addr.id}
                       className="border-t hover:bg-gray-50 transition"
                     >
-                      <td className="py-3 px-4 font-medium text-gray-800">
-                        {addr.name}
+                      <td className="py-3 px-4 font-medium text-black bg-gray-200 border-t border-gray-300">
+                       <strong> {addr.name}</strong>
                       </td>
                       <td className="py-3 px-4 text-gray-600">
                         {addr.street}, {addr.city}, {addr.state} -{" "}
@@ -175,18 +178,18 @@ export default function UserAddress() {
                           "-"
                         )}
                       </td>
-                      <td className="py-3 px-4 text-center space-x-2">
+                      <td className="py-3 px-4 text-center space-x-2 flex">
                         <button
                           onClick={() => handleEditClick(addr)}
-                          className="text-black bg-gray-300 hover:text-blue-700 text-sm font-medium rounded-full py-1 px-3"
+                          className="text-blue-500 hover:text-blue-700 text-sm font-medium rounded-full py-1 px-3"
                         >
-                          Edit
+                          <FaEdit size={20} />
                         </button>
                         <button
                           onClick={() => handleDelete(addr.id)}
-                          className="text-white bg-red-500 rounded-full py-1 px-3 hover:bg-red-600 text-sm font-medium"
+                          className="text-red-500  rounded-full py-1 px-3 hover:bg-red-600 text-sm font-medium"
                         >
-                          Delete
+                          <IoIosRemoveCircle size={20}  />
                         </button>
                       </td>
                     </tr>

@@ -48,15 +48,24 @@ export async function POST(req: Request) {
 export async function GET() {
   const user = await getUserFromToken();
 
+   console.log(user)
+
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+  try{
+     const address = await prisma?.userAddress?.findMany({
+        where: {
+          userId: user.id,
+        },
+        orderBy: [{ default: "desc" }, { createdAt: "desc" }],
+      });
+    return NextResponse.json(address);
+  }
+  catch(error){
+      console.log(error)
+      return NextResponse.json(error);
+  }
 
-  const address = await prisma?.userAddress?.findMany({
-    where: {
-      userId: user.id,
-    },
-    orderBy: [{ default: "desc" }, { createdAt: "desc" }],
-  });
-  return NextResponse.json(address);
+  
 }

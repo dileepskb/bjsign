@@ -13,6 +13,7 @@ import { TopBar } from "./TopBar";
 // import { IoMdArrowDropdown } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import UserMenu from "./UserMenus";
+import AddToCart from "../AddToCart/AddToCart";
 // import { Collections } from '@/types';
 // import { BottomNavigation } from '@/components';
 
@@ -39,7 +40,7 @@ export const navLinks: NavLink[] = [
 
 export const sideNavLinks: [string, IconType][] = [
   ["/wishlist", FiHeart],
-  ["/cart", FiShoppingBag],
+  // ["/cart", FiShoppingBag],
   // ['/login', FiUser],
 ];
 
@@ -132,6 +133,7 @@ export const HeaderNew = () => {
                   />
                 </Link>
               ))}
+              <AddToCart />
               {user !== null ? (
                 <div ref={menuRef}>
                   <button

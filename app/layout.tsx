@@ -1,4 +1,5 @@
 // app/layout.tsx
+import { CartProvider } from "@/context/CartContext";
 import Footer from "./_components/Footer";
 import { HeaderNew } from "./_components/HeaderNew/Index";
 import Newsletter from "./_components/NewsLetter/Newsletter";
@@ -20,17 +21,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <AuthProvider>
-        <Providers>
-          <div className="min-h-screen flex flex-col">
-            <HeaderNew />
-            {/* <Header /> */}
-            <main className="flex-1">{children}</main>
-            <Newsletter />
-            <Footer />
-          </div>
-        </Providers>
-        </AuthProvider>
+        <CartProvider>
+          <AuthProvider>
+            <Providers>
+              <div className="min-h-screen flex flex-col">
+                <HeaderNew />
+                {/* <Header /> */}
+                <main className="flex-1">{children}</main>
+                <Newsletter />
+                <Footer />
+              </div>
+            </Providers>
+          </AuthProvider>
+        </CartProvider>
       </body>
     </html>
   );

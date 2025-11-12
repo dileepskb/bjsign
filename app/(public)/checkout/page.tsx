@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import Image from "next/image";
 import UserAddress from "@/app/_components/UserAddress/UserAddress";
+import H2 from "@/app/_components/H2/H2";
+import CheckoutSideBar from "@/app/_components/CheckoutSideBar/CheckoutSideBar";
 
 type CheckoutFormData = {
   first_name: string;
@@ -64,8 +66,9 @@ const Checkout = () => {
     <div className="bg-white container mx-auto">
       <div className="flex max-md:flex-col gap-12 max-lg:gap-4 h-full">
         <div className="max-w-4xl w-full h-max rounded-md px-4 py-8 max-md:-order-1">
+           <UserAddress />
           <form onSubmit={handleSubmit(onSubmit)}>
-              <UserAddress />
+             
             {/* <div>
               <h2 className="text-xl text-slate-900 font-semibold mb-6">
                 Delivery Details
@@ -183,9 +186,9 @@ const Checkout = () => {
             </div> */}
 
             <div className="mt-12">
-              <h2 className="text-xl text-slate-900 font-semibold mb-6">
+               <H2 className="mb-3">
                 Payment
-              </h2>
+              </H2>
               <div className="grid gap-4 lg:grid-cols-2">
                 <div className="bg-gray-100 p-4 rounded-md border border-gray-300 max-w-sm">
                   <div>
@@ -279,75 +282,7 @@ const Checkout = () => {
             </div>
           </form>
         </div>
-        <div className="bg-gray-100 md:h-screen md:sticky md:top-0 md:min-w-[370px]">
-          <div className="relative h-full">
-            <div className="px-6 py-8 md:overflow-auto md:h-screen">
-              <div className="space-y-4">
-                <div className="flex items-start gap-4">
-                  <div className="w-24 h-24 flex p-3 shrink-0 bg-white rounded-md">
-                    <Image
-                      src="https://bjsignworld.com/wp-content/uploads/2025/02/Automative-Brochure.jpg"
-                      alt=""
-                      className="w-full object-contain"
-                      width={100}
-                      height={100}
-                    />
-                  </div>
-                  <div className="w-full">
-                    <h3 className="text-sm text-slate-900 font-semibold">
-                      brochures
-                    </h3>
-                    <ul className="text-xs text-slate-900 space-y-2 mt-3">
-                      <li className="flex flex-wrap gap-4">
-                        Quantity <span className="ml-auto">25</span>
-                      </li>
-                      <li className="flex flex-wrap gap-4">
-                        Total Price{" "}
-                        <span className="ml-auto font-semibold">$40</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <hr className="border-gray-300 my-8" />
-              <div>
-                <ul className="text-slate-500 font-medium space-y-4">
-                  <li className="flex flex-wrap gap-4 text-sm">
-                    Subtotal{" "}
-                    <span className="ml-auto font-semibold text-slate-900">
-                      $102.00
-                    </span>
-                  </li>
-                  <li className="flex flex-wrap gap-4 text-sm">
-                    Shipping{" "}
-                    <span className="ml-auto font-semibold text-slate-900">
-                      $6.00
-                    </span>
-                  </li>
-                  <li className="flex flex-wrap gap-4 text-sm">
-                    Tax{" "}
-                    <span className="ml-auto font-semibold text-slate-900">
-                      $5.00
-                    </span>
-                  </li>
-                  <hr className="border-slate-300" />
-                  <li className="flex flex-wrap gap-4 text-[15px] font-semibold text-slate-900">
-                    Total <span className="ml-auto">$113.00</span>
-                  </li>
-                </ul>
-
-                <div className="mt-8">
-                  <button
-                    type="button"
-                    className="rounded-md px-4 py-2.5 w-full text-sm font-medium tracking-wide bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
-                  >
-                    Complete Purchase
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+       <CheckoutSideBar />
       </div>
 
 {/* 🔒 Login Popup */}

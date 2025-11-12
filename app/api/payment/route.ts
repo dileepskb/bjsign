@@ -1,3 +1,5 @@
+import { getUserFromToken } from "@/lib/auth";
+import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
 import Stripe from "stripe"
@@ -5,28 +7,74 @@ const stripe = new Stripe(process.env.SECRET_KEY || "sk_test_51PeKFs2NCE5zPV5uSm
 
 
 
- interface BodyData{
-    name:string;
-    price:number;
+
+ interface CartItem {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+  interface UserData{
+    id:string;
+    first_name:string;
+    last_name:string;
+    email:string;
  }
 
 export const POST = async (request:NextRequest) => {
     try{
-       const data:BodyData = await request.json()
+        const user = (await getUserFromToken() as UserData);
+        if (!user) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
 
 
-       
-       const customer = await stripe.customers.create({
-            name:"dileep",
-            address:{
-                line1:"100",
-                postal_code:"123456",
-                city:"san fransco",
-                state:"CA",
-                country:"US"
-            },
-            email:"dileepskb350@gmil.com",
+        const getAddress = await prisma?.userAddress?.findFirst({
+            where:{
+                default:true,
+                userId:user.id
+            } 
         })
+
+
+       const data:CartItem[] = await request.json()
+
+       if (!Array.isArray(data) || data.length === 0) {
+            return NextResponse.json({ error: "Cart is empty" }, { status: 400 });
+        
+        }
+
+        const customer = await stripe.customers.create({
+            name:`${user?.first_name + " " + user?.last_name}`,
+            address:{
+                 line1: getAddress?.street || "",
+                 postal_code: getAddress?.postalCode || "",
+                 city: getAddress?.city || "",
+                 state: getAddress?.state || "",
+                 country: "US",
+            },
+            email:user?.email,
+        })
+
+
+        const line_items = data.map((item) => ({
+            quantity: item.quantity,
+            price_data: {
+                currency: "usd",
+                unit_amount: Math.round(item.price * 100), // Convert to cents
+                product_data: {
+                name: item.name,
+                },
+            },
+            }));
+
+
+        const totalAmount = data.reduce((acc, item) => {
+            return acc + item.price * (item.quantity || 1);
+            }, 0);
+       
+       
         
         const checkOutSession = await stripe.checkout.sessions.create(
             {
@@ -35,18 +83,19 @@ export const POST = async (request:NextRequest) => {
                 mode:'payment',
                 success_url:'http://localhost:3000/success?token='+ customer.id,
                 cancel_url:'http://localhost:3000/cancel?token='+ customer.id,
-                line_items:[
-                    {
-                       quantity:1,
-                       price_data:{
-                          product_data:{
-                            name:data.name,
-                          },
-                          currency:'usd',
-                          unit_amount:data.price*100
-                       }
-                    }
-                ]
+                line_items,
+                // line_items:[
+                //     {
+                //        quantity:1,
+                //        price_data:{
+                //           product_data:{
+                //             name:data.name,
+                //           },
+                //           currency:'usd',
+                //           unit_amount:data.price*100
+                //        }
+                //     }
+                // ]
             }
         )
 

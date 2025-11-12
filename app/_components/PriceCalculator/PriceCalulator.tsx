@@ -1,5 +1,6 @@
 "use client";
 
+import { useCart } from "@/context/CartContext";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
@@ -21,13 +22,19 @@ type ProductOption = {
 
 type Product = {
   id: number;
-  name?: string;
+  title?: string;
   price: number;
   productOptions: ProductOption[];
+  imgs?:object
 };
 
 export default function PriceCalculator({ product }: { product?: Product }) {
+
+  // console.log("Price Calculate", product)
+
+  const { addToCart } = useCart();
   const [formValues, setFormValues] = useState<Record<string, OptionValue>>({});
+  // Add To Cart 
 
   // ✅ Set first option as default
   useEffect(() => {
@@ -120,9 +127,17 @@ export default function PriceCalculator({ product }: { product?: Product }) {
       </div>
 
       <div className="mt-3">
-        <Link
-          href="/checkout"
-          className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-primary-300 font-bold rounded-lg text-sm px-5 py-2.5 flex items-center justify-center"
+        <button
+          onClick={() =>
+            addToCart({
+              id: product.id,
+              name: product.title || "",
+              price:Number(finalPrice.toFixed(2)),
+              quantity: 1,
+              img:product?.imgs
+            })
+          }
+          className="w-full text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-bold rounded-lg text-sm px-5 py-2.5 flex items-center justify-center"
         >
           <svg
             className="w-5 h-5 -ms-2 me-2"
@@ -138,8 +153,8 @@ export default function PriceCalculator({ product }: { product?: Product }) {
               d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"
             />
           </svg>
-          Check Out
-        </Link>
+          Add To Cart
+        </button>
       </div>
     </div>
   );
