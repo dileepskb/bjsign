@@ -81,25 +81,15 @@ export const POST = async (request:NextRequest) => {
                 payment_method_types:['card'],
                 customer:customer.id,
                 mode:'payment',
-                success_url:'http://localhost:3000/success?token='+ customer.id,
+                success_url: 'http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}',
                 cancel_url:'http://localhost:3000/cancel?token='+ customer.id,
                 line_items,
-                // line_items:[
-                //     {
-                //        quantity:1,
-                //        price_data:{
-                //           product_data:{
-                //             name:data.name,
-                //           },
-                //           currency:'usd',
-                //           unit_amount:data.price*100
-                //        }
-                //     }
-                // ]
             }
         )
 
+
         console.log(checkOutSession)
+
 
        return NextResponse.json({checkOutSession, url:checkOutSession.url}, {status:200})
     }

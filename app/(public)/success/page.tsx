@@ -1,4 +1,37 @@
+"use client";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useSession } from "@/context/SessionContext";
+
 const Page = () => {
+const searchParams = useSearchParams();
+  const sessionId = searchParams.get('session_id');
+  const [invoice, setInvoice] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (sessionId) {
+      fetchSessionData(sessionId);
+    }
+  }, [sessionId]);
+
+  const fetchSessionData = async (id: string) => {
+    try {
+      const res = await axios.get(`/api/payment/session?session_id=${id}`);
+      setInvoice(res.data);
+    } catch (error) {
+      console.error('Error fetching session data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  console.log(invoice)
+
+  if (loading) return <p>Loading...</p>;
+
     return(
         <div className="bg-gray-100 min-h-screen flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden w-full max-w-xl">

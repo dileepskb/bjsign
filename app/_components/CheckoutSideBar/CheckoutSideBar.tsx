@@ -3,34 +3,26 @@ import { useCart } from "@/context/CartContext";
 import Image from "next/image"
 import { useState } from "react";
 import axios from "axios"
+// import { useSession } from '@/context/SessionContext';
 
 export default function CheckoutSideBar() {
   const { cart, removeFromCart, clearCart } = useCart();
   const [loading, setLoading] = useState(false)
-
-
-  console.log(cart)
-
     
     const Checkout = async (itmeData:any) => {
+        //  const { setSessionId, sessionId } = useSession();
+
            setLoading(true)
           try{
               setLoading(false)
               const response =  await axios.post('/api/payment', itmeData)
-  
-                  //  console.log(response)
-              window.location.href = response?.data?.url   
-             
-  
+              window.location.href = response?.data?.url
           }
           catch(err){
               setLoading(false)
              console.error('Error fetching data:', err);
           }
-       
-  
       }
-  
   return (
     <div className="bg-gray-100 md:h-screen md:sticky md:top-[55px] md:min-w-[370px]">
       <div className="relative h-full">
@@ -104,7 +96,7 @@ export default function CheckoutSideBar() {
                 onClick={() => Checkout(cart)}
                 disabled={loading}
               >
-                 {loading ? "Buying" : "Buy Now"} 
+                 {loading ? "Buying..." : "Buy Now"} 
               </button>
             </div>
           </div>

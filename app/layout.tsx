@@ -7,6 +7,7 @@ import "./globals.css";
 // import Header from "./Header";
 import Providers from "./providers";
 import { AuthProvider } from "@/context/AuthContext";
+import { SessionProvider } from "@/context/SessionContext";
 
 export const metadata = {
   title: "BJ Sign World",
@@ -21,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <SessionProvider>
         <CartProvider>
           <AuthProvider>
             <Providers>
@@ -34,6 +36,7 @@ export default function RootLayout({
             </Providers>
           </AuthProvider>
         </CartProvider>
+        </SessionProvider>
       </body>
     </html>
   );
