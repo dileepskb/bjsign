@@ -199,7 +199,7 @@ export default function OrdersTable() {
           orderId={selectedOrderId}
           open={modalOpen}
           onClose={() => setModalOpen(false)}
-          onSuccess={() => console.log("Order cancelled successfully!")}
+         onSuccess={() => getApi()}
         />
       )}
     </div>

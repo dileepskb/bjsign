@@ -218,6 +218,8 @@ model Order {
   deliveryAddress Json?
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
+  cancelReason String?
+  cancelledAt  DateTime?
   logs            OrderLog[]
 }
 

@@ -2,69 +2,65 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+const stripe = new Stripe(process.env.SECRET_KEY!);
 
 export async function POST(
   req: Request,
   { params }: { params: { id: string } }
 ) {
+  console.log("dileep kumar")
   try {
     const { id } = params;
-    const body = await req.json();
-    const { reason } = body;
+    console.log("dileep kumar", id)
+    const { reason } = await req.json();
 
-    // 1️⃣ Get order from DB
-    const order = await prisma.order.findUnique({
-      where: { id: Number(id) },
-    });
+    console.log(id)
 
+    // 1️⃣ Find the order
+    const order = await prisma.order.findUnique({ where: { id: Number(id) } });
+     console.log("dileep kumar", order.paymentIntentId)
     if (!order) {
       return NextResponse.json({ message: "Order not found" }, { status: 404 });
     }
-
-    if (order.status === "CANCELLED") {
-      return NextResponse.json(
-        { message: "Order already cancelled" },
-        { status: 400 }
-      );
+    if (order.orderStatus === "cancelled") {
+      return NextResponse.json({ message: "Order already cancelled" }, { status: 400 });
     }
 
-    // 2️⃣ Cancel or refund in Stripe
+    // 2️⃣ Cancel/refund in Stripe
     let stripeResponse = null;
-    if (order.stripePaymentIntentId) {
+   
+    if (order.paymentIntentId) {
       try {
-        const paymentIntent = await stripe.paymentIntents.retrieve(
-          order.stripePaymentIntentId
-        );
+        const paymentIntent = await stripe.paymentIntents.retrieve(order.paymentIntentId);
 
         if (paymentIntent.status === "succeeded") {
-          // refund
+          // Refund completed payment
           stripeResponse = await stripe.refunds.create({
-            payment_intent: order.stripePaymentIntentId,
+            payment_intent: order.paymentIntentId,
             reason: "requested_by_customer",
           });
-        } else {
-          // cancel pending payment
-          stripeResponse = await stripe.paymentIntents.cancel(
-            order.stripePaymentIntentId
-          );
+        } else if (["requires_payment_method", "requires_confirmation", "processing"].includes(paymentIntent.status)) {
+          // Cancel pending payment
+          stripeResponse = await stripe.paymentIntents.cancel(order.paymentIntentId);
         }
-      } catch (err) {
-        console.error("Stripe cancel error:", err);
+      } catch (stripeErr) {
+        console.error("Stripe cancel/refund error:", stripeErr);
       }
     }
 
-    // 3️⃣ Update order in DB
+    // 3️⃣ Update order
     const updatedOrder = await prisma.order.update({
       where: { id: Number(id) },
       data: {
-        status: "CANCELLED",
+        orderStatus: "cancelled",
+        paymentStatus: "refunded",
         cancelReason: reason || null,
         cancelledAt: new Date(),
+        refundId: stripeResponse?.id ?? null,
       },
     });
 
-    // 4️⃣ Log optional event
+    // 4️⃣ Log cancellation
     await prisma.orderLog.create({
       data: {
         orderId: updatedOrder.id,
