@@ -197,12 +197,12 @@ model Invoice {
 }
 
 model Order {
-  id              Int      @id @default(autoincrement())
-  orderNumber     String   @unique // Unique identifier for frontend display
+  id              Int        @id @default(autoincrement())
+  orderNumber     String     @unique // Unique identifier for frontend display
   userId          String
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   invoiceId       Int?
-  invoice         Invoice? @relation(fields: [invoiceId], references: [id])
+  invoice         Invoice?   @relation(fields: [invoiceId], references: [id])
   items           Json // Snapshot of purchased items (name, qty, price)
   subtotalAmount  Int
   taxAmount       Int?
@@ -216,6 +216,16 @@ model Order {
   refundId        String? // Stripe refund reference if refunded
   notes           String?
   deliveryAddress Json?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  logs            OrderLog[]
+}
+
+model OrderLog {
+  id        Int      @id @default(autoincrement())
+  orderId   Int
+  message   String
+  createdAt DateTime @default(now())
+
+  order Order @relation(fields: [orderId], references: [id])
 }

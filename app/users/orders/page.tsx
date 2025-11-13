@@ -1,42 +1,76 @@
-  import axios from "axios";
-export default function OrdersTable() {
-  const orders = [
-    {
-      id: "ORD-1001",
-      date: "2025-10-01",
-      total: "$1,250.00",
-      payment: "Online",
-      status: "Delivered",
-    },
-    {
-      id: "ORD-1002",
-      date: "2025-10-05",
-      total: "$780.00",
-      payment: "COD",
-      status: "Pending",
-    },
-    {
-      id: "ORD-1003",
-      date: "2025-10-07",
-      total: "$1,999.00",
-      payment: "Online",
-      status: "Cancelled",
-    },
-    {
-      id: "ORD-1004",
-      date: "2025-10-10",
-      total: "$550.00",
-      payment: "Online",
-      status: "Delivered",
-    },
-  ];
+"use client"
 
+import H2 from "@/app/_components/H2/H2";
+import { Tooltip } from "@/app/_components/Tooltip/Tooltip";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { FiExternalLink } from "react-icons/fi";
+import { MdFileDownload } from "react-icons/md";
+import { MdOutlineCancel } from "react-icons/md";
+import { Dialog } from "@headlessui/react";
+import CancelOrderModal from "@/app/_components/cancelOrderModel/CancelOrderModel";
+
+
+interface CancelOrderModalProps {
+  orderId: number;
+  open: boolean;
+  onClose: () => void;
+  onSuccess?: () => void;
+}
+
+export interface InvoiceData {
+  id: string;
+  amountTotal: number;
+  status: string;
+  currency: string;
+  createdAt: string; // ISO Date string
+}
+
+export interface OrderItem {
+  name: string;
+  quantity: number;
+  unit_amount: number;
+  total: number;
+}
+
+export interface OrderData {
+  id: number;
+  orderNumber: string;
+  status: string; // e.g. 'processing' | 'shipped' | 'cancelled'
+  paymentStatus: string; // e.g. 'paid' | 'unpaid' | 'failed'
+  totalAmount: number;
+  currency: string;
+  createdAt: string; // ISO Date string
+  items: OrderItem[];
+  invoice: InvoiceData | null;
+}
+
+export interface OrdersResponse {
+  success: boolean;
+  orders: OrderData[];
+}
+
+export default function OrdersTable() {
+  // const [loading, setLoading] = useState(false)
+  const [orders, setOrders] = useState<OrderData[]>([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null);
+
+
+  
   const getStatusBadge = (status: string) => {
     switch (status) {
+      
       case "Delivered":
         return (
           <span className="px-3 py-1 text-sm font-medium text-green-700 bg-green-100 rounded-full">
             Delivered
+          </span>
+        );
+      case "processing":
+        return (
+          <span className="px-3 py-1 text-sm font-medium text-orange-700 bg-orange-100 rounded-full">
+            Processing
           </span>
         );
       case "Pending":
@@ -61,17 +95,37 @@ export default function OrdersTable() {
   };
 
 
+    const getApi = async () => {
+        const response = await axios.get("/api/user/orders/")
+        setOrders(response?.data?.orders)
+    }
+    useEffect(() => {
+      getApi();
+    },[])
 
 
 
-async function cancelOrder(sessionId: string) {
-  try {
-    const res = await axios.post("/api/payment/cancel", { session_id: sessionId });
-    alert(res.data.message);
-  } catch (err: any) {
-    alert(err.response?.data?.error || "Failed to cancel order");
-  }
-}
+
+
+
+
+
+  const handleCancelClick = (orderId: number) => {
+    setSelectedOrderId(orderId);
+    setModalOpen(true);
+  };
+
+
+
+
+// async function cancelOrder(sessionId: string) {
+//   try {
+//     const res = await axios.post("/api/payment/cancel", { session_id: sessionId });
+//     alert(res.data.message);
+//   } catch (err: any) {
+//     alert(err.response?.data?.error || "Failed to cancel order");
+//   }
+// }
 
 // Example usage:
 
@@ -79,53 +133,75 @@ async function cancelOrder(sessionId: string) {
 
 
   return (
-    <div className="max-w-5xl mx-auto p-4 bg-white min-h-screen">
-      <h2 className="text-2xl font-semibold mb-4 text-orange-500 text-left">
+    <div className="max-w-5xl mx-auto p-4 bg-white min-h-screen rounded border">
+      <H2 className="mb-3">
         My Orders
-      </h2>
+      </H2>
 
-      <button onClick={() => cancelOrder("cs_test_123")}>Cancel Order</button>
+      {/* <button onClick={() => cancelOrder("cs_test_123")}>Cancel Order</button> */}
 
-      <div className="overflow-x-auto bg-white shadow-md rounded-lg">
-        <table className="min-w-full border border-gray-200">
+      <div className="overflow-x-auto bg-neutral-primary-soft   rounded-lg">
+        <table className="min-w-full border border-gray-200 text-sm">
           <thead className="bg-gray-100 text-gray-700">
             <tr>
-              <th className="py-3 px-4 text-left">Order ID</th>
-              <th className="py-3 px-4 text-left">Date</th>
-              <th className="py-3 px-4 text-left">Total</th>
-              <th className="py-3 px-4 text-left">Payment</th>
-              <th className="py-3 px-4 text-center">Status</th>
-              <th className="py-3 px-4 text-center">Actions</th>
+              <th className="py-2 px-4 text-left">Order ID</th>
+              <th className="py-2 px-4 text-left">Date</th>
+              <th className="py-2 px-4 text-left">Total</th>
+              <th className="py-2 px-4 text-left">Payment</th>
+              <th className="py-2 px-4 text-center">Status</th>
+              <th className="py-2 px-4 text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
             {orders.map((order) => (
+              <>
               <tr
                 key={order.id}
-                className="border-t hover:bg-gray-50 transition"
+                className="odd:bg-neutral-primary even:bg-neutral-secondary-soft border-t hover:bg-gray-50 transition"
               >
-                <td className="py-3 px-4 font-medium text-gray-800">
-                  {order.id}
+                <td className="py-2 px-4 font-medium text-gray-800">
+                  {order.orderNumber}
                 </td>
-                <td className="py-3 px-4 text-gray-600">{order.date}</td>
-                <td className="py-3 px-4 text-gray-600">{order.total}</td>
-                <td className="py-3 px-4 text-gray-600">{order.payment}</td>
-                <td className="py-3 px-4 text-center">
+                <td className="py-2 px-4 text-gray-600">{order.createdAt}</td>
+                <td className="py-2 px-4 text-gray-600">{order.totalAmount}</td>
+                <td className="py-2 px-4 text-gray-600">{order.paymentStatus}</td>
+                <td className="py-2 px-4 text-center">
                   {getStatusBadge(order.status)}
                 </td>
-                <td className="py-3 px-4 text-center space-x-2">
-                  <button className="text-black bg-gray-300 rounded-full py-1 px-3 hover:text-blue-700 text-sm font-medium">
-                    View
+                <td className="py-2 px-4 text-center space-x-2 flex">
+                  <Tooltip text="View" position="top">
+                  <button className="text-black bg-gray-300 items-center px-1.5 py-1.5 text-center rounded-full hover:text-white text-sm font-medium">
+                    <FiExternalLink />
                   </button>
-                  <button className="text-white bg-green-500 rounded-full py-1 px-3  hover:text-gray-700 text-sm font-medium">
-                    Invoice
+                  </Tooltip>
+                  <Tooltip text="Download" position="top">
+                  <button className="text-white  bg-green-500 items-center px-1.5 py-1.5 text-center rounded-full   hover:text-white text-sm font-medium">
+                    <MdFileDownload />
                   </button>
+                  </Tooltip>
+                    <Tooltip text="Cencel Order" position="top">
+                   <button 
+                   onClick={() => handleCancelClick(order.id)}
+
+                   className="text-white   bg-red-500 items-center px-1.5 py-1.5 text-center rounded-full  hover:text-white text-sm font-medium">
+                    <MdOutlineCancel />
+                  </button>
+                  </Tooltip>
                 </td>
               </tr>
+              </>
             ))}
           </tbody>
         </table>
       </div>
+      {selectedOrderId && (
+        <CancelOrderModal
+          orderId={selectedOrderId}
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          onSuccess={() => console.log("Order cancelled successfully!")}
+        />
+      )}
     </div>
   );
 }

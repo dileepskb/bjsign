@@ -3,6 +3,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSession } from "@/context/SessionContext";
+import { InvoceItems } from "@/types/invoice";
 
 const Page = () => {
 const searchParams = useSearchParams();
@@ -86,18 +87,19 @@ const searchParams = useSearchParams();
                   <div className="mt-8">
                       <h3 className="text-base font-medium text-slate-900 mb-6">Order Items ({invoice?.invoice?.items?.length})</h3>
                       <div className="space-y-4">
-                        {invoice?.invoice?.items?.map((product:{name:string, quantity:number, total:number}, index:number) => (
+                        {invoice?.invoice?.items?.map((product:InvoceItems, index:number) => (
                          <div className="flex items-start gap-4 max-sm:flex-col" key={index}>
                               {/* <div className="w-[70px] h-[70px] bg-gray-200 rounded-lg flex items-center justify-center shrink-0">
                                   <img src="https://readymadeui.com/images/watch1.webp" alt="Product" className="w-14 h-14 object-contain rounded-sm" />
                               </div> */}
                               <div className="flex-1">
-                                  <h4 className="text-sm font-medium text-slate-900">{product?.name}</h4>
+                                  {/* <h4 className="text-sm font-medium text-slate-900">{product?.name}</h4> */}
+                                  <h4 className="text-sm font-medium text-slate-900">{product?.description}</h4>
                                   {/* <p className="text-slate-500 text-xs font-medium mt-2">Color: Golden</p> */}
-                                  <p className="text-slate-500 text-xs font-medium mt-1">Qty: {product?.quantity}</p>
+                                  {/* <p className="text-slate-500 text-xs font-medium mt-1">Qty: {product?.quantity}</p> */}
                               </div>
                               <div className="text-right">
-                                  <p className="text-slate-900 text-sm font-semibold">${product?.total}</p>
+                                  <p className="text-slate-900 text-sm font-semibold">${product?.price?.unit_amount}</p>
                               </div>
                           </div>
                         ))}
