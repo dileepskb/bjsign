@@ -14,7 +14,6 @@ export default function CheckoutSideBar() {
 
            setLoading(true)
           try{
-              setLoading(false)
               const response =  await axios.post('/api/payment', itmeData)
               window.location.href = response?.data?.url
           }

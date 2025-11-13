@@ -28,7 +28,6 @@ const searchParams = useSearchParams();
   };
 
 
-  console.log(invoice)
 
   if (loading) return <p>Loading...</p>;
 
@@ -64,15 +63,18 @@ const searchParams = useSearchParams();
                       <div className="grid sm:grid-cols-2 gap-4">
                           <div>
                               <p className="text-slate-500 text-sm font-medium">Customer</p>
-                              <p className="text-slate-900 text-sm font-medium mt-2">Alex Johnson</p>
+                              <p className="text-slate-900 text-sm font-medium mt-2">{invoice?.invoice?.name}</p>
                           </div>
                           <div>
                               <p className="text-slate-500 text-sm font-medium">Shipping Method</p>
-                              <p className="text-slate-900 text-sm font-medium mt-2">Express Delivery</p>
+                              <p className="text-slate-900 text-sm font-medium mt-2">{invoice?.invoice?.paymentMethod}</p>
                           </div>
                           <div>
                               <p className="text-slate-500 text-sm font-medium">Address</p>
-                              <p className="text-slate-900 text-sm font-medium mt-2">123 Main St, Apt 4B</p>
+                              <p className="text-slate-900 text-sm font-medium mt-2">{ 
+                              invoice?.invoice?.customerAddress?.line1},
+                              { 
+                              invoice?.invoice?.customerAddress?.city},{invoice?.invoice?.customerAddress?.state}</p>
                           </div>
                           <div>
                               <p className="text-slate-500 text-sm font-medium">Phone</p>
@@ -82,35 +84,25 @@ const searchParams = useSearchParams();
                   </div>
 
                   <div className="mt-8">
-                      <h3 className="text-base font-medium text-slate-900 mb-6">Order Items (2)</h3>
+                      <h3 className="text-base font-medium text-slate-900 mb-6">Order Items ({invoice?.invoice?.items?.length})</h3>
                       <div className="space-y-4">
-                          <div className="flex items-start gap-4 max-sm:flex-col">
-                              <div className="w-[70px] h-[70px] bg-gray-200 rounded-lg flex items-center justify-center shrink-0">
+                        {invoice?.invoice?.items?.map((product:{name:string, quantity:number, total:number}, index:number) => (
+                         <div className="flex items-start gap-4 max-sm:flex-col" key={index}>
+                              {/* <div className="w-[70px] h-[70px] bg-gray-200 rounded-lg flex items-center justify-center shrink-0">
                                   <img src="https://readymadeui.com/images/watch1.webp" alt="Product" className="w-14 h-14 object-contain rounded-sm" />
-                              </div>
+                              </div> */}
                               <div className="flex-1">
-                                  <h4 className="text-sm font-medium text-slate-900">Stylish Golden Watch</h4>
-                                  <p className="text-slate-500 text-xs font-medium mt-2">Color: Golden</p>
-                                  <p className="text-slate-500 text-xs font-medium mt-1">Qty: 1</p>
+                                  <h4 className="text-sm font-medium text-slate-900">{product?.name}</h4>
+                                  {/* <p className="text-slate-500 text-xs font-medium mt-2">Color: Golden</p> */}
+                                  <p className="text-slate-500 text-xs font-medium mt-1">Qty: {product?.quantity}</p>
                               </div>
                               <div className="text-right">
-                                  <p className="text-slate-900 text-sm font-semibold">$129.00</p>
+                                  <p className="text-slate-900 text-sm font-semibold">${product?.total}</p>
                               </div>
                           </div>
+                        ))}
+                          
 
-                          <div className="flex items-start gap-4 max-sm:flex-col max-sm:border-t max-sm:pt-4 max-sm:border-gray-300">
-                              <div className="w-[70px] h-[70px] bg-gray-200 rounded-lg flex items-center justify-center shrink-0">
-                                  <img src="https://readymadeui.com/images/product14.webp" alt="Product" className="w-14 h-14 object-contain rounded-sm" />
-                              </div>
-                              <div className="flex-1">
-                                  <h4 className="text-sm font-medium text-slate-900">Velvet Sneaker</h4>
-                                  <p className="text-slate-500 text-xs font-medium mt-2">Color: Black/White</p>
-                                  <p className="text-slate-500 text-xs font-medium mt-1">Qty: 1</p>
-                              </div>
-                              <div className="text-right">
-                                  <p className="text-slate-900 text-sm font-semibold">$238.00</p>
-                              </div>
-                          </div>
                       </div>
                   </div>
 

@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.SECRET_KEY || "sk_test_51PeKFs2NCE5zPV5uSmtA6JMbWNvcoVHgutIvhxJoetFdS56dtSboEVCHYmY8f2XKQaemr59YgWGS3V6HaO0ZaYLA00sP8lomQG");
+const stripe = new Stripe(
+  process.env.SECRET_KEY || "sk_test_51PeKFs2NCE5zPV5uSmtA6JMbWNvcoVHgutIvhxJoetFdS56dtSboEVCHYmY8f2XKQaemr59YgWGS3V6HaO0ZaYLA00sP8lomQG"
+);
 
 export async function GET(req: NextRequest) {
   try {
@@ -12,13 +14,16 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Missing session_id" }, { status: 400 });
     }
 
+    // ✅ Fetch the checkout session
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
-      expand: ["payment_intent", "customer", "payment_intent"],
+      expand: ["payment_intent", "customer", "customer_details"],
     });
 
+    // ✅ Fetch line items separately
+    const lineItemsResponse = await stripe.checkout.sessions.listLineItems(sessionId, { limit: 100 });
+    const lineItems = lineItemsResponse.data || [];
 
     const paymentIntent = session.payment_intent as Stripe.PaymentIntent;
-    const lineItems = session.line_items?.data || [];
 
     const invoiceData = {
       sessionId: session.id,
@@ -38,8 +43,6 @@ export async function GET(req: NextRequest) {
       })),
       createdAt: new Date(paymentIntent?.created ? paymentIntent.created * 1000 : Date.now()),
     };
-
-
 
     return NextResponse.json({ success: true, invoice: invoiceData });
   } catch (error) {

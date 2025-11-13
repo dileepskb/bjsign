@@ -24,6 +24,8 @@ model User {
   posts       Post[]
   userAddress UserAddress[]
   review      Review[]
+  orders      Order[]
+  invoices    Invoice[]
   gender      String?
   mobile      String?
   pic         String?
@@ -169,16 +171,51 @@ model FAQ {
   updatedAt DateTime @updatedAt
 }
 
-
-
 model Invoice {
-  id              String   @id @default(cuid())
-  stripeSessionId String
-  customerId      String
-  customerEmail   String
-  amountTotal     Int
+  id               Int      @id @default(autoincrement())
+  stripeSessionId  String   @unique
+  stripePaymentId  String? // payment_intent.id
+  stripeCustomerId String?
+  stripeInvoiceId  String? // optional if using Stripe invoicing API
+  userId           String
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  customerEmail    String
+  amountSubtotal   Int // before tax/discount (in cents)
+  amountTax        Int? // optional
+  amountDiscount   Int? // optional
+  amountShipping   Int? // optional
+  amountTotal      Int // total in cents
+  currency         String
+  status           String // 'pending' | 'paid' | 'refunded' | 'failed' | 'cancelled'
+  paymentMethod    String? // e.g., 'card', 'upi', etc.
+  invoicePdf       String? // Stripe provides hosted_invoice_url or pdf
+  items            Json // line items snapshot
+  metadata         Json? // flexible Stripe metadata
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  orders           Order[]
+}
+
+model Order {
+  id              Int      @id @default(autoincrement())
+  orderNumber     String   @unique // Unique identifier for frontend display
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  invoiceId       Int?
+  invoice         Invoice? @relation(fields: [invoiceId], references: [id])
+  items           Json // Snapshot of purchased items (name, qty, price)
+  subtotalAmount  Int
+  taxAmount       Int?
+  shippingAmount  Int?
+  discountAmount  Int?
+  totalAmount     Int
   currency        String
-  status          String
-  items           Json
+  paymentStatus   String // 'unpaid' | 'paid' | 'refunded' | 'failed'
+  orderStatus     String // 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'returned'
+  paymentIntentId String? // Stripe payment intent
+  refundId        String? // Stripe refund reference if refunded
+  notes           String?
+  deliveryAddress Json?
   createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }

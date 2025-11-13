@@ -1,3 +1,4 @@
+  import axios from "axios";
 export default function OrdersTable() {
   const orders = [
     {
@@ -59,11 +60,31 @@ export default function OrdersTable() {
     }
   };
 
+
+
+
+
+async function cancelOrder(sessionId: string) {
+  try {
+    const res = await axios.post("/api/payment/cancel", { session_id: sessionId });
+    alert(res.data.message);
+  } catch (err: any) {
+    alert(err.response?.data?.error || "Failed to cancel order");
+  }
+}
+
+// Example usage:
+
+
+
+
   return (
     <div className="max-w-5xl mx-auto p-4 bg-white min-h-screen">
       <h2 className="text-2xl font-semibold mb-4 text-orange-500 text-left">
         My Orders
       </h2>
+
+      <button onClick={() => cancelOrder("cs_test_123")}>Cancel Order</button>
 
       <div className="overflow-x-auto bg-white shadow-md rounded-lg">
         <table className="min-w-full border border-gray-200">
