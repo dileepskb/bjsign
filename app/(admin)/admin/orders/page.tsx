@@ -214,7 +214,7 @@ const Orders = () => {
                     /> */}
                     <div className="ps-3">
                       <div className="text-base font-semibold">
-                        {items?.orderNumber}
+                       <Link  href={`/admin/orders/${items.id}`} className="text-sky-600 hover:underline"> {items?.orderNumber}</Link>
                       </div>
                      
                     </div>
@@ -234,7 +234,7 @@ const Orders = () => {
                   </td>
                   <td className="px-6 w-20">
                     <div className="flex h-full items-center-safe gap-2">
-                         <a
+                          <Link  
                        href={`/admin/orders/${items.id}`}
                         type="button"
                         data-modal-target="editUserModal"
@@ -242,7 +242,7 @@ const Orders = () => {
                         className="bg-indigo-600 text-white py-1 px-3 rounded dark:text-blue-500 hover:underline"
                       >
                         View
-                      </a>
+                      </Link>
                       <a
                        href={`/admin/addproduct?id=${items.id}`}
                         type="button"

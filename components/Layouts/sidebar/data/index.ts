@@ -19,7 +19,17 @@ export const NAV_DATA = [
         title: "All Products",
         url: "/admin/allproducts",
         icon: Icons.Product,
-        items: [],
+        child:true,
+        items: [
+          {
+            title: "Products",
+            url: "/admin/allproducts",
+          },
+          {
+            title: "Upload Product",
+            url: "/admin/uploadproduct",
+          },
+        ],
       },
       {
         title: "Category by Image",

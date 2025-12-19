@@ -9,6 +9,7 @@ import { MdFileDownload } from "react-icons/md";
 import { MdOutlineCancel } from "react-icons/md";
 import { Dialog } from "@headlessui/react";
 import CancelOrderModal from "@/app/_components/cancelOrderModel/CancelOrderModel";
+import Link from "next/link";
 
 
 interface CancelOrderModalProps {
@@ -160,7 +161,7 @@ export default function OrdersTable() {
                 className="odd:bg-neutral-primary even:bg-neutral-secondary-soft border-t hover:bg-gray-50 transition"
               >
                 <td className="py-2 px-4 font-medium text-gray-800">
-                  {order.orderNumber}
+                  <Link href={`/users/orders/${order.id}`} className="text-sky-600 font-bold hover:underline">{order.orderNumber}</Link>
                 </td>
                 <td className="py-2 px-4 text-gray-600">{order.createdAt}</td>
                 <td className="py-2 px-4 text-gray-600">{order.totalAmount}</td>
