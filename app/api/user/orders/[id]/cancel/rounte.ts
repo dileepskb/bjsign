@@ -8,17 +8,14 @@ export async function POST(
   req: Request,
   { params }: { params: { id: string } }
 ) {
-  console.log("dileep kumar")
   try {
     const { id } = params;
-    console.log("dileep kumar", id)
     const { reason } = await req.json();
 
     console.log(id)
 
     // 1️⃣ Find the order
     const order = await prisma.order.findUnique({ where: { id: Number(id) } });
-     console.log("dileep kumar", order.paymentIntentId)
     if (!order) {
       return NextResponse.json({ message: "Order not found" }, { status: 404 });
     }

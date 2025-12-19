@@ -14,6 +14,7 @@ import { TopBar } from "./TopBar";
 import { IoIosArrowDown } from "react-icons/io";
 import UserMenu from "./UserMenus";
 import AddToCart from "../AddToCart/AddToCart";
+import Notification from "@/components/Notification/Notification";
 // import { Collections } from '@/types';
 // import { BottomNavigation } from '@/components';
 
@@ -135,6 +136,7 @@ export const HeaderNew = () => {
               ))}
               <AddToCart />
               {user !== null ? (
+                <div className="flex">
                 <div ref={menuRef}>
                   <button
                     className="ml-5 hidden rounded-full border border-gray-300 p-[2px] md:block relative"
@@ -150,6 +152,9 @@ export const HeaderNew = () => {
                     />
                     {showUserMenu && <UserMenu user={user} />}
                   </button>
+                 
+                </div>
+                 <Notification user={user} />
                 </div>
               ) : (
                 <Link href={"/login"} className="ml-5 hidden md:block">
