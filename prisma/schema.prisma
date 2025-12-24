@@ -14,23 +14,24 @@ datasource db {
 }
 
 model User {
-  id          String        @id @default(cuid())
-  username    String?
-  first_name  String?
-  last_name   String?
-  email       String        @unique
-  password    String
-  role        String        @default("user") // "admin" | "user"
-  posts       Post[]
-  userAddress UserAddress[]
-  review      Review[]
-  orders      Order[]
-  invoices    Invoice[]
-  gender      String?
-  mobile      String?
-  pic         String?
-  createdAt   DateTime?     @default(now())
-  updatedAt   DateTime?     @updatedAt
+  id              String          @id @default(cuid())
+  username        String?
+  first_name      String?
+  last_name       String?
+  email           String          @unique
+  password        String
+  role            String          @default("user") // "admin" | "user"
+  posts           Post[]
+  userAddress     UserAddress[]
+  review          Review[]
+  orders          Order[]
+  invoices        Invoice[]
+  gender          String?
+  mobile          String?
+  pic             String?
+  createdAt       DateTime?       @default(now())
+  updatedAt       DateTime?       @updatedAt
+  searchHistories SearchHistory[]
 }
 
 model UserAddress {
@@ -114,6 +115,17 @@ model Product {
   category               Category?               @relation(fields: [categoryId], references: [id])
   createdAt              DateTime                @default(now())
   updatedAt              DateTime                @updatedAt
+}
+
+model SearchHistory {
+  id        Int      @id @default(autoincrement())
+  query     String
+  userId    String? // null for guest
+  user      User?    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@index([query])
+  @@index([userId])
 }
 
 model AdditionalDescription {

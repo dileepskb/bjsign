@@ -11,7 +11,8 @@ import { SessionProvider } from "@/context/SessionContext";
 
 export const metadata = {
   title: "BJ Sign World",
-  description: "",
+  description: "this is ecommerce product base company",
+  keywords:"printing"
 };
 
 export default function RootLayout({

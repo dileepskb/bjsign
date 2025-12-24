@@ -7,7 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 // import { Transition } from '@headlessui/react';
 import { IconType } from "react-icons";
 import { FiUser, FiHeart, FiShoppingBag } from "react-icons/fi";
-import { Search } from "./Search";
+
 import { TopBar } from "./TopBar";
 // import { MegaMenu } from './MegaMenu';
 // import { IoMdArrowDropdown } from "react-icons/io";
@@ -15,6 +15,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import UserMenu from "./UserMenus";
 import AddToCart from "../AddToCart/AddToCart";
 import Notification from "@/components/Notification/Notification";
+import Search from "./Search";
 // import { Collections } from '@/types';
 // import { BottomNavigation } from '@/components';
 
@@ -80,6 +81,7 @@ export const HeaderNew = () => {
   const handleCloseMenu = () => setHoveredNavLink(null);
 
 
+
   return (
     <>
       <TopBar />
@@ -125,7 +127,7 @@ export const HeaderNew = () => {
               ))}
             </ul>
             <ul className="ml-auto items-center md:flex">
-              <Search onSearch={(value) => console.log(value)} />
+              <Search />
               {sideNavLinks.map(([url, Icon]) => (
                 <Link key={url} href={url} className="ml-5 hidden md:block">
                   <Icon
@@ -154,7 +156,8 @@ export const HeaderNew = () => {
                   </button>
                  
                 </div>
-                 <Notification user={user} />
+                {user?.email === "admin@bjsignworld.com" &&  <Notification user={user} />}
+                
                 </div>
               ) : (
                 <Link href={"/login"} className="ml-5 hidden md:block">

@@ -60,9 +60,10 @@ export default function OrdersTable() {
 
   
   const getStatusBadge = (status: string) => {
+    console.log(status)
     switch (status) {
       
-      case "Delivered":
+      case "delivered":
         return (
           <span className="px-3 py-1 text-sm font-medium text-green-700 bg-green-100 rounded-full">
             Delivered
@@ -74,10 +75,16 @@ export default function OrdersTable() {
             Processing
           </span>
         );
-      case "Pending":
+      case "out_for_delivery":
         return (
           <span className="px-3 py-1 text-sm font-medium text-yellow-700 bg-yellow-100 rounded-full">
-            Pending
+           Out for Delivery
+          </span>
+        );
+       case "shipped":
+        return (
+          <span className="px-3 py-1 text-sm font-medium text-white bg-sky-600 rounded-full">
+           Shipped
           </span>
         );
       case "Cancelled":

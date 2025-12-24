@@ -38,6 +38,7 @@ const SingleOrder = ({ params }: PageProps) => {
   }, [reload]);
 
   const getStatusBadge = (status: string) => {
+  
     switch (status) {
       case "paid":
         return (
