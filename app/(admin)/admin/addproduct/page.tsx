@@ -12,7 +12,9 @@ import {
   Control,
   UseFormRegister,
 } from "react-hook-form";
+import Editor from 'react-simple-wysiwyg';
 import { useRouter, useSearchParams } from "next/navigation";
+import { Controller } from "react-hook-form";
 
 type ProductFormData = {
   categoryId: string;
@@ -51,6 +53,7 @@ export default function FormElementsPage() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [categorylist, setCategorylist] = useState<Category[]>([]);
+
 
   const methods = useForm<ProductFormData>({
     defaultValues: {
@@ -179,11 +182,22 @@ useEffect(() => {
             {/* Description */}
             <div>
               <label className="block font-medium mb-1">Description</label>
-              <textarea
+              {/* <textarea
                 {...register("description")}
                 className="border w-full py-2 px-3 rounded"
                 rows={3}
-              />
+              /> */}
+              <Controller
+    name="description"
+    control={control}
+    defaultValue=""
+    render={({ field }) => (
+      <Editor
+        value={field.value}
+        onChange={(e) => field.onChange(e.target.value)}
+      />
+    )}
+  />
             </div>
 
             {/* Price */}
@@ -192,6 +206,7 @@ useEffect(() => {
                 <label className="block font-medium mb-1">Price ($)</label>
                 <input
                   type="number"
+                  step="any"
                   {...register("price")}
                   className="border w-full py-2 px-3 rounded"
                 />
@@ -404,6 +419,7 @@ function ProductOptionValues({
           />
           <input
             type="number"
+             step="any"
             {...register(
               `productOptions.${optionIndex}.optionValues.${i}.value`
             )}
@@ -412,6 +428,7 @@ function ProductOptionValues({
           />
           <input
             type="number"
+             step="any"
             {...register(
               `productOptions.${optionIndex}.optionValues.${i}.discount`
             )}

@@ -14,20 +14,23 @@ export async function GET(req: NextRequest) {
   const [products, categories] = await Promise.all([
     prisma.product.findMany({
       where: {
-        OR: [
-          { title: { contains: q, mode: "insensitive" } },
-          { description: { contains: q, mode: "insensitive" } },
-        ],
+        title: {
+          startsWith: q,
+          mode: "insensitive",
+        },
       },
       take: 10,
+      include:{
+        category:true
+      }
     }),
 
     prisma.category.findMany({
       where: {
-        OR: [
-          { name: { contains: q, mode: "insensitive" } },
-          { description: { contains: q, mode: "insensitive" } },
-        ],
+         name: {
+          startsWith: q,
+          mode: "insensitive",
+        },
       },
       take: 10,
     }),

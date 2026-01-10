@@ -95,6 +95,9 @@ importers:
       react-image-magnify:
         specifier: ^2.7.4
         version: 2.7.4(react@19.2.0)
+      react-simple-wysiwyg:
+        specifier: ^3.4.1
+        version: 3.4.1(react@19.2.0)
       react-to-pdf:
         specifier: ^2.0.3
         version: 2.0.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -2408,6 +2411,11 @@ packages:
 
   react-required-if@1.0.1:
     resolution: {integrity: sha512-n0HDT1G/1GoWvX7HcGzBOVwgfrbaymtEoYBkKOOhca3ThXQYFMjI3uKWcc5DSBHpPbSEJPPWEAV6Zu9BrSG+rg==}
+
+  react-simple-wysiwyg@3.4.1:
+    resolution: {integrity: sha512-amppNS/WiUSURSFXg9evcRjRBwK6pf5LRWDACVZT/q4k2TginjNxegxM0T2s2LYulbRFS4eGwO7nv57OskckHw==}
+    peerDependencies:
+      react: '>=16.8'
 
   react-to-pdf@2.0.3:
     resolution: {integrity: sha512-T7BguvKiiftKx83w5roFetoNiO/QLdokEDnw3OpHKh3eaQnwki6HxNN9uObcFAv6MQs2GQ647bEe/Pq2Ow5IgA==}
@@ -5219,6 +5227,10 @@ snapshots:
   react-is@16.13.1: {}
 
   react-required-if@1.0.1: {}
+
+  react-simple-wysiwyg@3.4.1(react@19.2.0):
+    dependencies:
+      react: 19.2.0
 
   react-to-pdf@2.0.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
     dependencies:

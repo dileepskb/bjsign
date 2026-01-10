@@ -9,6 +9,7 @@ import NewArrival from "./_components/NewArrivals";
 import PromoBanner from "./_components/PromoBanner";
 import Testimonials from "./_components/Testimonials";
 import Categories from "./_components/Categories";
+import RecentVisitProduct from "./_components/RecentVisitProduct/RecentVisitProduct";
 
 export default async function Home() {
   // Check if the post table exists
@@ -40,6 +41,8 @@ export default async function Home() {
     <NewArrival />
     <PromoBanner />
     <Testimonials />
+
+    <RecentVisitProduct />
     
     
     {/* <div className="min-h-screen bg-gray-50 flex flex-col items-center py-24 px-8">

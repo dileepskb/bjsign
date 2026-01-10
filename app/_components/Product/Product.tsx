@@ -9,9 +9,14 @@ import { Star } from "lucide-react";
 import { StarEmpty } from "../Star/Star";
 import Image from "next/image";
 import Faq from "../Faq/Faq";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReviewForm from "../addReview/AddReview";
+import { useParams } from "next/navigation";
 
+interface ProductClientProps {
+  product: Product;
+  slug?: string;
+}
 
 export interface ProductImage {
   id: number;
@@ -80,12 +85,48 @@ export interface Product {
 
 
 
-interface ProductClientProps {
-  product: Product | null;
-}
+// interface ProductClientProps {
+//   product: Product | null;
+// }
 
-export default function ProductClient({product}:ProductClientProps) {
+export default function ProductClient({
+  product,
+  slug,
+}: ProductClientProps) {
 const [showModal, setShowModal] = useState(false);
+const [pItems, setPItems] = useState<number[]>([]);
+const params = useParams();
+
+useEffect(() => {
+  if (!product?.id) return;
+
+  const stored = localStorage.getItem("visitProducts");
+  const visited: number[] = stored ? JSON.parse(stored) : [];
+
+  // avoid duplicates
+  if (!visited.includes(product.id)) {
+    const updated = [...visited, product.id];
+
+    localStorage.setItem(
+      "visitProducts",
+      JSON.stringify(updated)
+    );
+
+    setPItems(updated);
+  } else {
+    setPItems(visited);
+  }
+}, [product?.id]);
+
+
+
+
+  // const slug = params.slug as string[] | undefined;
+
+ 
+  // const tag = slug?.[1];
+
+  // console.log(tag)
 
   
 //   const params = useParams();
@@ -122,7 +163,7 @@ const [showModal, setShowModal] = useState(false);
           <div className="p-3 border border-gray-300 bg-white pt-5 rounded">
             <div className="lg:grid lg:grid-cols-2 gap-4">
               <div className="p-3 border border-gray-200 rounded">
-                <ProductGallery product={product} />
+                <ProductGallery product={product} slug={slug} />
               </div>
 
               <div className="mt-6 sm:mt-8 lg:mt-0">
