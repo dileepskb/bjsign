@@ -67,6 +67,12 @@ export const NAV_DATA = [
         icon: Icons.Orders,
         items: [],
       },
+      {
+        title: "Mailer",
+        url: "/admin/mailer",
+        icon: Icons.Mailer,
+        items: [],
+      },
       // {
       //   title: "Calendar",
       //   url: "/calendar",
