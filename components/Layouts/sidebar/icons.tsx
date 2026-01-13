@@ -293,6 +293,25 @@ export function Mailer(props: PropsType) {
   );
 }
 
+export function Blog(props: PropsType) {
+  return (
+<svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M4 4h12l4 4v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" />
+    <path d="M14 4v4h4" />
+    <line x1="6" y1="12" x2="18" y2="12" />
+    <line x1="6" y1="16" x2="14" y2="16" />
+  </svg> );
+}
+
 export function Faq(props: PropsType) {
   return (
     <svg

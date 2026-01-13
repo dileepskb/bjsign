@@ -73,6 +73,25 @@ export const NAV_DATA = [
         icon: Icons.Mailer,
         items: [],
       },
+      {
+        title: "blogs",
+        url: "/admin/blogs",
+        icon: Icons.Blog,
+         child:true,
+        items: [
+          {
+        title: "List",
+        url: "/admin/blogs",
+        items: [],
+      },
+          {
+        title: "Create",
+        url: "/admin/blogs/create",
+        items: [],
+      },
+        ],
+      },
+      
       // {
       //   title: "Calendar",
       //   url: "/calendar",
