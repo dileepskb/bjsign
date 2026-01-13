@@ -19,7 +19,17 @@ export const NAV_DATA = [
         title: "All Products",
         url: "/admin/allproducts",
         icon: Icons.Product,
-        items: [],
+        child:true,
+        items: [
+          {
+            title: "Products",
+            url: "/admin/allproducts",
+          },
+          {
+            title: "Upload Product",
+            url: "/admin/uploadproduct",
+          },
+        ],
       },
       {
         title: "Category by Image",
@@ -57,6 +67,31 @@ export const NAV_DATA = [
         icon: Icons.Orders,
         items: [],
       },
+      {
+        title: "Mailer",
+        url: "/admin/mailer",
+        icon: Icons.Mailer,
+        items: [],
+      },
+      {
+        title: "blogs",
+        url: "/admin/blogs",
+        icon: Icons.Blog,
+         child:true,
+        items: [
+          {
+        title: "List",
+        url: "/admin/blogs",
+        items: [],
+      },
+          {
+        title: "Create",
+        url: "/admin/blogs/create",
+        items: [],
+      },
+        ],
+      },
+      
       // {
       //   title: "Calendar",
       //   url: "/calendar",

@@ -32,7 +32,7 @@ const Footer = () => {
                     />
                   </svg>
                 </span>
-               12455 Mesquite st , OAK HILLS CA 92344
+              7285 Desert Forest Rd , Oak Hills , CA 92344
               </li>
 
               <li>

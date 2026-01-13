@@ -18,11 +18,25 @@ interface ProductClientProps {
 
 const Tabs = ({products}:ProductClientProps) => {
   const [activeTab, setActiveTab] = useState<string>("tab1");
+
+  const HtmlContent = ({ html }: { html?: string }) => {
+  if (!html) return null;
+
+  return (
+    <div
+      className="prose max-w-none"
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
+};
+
   const tabs: Tab[] = [
-    { id: "tab1", label: "Description", content: products?.description },
+    { id: "tab1", label: "Description", content: <HtmlContent html={products?.description} /> },
     { id: "tab2", label: "Additional Details", content: <Tabledata products={products} /> },
     { id: "tab3", label: "Rating", content: "This is the Settings content." },
   ];
+
+
 
   return (
     <div >

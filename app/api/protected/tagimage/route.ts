@@ -5,6 +5,13 @@ import fs from "fs";
 import path from "path";
 import prisma from "@/lib/prisma";
 
+type Params = {
+  params: {
+    productId: string;
+    tag: string;
+  };
+};
+
 export async function POST(req: Request) {
   const body = await req.json();
   const { product_id, tag, imgs = { thumbnails: [], previews: [] } } = body;
@@ -51,16 +58,43 @@ export async function POST(req: Request) {
 
 
 
-export async function GET() {
+export async function GET(req: NextRequest, { params }: Params) {
   try {
- 
-    const tagImage = await prisma.tagImage.findMany({});
+    const productId = Number(params.productId);
+    const tag = params.tag;
 
-    return NextResponse.json(tagImage, { status: 200 });
+    if (!productId || !tag) {
+      return NextResponse.json(
+        { message: "Invalid productId or tag" },
+        { status: 400 }
+      );
+    }
+
+    const tagImages = await prisma.tagImage.findMany({
+      where: {
+        productId,
+        tag,
+      },
+      select: {
+        id: true,
+        tag: true,
+        thumbnails: true,
+        previews: true,
+      },
+    });
+
+    if (tagImages.length === 0) {
+      return NextResponse.json(
+        { message: "No images found for this tag" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(tagImages, { status: 200 });
   } catch (error: any) {
-    console.error("❌ Error fetching products:", error);
+    console.error("❌ Error fetching tag images:", error);
     return NextResponse.json(
-      { message: error.message || "Failed to fetch products" },
+      { message: error.message || "Failed to fetch tag images" },
       { status: 500 }
     );
   }

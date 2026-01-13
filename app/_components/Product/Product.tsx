@@ -9,7 +9,14 @@ import { Star } from "lucide-react";
 import { StarEmpty } from "../Star/Star";
 import Image from "next/image";
 import Faq from "../Faq/Faq";
+import { useEffect, useState } from "react";
+import ReviewForm from "../addReview/AddReview";
+import { useParams } from "next/navigation";
 
+interface ProductClientProps {
+  product: Product;
+  slug?: string;
+}
 
 export interface ProductImage {
   id: number;
@@ -78,11 +85,48 @@ export interface Product {
 
 
 
-interface ProductClientProps {
-  product: Product | null;
-}
+// interface ProductClientProps {
+//   product: Product | null;
+// }
 
-export default function ProductClient({product}:ProductClientProps) {
+export default function ProductClient({
+  product,
+  slug,
+}: ProductClientProps) {
+const [showModal, setShowModal] = useState(false);
+const [pItems, setPItems] = useState<number[]>([]);
+const params = useParams();
+
+useEffect(() => {
+  if (!product?.id) return;
+
+  const stored = localStorage.getItem("visitProducts");
+  const visited: number[] = stored ? JSON.parse(stored) : [];
+
+  // avoid duplicates
+  if (!visited.includes(product.id)) {
+    const updated = [...visited, product.id];
+
+    localStorage.setItem(
+      "visitProducts",
+      JSON.stringify(updated)
+    );
+
+    setPItems(updated);
+  } else {
+    setPItems(visited);
+  }
+}, [product?.id]);
+
+
+
+
+  // const slug = params.slug as string[] | undefined;
+
+ 
+  // const tag = slug?.[1];
+
+  // console.log(tag)
 
   
 //   const params = useParams();
@@ -119,7 +163,7 @@ export default function ProductClient({product}:ProductClientProps) {
           <div className="p-3 border border-gray-300 bg-white pt-5 rounded">
             <div className="lg:grid lg:grid-cols-2 gap-4">
               <div className="p-3 border border-gray-200 rounded">
-                <ProductGallery product={product} />
+                <ProductGallery product={product} slug={slug} />
               </div>
 
               <div className="mt-6 sm:mt-8 lg:mt-0">
@@ -259,7 +303,7 @@ export default function ProductClient({product}:ProductClientProps) {
                 </div>
 
                 <hr className="mt-3 mb-3 border-gray-200 dark:border-gray-800" />
-                <PriceCalculator />
+                <PriceCalculator product={product} />
                 {/* <p className="mb-6 text-gray-500 dark:text-gray-400">
             Studio quality three mic array for crystal clear calls and voice
             recordings. Six-speaker sound system for a remarkably robust and
@@ -349,7 +393,14 @@ export default function ProductClient({product}:ProductClientProps) {
               </p>
             </div>
             <div className="col-span-3 p-3 border border-gray-200 ml-4">
-              <h4 className="font-bold text-xl">Latest Reviews</h4>
+              <div className="flex justify-between">
+                  <h4 className="font-bold text-xl">Latest Reviews</h4>
+                  <button
+                  
+                   onClick={() => setShowModal(true)}
+                  className="bg-orange-500 text-white rounded px-3 py-1 hover:bg-orange-700">Add Review</button>
+              </div>
+             
               <div className="mt-3 flex items-start gap-3">
                 {/* Image box (fixed size 60x60) */}
                 <div className="w-[60px] h-[60px] shrink-0">
@@ -410,6 +461,21 @@ export default function ProductClient({product}:ProductClientProps) {
           </div>
         </div>
       </section>
+      {/* Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative">
+                  <h3 className="font-semibold text-lg mb-2">Write a Review</h3>
+         <ReviewForm productId={`${product?.id}`} />
+          <button
+                onClick={() => setShowModal(false)}
+                className="bg-gray-300 w-full text-gray-800 rounded px-3 py-2 hover:bg-gray-400 mt-3"
+              >
+                Cancel
+              </button>
+         </div>
+         </div>
+      )}
     </div>
   );
 }

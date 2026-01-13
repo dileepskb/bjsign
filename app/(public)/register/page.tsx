@@ -1,104 +1,146 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import axios from "axios";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+
+type RegisterFormData = {
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
 
 export default function RegisterPage() {
+  const { register, handleSubmit, watch, formState: { errors } } = useForm<RegisterFormData>();
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
   const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  const onSubmit = async (data: RegisterFormData) => {
+    if (data.password !== data.confirmPassword) {
+      setMessage("Passwords do not match");
+      return;
+    }
+
     try {
-      event.preventDefault();
-      const formData = new FormData(event.currentTarget);
-      const signInResult = await signIn("credentials", {
-        ...Object.fromEntries(formData),
-        redirect: false,
+      setLoading(true);
+      setMessage("");
+
+      // ✅ Register API call
+      const res = await axios.post("/api/auth/signup", {
+        first_name: data.first_name,
+        last_name: data.last_name,
+        email: data.email,
+        password: data.password,
       });
 
-      if (signInResult?.error) {
-        setError("Failed to sign in after registration");
-        return;
-      }
-
-      router.push("/");
-      router.refresh();
-    } catch (error) {
-      setError(error instanceof Error ? error.message : "Registration failed");
+      setMessage("✅ Registration successful! Redirecting to login...");
+      
+      setTimeout(() => router.push("/users"), 200);
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: { error?: string } } };
+      console.error("Registration failed:", error);
+      setMessage(error.response?.data?.error || "Registration failed");
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="flex justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Create your account
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="mt-8 space-y-6 border p-3 px-6 rounded bg-white"
+        >
+          <h2 className="text-center text-3xl font-extrabold text-orange-500">
+            Register
           </h2>
-        </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="name" className="sr-only">
-                Name
-              </label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Full name"
-              />
-            </div>
-            <div>
-              <label htmlFor="email" className="sr-only">
-                Email address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
-              />
-            </div>
-          </div>
 
-          {error && (
-            <div className="text-red-500 text-sm text-center">{error}</div>
+          {message && (
+            <p className="text-center text-sm mb-4 text-green-600">{message}</p>
           )}
 
-          <div>
-            <button
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Register
-            </button>
+          <div className="mb-3">
+            <input
+              type="text"
+              {...register("first_name", { required: "Name is required" })}
+              className="w-full px-3 py-2 border rounded-md"
+              placeholder="First Name"
+            />
+            {errors.first_name && (
+              <p className="text-red-500 text-sm">{errors.first_name.message}</p>
+            )}
+          </div>
+          <div className="mb-3">
+            <input
+              type="text"
+              {...register("last_name", { required: "Name is required" })}
+              className="w-full px-3 py-2 border rounded-md"
+              placeholder="Last Name"
+            />
+            {errors.last_name && (
+              <p className="text-red-500 text-sm">{errors.last_name.message}</p>
+            )}
+          </div>
+
+          <div className="mb-3">
+            <input
+              type="email"
+              {...register("email", { required: "Email is required" })}
+              className="w-full px-3 py-2 border rounded-md"
+              placeholder="Email address"
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            )}
+          </div>
+
+          <div className="mb-3">
+            <input
+              type="password"
+              {...register("password", { required: "Password is required" })}
+              className="w-full px-3 py-2 border rounded-md"
+              placeholder="Password"
+            />
+            {errors.password && (
+              <p className="text-red-500 text-sm">{errors.password.message}</p>
+            )}
+          </div>
+
+          <div className="mb-3">
+            <input
+              type="password"
+              {...register("confirmPassword", {
+                required: "Confirm password is required",
+                validate: (value) => value === watch("password") || "Passwords do not match",
+              })}
+              className="w-full px-3 py-2 border rounded-md"
+              placeholder="Confirm Password"
+            />
+            {errors.confirmPassword && (
+              <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>
+            )}
+          </div>
+
+          <button
+            disabled={loading}
+            type="submit"
+            className="w-full py-2 px-4 text-sm font-bold rounded-md text-white bg-orange-600 hover:bg-orange-700"
+          >
+            {loading ? "Registering..." : "Register"}
+          </button>
+
+          <div className="text-center">
+            <Link href="/login" className="text-black hover:underline">
+              Already have an account? Login.
+            </Link>
           </div>
         </form>
-        <div className="text-center">
-          <Link href="/login" className="text-blue-600 hover:underline">
-            Already have an account? Sign in
-          </Link>
-        </div>
       </div>
     </div>
   );
