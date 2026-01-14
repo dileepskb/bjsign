@@ -3,10 +3,15 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 
+import EditorMenuBar from "@/components/EditorMenuBar/EditorMenuBar";
+import BlogEditor from "@/components/RichTextEditor/RichTextEditor";
+
+
 export default function CreateBlog() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
   const [image, setImage] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+
 
   const uploadImage = async (file: File) => {
     setUploading(true);
@@ -79,11 +84,14 @@ export default function CreateBlog() {
         )}
       </div>
 
-      <textarea
+      {/* <textarea
         {...register("content")}
         placeholder="Blog Content (HTML allowed)"
         className="border p-2 w-full h-60"
-      />
+      /> */}
+
+      <BlogEditor onChange={(html) => setValue("content", html)} />
+    
 
       <select {...register("status")} className="border p-2">
         <option value="DRAFT">Draft</option>

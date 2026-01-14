@@ -1,4 +1,5 @@
-import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+
+import BreadcrumbsNested from "@/components/Breadcrumbsnested/Breadcrumbsnested";
 import Image from "next/image";
 import Link from "next/link";
 export default async function BlogPage() {
@@ -6,13 +7,23 @@ export default async function BlogPage() {
   const blogs = await res.json();
 
   return (
-    <div className="bg-gray-100 pt-8 pb-8">
+    <>
+      <section className="container mx-auto flex justify-center">
+            <Image src={'/images/blog-typographic-header-concept_277904-6681.jpg'} alt="BJ Sign World Blog" width={'800'} height={'500'} />
+        </section>
+    <div className=" pt-0 pb-8">
+      
       <section>
         <div className="container mx-auto ">
-          <Breadcrumb pageName="Blogs" />
+         {/* <BreadcrumbsNested
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Blog", href: `/blog` },
+            ]}
+          /> */}
 
           {/* <H1>Blogs</H1> */}
-          <div className="mx-auto  grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200  sm:mt-5 sm:pt-5 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+          <div className="mx-auto  grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16  sm:mt-5 sm:pt-5 lg:mx-0 lg:max-w-none lg:grid-cols-3">
             {blogs.map((blog: any) => (
               // <a key={blog.id} href={`/blog/${blog.slug}`} className="">
               //   <h2 className="text-xl font-semibold">{blog.title}</h2>
@@ -72,5 +83,6 @@ export default async function BlogPage() {
         </div>
       </section>
     </div>
+    </>
   );
 }

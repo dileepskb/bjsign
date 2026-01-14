@@ -35,7 +35,7 @@ export const navLinks: NavLink[] = [
   { name: "Home", href: "/" },
   { name: "View All Products", href: "/", collapsible: true },
   { name: "About Us", href: "/aboutus" },
-  { name: "Blog", href: "/" },
+  { name: "Blog", href: "/blog" },
   { name: "Faq's", href: "/" },
   { name: "Contact Us", href: "/" },
 ];
