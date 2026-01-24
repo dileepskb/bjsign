@@ -30,24 +30,24 @@ export async function POST(req: NextRequest) {
       }
 
       // ✅ Convert Stripe LineItems → plain JSON
-      const items = lineItems.data.map((item) => ({
-        id: item.id,
-        description: item.description,
-        quantity: item.quantity,
-        amount_total: item.amount_total,
-        currency: item.currency,
-        price: {
-          id: item.price?.id,
-          unit_amount: item.price?.unit_amount,
-          product:
-            typeof item.price?.product === "object"
-              ? {
-                  id: item.price.product.id,
-                  name: item.price.product.name,
-                }
-              : item.price?.product,
-        },
-      }));
+     const items = lineItems.data.map((item) => ({
+  id: item.id,
+  description: item.description,
+  quantity: item.quantity,
+  amount_total: item.amount_total,
+  currency: item.currency,
+  price: item.price
+    ? {
+        id: item.price.id,
+        unit_amount: item.price.unit_amount,
+        productId:
+          typeof item.price.product === "string"
+            ? item.price.product
+            : item.price.product.id,
+      }
+    : null,
+}));
+
 
       await prisma.invoice.create({
         data: {
