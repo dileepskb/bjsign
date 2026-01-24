@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
           amountTotal: session.amount_total ?? 0,
           currency: session.currency ?? "usd",
           status: session.payment_status ?? "paid",
-          items, // ✅ now valid JSON
+          items, 
           user: {
             connect: { id: userId },
           },
