@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "./jwt";
 
 export type AuthUser = {
   id: string;
@@ -13,7 +14,7 @@ export async function getUserFromToken(): Promise<AuthUser | null> {
   if (!token) return null;
 
   try {
-    return jwt.verify(token, process.env.JWT_SECRET!) as AuthUser;
+    return jwt.verify(token, JWT_SECRET) as AuthUser;
   } catch {
     return null;
   }
