@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
         currency: session.currency ?? "usd",
         status: session.payment_status,
         items: lineItems.data,
-        metadata: session.metadata,
+        // metadata: session.metadata,
       },
     });
 

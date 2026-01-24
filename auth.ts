@@ -24,7 +24,7 @@ export const authOptions = {
         if (!user) {
           return await prisma.user.create({
             data: {
-              name: credentials.name ?? credentials.email,
+              first_name: credentials.name ?? credentials.email,
               email: credentials.email,
               password: await bcrypt.hash(credentials.password, 10),
             },

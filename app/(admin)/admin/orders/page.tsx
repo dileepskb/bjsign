@@ -3,8 +3,7 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import Image from "next/image"
-import { CaseUpper } from "lucide-react";
+
 
 const Orders = () => {
 
@@ -252,7 +251,7 @@ const Orders = () => {
                       >
                         Edit{" "}
                       </a>
-                      {/* <button
+                      <button
                         type="button"
                         data-modal-target="editUserModal"
                         data-modal-show="editUserModal"
@@ -260,7 +259,7 @@ const Orders = () => {
                         onClick={() => handleDelete(items.id)}
                       >
                         Delete
-                      </button> */}
+                      </button>
                     </div>
                   </td>
                 </tr>

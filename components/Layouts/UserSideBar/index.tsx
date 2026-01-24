@@ -23,24 +23,24 @@ export function UserSidebar() {
     //   prev.includes(title) ? prev.filter((t) => t !== title) : [...prev, title],
     // );
   };
+useEffect(() => {
+  NAV_DATA.some((section) => {
+    return section.items.some((item) => {
+      return item.items.some((subItem) => {
+        if (!subItem) return false; // ✅ guard
 
-  useEffect(() => {
-    // Keep collapsible open, when it's subpage is active
-    NAV_DATA.some((section) => {
-      return section.items.some((item) => {
-        return item.items.some((subItem) => {
-          if (subItem.url === pathname) {
-            if (!expandedItems.includes(item.title)) {
-              toggleExpanded(item.title);
-            }
-
-            // Break the loop
-            return true;
+        if (subItem.url === pathname) {
+          if (!expandedItems.includes(item.title)) {
+            toggleExpanded(item.title);
           }
-        });
+          return true; // break .some()
+        }
+
+        return false;
       });
     });
-  }, [pathname]);
+  });
+}, [pathname]);
 
   return (
     <>
@@ -101,8 +101,8 @@ export function UserSidebar() {
                           <div>
                             <MenuItem
                               isActive={item.items.some(
-                                ({ url }) => url === pathname
-                              )}
+  (subItem) => subItem?.url === pathname
+)}
                               onClick={() => toggleExpanded(item.title)}
                             >
                               <item.icon
@@ -130,17 +130,20 @@ export function UserSidebar() {
                                     className="ml-9 mr-0 space-y-1.5 pb-[15px] pr-0 pt-2"
                                     role="menu"
                                   >
-                                    {item.items.map((subItem) => (
-                                      <li key={subItem.title} role="none">
-                                        <MenuItem
-                                          as="link"
-                                          href={subItem.url}
-                                          isActive={pathname === subItem.url}
-                                        >
-                                          <span>{subItem.title}</span>
-                                        </MenuItem>
-                                      </li>
-                                    ))}
+                                    {item.items.map(
+  (subItem) =>
+    subItem && (
+      <li key={subItem.title} role="none">
+        <MenuItem
+          as="link"
+          href={subItem.url}
+          isActive={pathname === subItem.url}
+        >
+          <span>{subItem.title}</span>
+        </MenuItem>
+      </li>
+    )
+)}
                                   </ul>
                                 )}
                               </>

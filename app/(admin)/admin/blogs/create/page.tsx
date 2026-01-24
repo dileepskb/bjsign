@@ -2,11 +2,15 @@
 
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import BlogEditor from "@/components/RichTextEditor/RichTextEditor";
+import Image from "next/image"
+
 
 export default function CreateBlog() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
   const [image, setImage] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+
 
   const uploadImage = async (file: File) => {
     setUploading(true);
@@ -71,19 +75,24 @@ export default function CreateBlog() {
         {uploading && <p className="text-sm">Uploading...</p>}
 
         {image && (
-          <img
+          <Image
             src={image}
             alt="Featured"
             className="mt-2 w-48 rounded border"
+            width={100}
+            height={100}
           />
         )}
       </div>
 
-      <textarea
+      {/* <textarea
         {...register("content")}
         placeholder="Blog Content (HTML allowed)"
         className="border p-2 w-full h-60"
-      />
+      /> */}
+
+      <BlogEditor onChange={(html:string) => setValue("content", html)} />
+    
 
       <select {...register("status")} className="border p-2">
         <option value="DRAFT">Draft</option>

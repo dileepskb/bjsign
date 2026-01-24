@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image"
 
 type Blog = {
   id: number;
@@ -87,9 +88,12 @@ export default function AdminBlogsPage() {
               >
                 <td className="p-3">
   {blog.image ? (
-    <img
+    <Image
       src={blog.image}
       className="w-16 h-12 object-cover rounded"
+      height={100}
+      width={100}
+      alt={blog.image}
     />
   ) : (
     <span className="text-gray-400">—</span>

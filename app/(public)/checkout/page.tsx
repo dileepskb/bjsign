@@ -359,7 +359,7 @@ function PasswordPopup({ email, onClose }: { email: string; onClose: () => void 
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password: data.password }),
     });
     const result = await res.json();
     if (result.success) {

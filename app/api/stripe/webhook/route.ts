@@ -2,10 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import prisma from "@/lib/prisma";
 
-const stripe = new Stripe(process.env.SECRET_KEY!, {
-  apiVersion: "2025-01-27",
-});
-
+const stripe = new Stripe(process.env.SECRET_KEY!);
 // ⚠️ Disable Next.js body parsing for raw body
 export const config = {
   api: {
@@ -25,31 +22,34 @@ export async function POST(req: NextRequest) {
     );
 
     // ✅ When payment succeeds
-    if (event.type === "checkout.session.completed") {
-      const session = event.data.object as Stripe.Checkout.Session;
+   if (event.type === "checkout.session.completed") {
+  const session = event.data.object as Stripe.Checkout.Session;
 
-      const customer = await stripe.customers.retrieve(
-        session.customer as string
-      );
-      const lineItems = await stripe.checkout.sessions.listLineItems(
-        session.id
-      );
+  const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
 
-      // 💾 Save invoice/payment data in DB
-      await prisma.invoice.create({
-        data: {
-          stripeSessionId: session.id,
-          customerId: (session.customer as string) || "",
-          customerEmail: session.customer_email || "",
-          amountTotal: session.amount_total || 0,
-          currency: session.currency || "usd",
-          status: session.payment_status,
-          items: JSON.stringify(lineItems.data),
-        },
-      });
+  const userId = session.metadata?.userId; // ✅ from checkout
 
-      console.log("✅ Payment recorded in DB:", session.id);
-    }
+  if (!userId) {
+    console.error("❌ Missing userId in Stripe metadata");
+    return NextResponse.json({ received: true });
+  }
+
+  await prisma.invoice.create({
+   data: {
+    stripeSessionId: session.id,
+    customerEmail: session.customer_email || "",
+    amountSubtotal: session.amount_subtotal || 0,
+    amountTotal: session.amount_total || 0,
+    currency: session.currency || "usd",
+    status: session.payment_status || "paid",
+    items: lineItems.data,
+    user: {
+      connect: { id: userId },
+    },
+  },
+  });
+}
+
 
     return NextResponse.json({ received: true });
   } catch (err) {

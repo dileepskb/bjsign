@@ -1,32 +1,16 @@
 "use client";
 
 import { useCart } from "@/context/CartContext";
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { OptionValue, Product } from "@/types/ProductTypes";
 
-type OptionValue = {
-  id: number;
-  label: string;
-  value: number;
-  discount?: number;
-  optionId: number;
-};
 
-type ProductOption = {
-  id: number;
-  name: string;
-  type: "select";
-  productId: number;
-  optionValues: OptionValue[];
-};
 
-type Product = {
-  id: number;
-  title?: string;
-  price: number;
-  productOptions: ProductOption[];
-  imgs?:object
-};
+
+// interface ProductClientProps {
+//   product: Product | null;
+// }
+
 
 export default function PriceCalculator({ product }: { product?: Product }) {
 

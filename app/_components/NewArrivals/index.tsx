@@ -13,7 +13,8 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/zoom';
 import axios from "axios";
-import { Product } from "../Product/Product";
+import { Product } from "@/types/ProductTypes";
+
 
 const NewArrival = () => {
   const [products, setProducts] = useState<Product[]>([]);

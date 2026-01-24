@@ -13,7 +13,8 @@ import { useRouter } from 'next/navigation';
 const AddToCards =() => {
       const router = useRouter();
   const [open, setOpen] = useState(false)
-  const { cart, removeFromCart, clearCart } = useCart();
+  // const { cart, removeFromCart, clearCart } = useCart();
+     const { cart } = useCart();
 
 
   useEffect(() => {

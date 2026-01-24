@@ -75,7 +75,7 @@ const sendEmails = async () => {
     // ✅ safely parse JSON
     const text = await res.text();
     const data = text ? JSON.parse(text) : {};
-
+    console.log(data)
     alert("Emails sent successfully ✅");
   } catch (err: any) {
     console.error(err);

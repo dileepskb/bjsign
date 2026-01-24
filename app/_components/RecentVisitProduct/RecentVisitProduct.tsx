@@ -9,12 +9,9 @@ import 'swiper/css/pagination';
 import 'swiper/css/zoom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
+import { Product } from "@/types/ProductTypes";
 
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-};
+
 
 const RecentVisitProduct = () => {
   const [products, setProducts] = useState<Product[]>([]);
