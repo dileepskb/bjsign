@@ -3,8 +3,9 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import { JWT_SECRET } from "@/lib/jwt";
 
-const SECRET = new TextEncoder().encode(process.env.JWT_SECRET!);
+const SECRET = new TextEncoder().encode(JWT_SECRET);
 
 export async function POST(req: Request) {
   try {
