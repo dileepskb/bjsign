@@ -2,9 +2,10 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "@/lib/jwt";
 
 export async function POST(req: Request) {
-  if (!process.env.JWT_SECRET) {
+  if (JWT_SECRET) {
     return NextResponse.json(
       { error: "JWT_SECRET missing" },
       { status: 500 }
@@ -32,7 +33,7 @@ export async function POST(req: Request) {
       role: user.role,
       email: user.email,
     },
-    process.env.JWT_SECRET,
+    JWT_SECRET,
     { expiresIn: "7d" }
   );
 
