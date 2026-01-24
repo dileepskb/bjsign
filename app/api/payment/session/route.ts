@@ -25,25 +25,22 @@ export async function GET(req: NextRequest) {
 
     // ✅ VERY IMPORTANT: Convert Stripe objects → plain JSON
     const safeItems = lineItems.data.map((item) => ({
-      id: item.id,
-      description: item.description,
-      quantity: item.quantity,
-      amount_total: item.amount_total,
-      currency: item.currency,
-      price: item.price
-        ? {
-            id: item.price.id,
-            unit_amount: item.price.unit_amount,
-            product:
-              typeof item.price.product === "object"
-                ? {
-                    id: item.price.product.id,
-                    name: item.price.product.name,
-                  }
-                : item.price.product,
-          }
-        : null,
-    }));
+  id: item.id,
+  description: item.description,
+  quantity: item.quantity,
+  amount_total: item.amount_total,
+  currency: item.currency,
+  price: item.price
+    ? {
+        id: item.price.id,
+        unit_amount: item.price.unit_amount,
+        productId:
+          typeof item.price.product === "string"
+            ? item.price.product
+            : item.price.product.id,
+      }
+    : null,
+}));
 
     // 🔹 STEP 1: Create / Update Invoice
     const invoice = await prisma.invoice.upsert({
