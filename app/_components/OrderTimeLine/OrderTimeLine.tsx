@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import moment from "moment";
 
 type Props = {
-  orderId: number;
+  orderId: string;
 };
 
 type StatusForm = {

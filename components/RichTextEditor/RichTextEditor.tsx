@@ -5,7 +5,11 @@ import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import "@mantine/tiptap/styles.css";
 
-export default function BlogEditor({ onChange }) {
+type BlogEditorProps = {
+  onChange: (html: string) => void;
+};
+
+export default function BlogEditor({ onChange }: BlogEditorProps) {
   const editor = useEditor({
     extensions: [StarterKit],
     content: "",
@@ -28,3 +32,4 @@ export default function BlogEditor({ onChange }) {
     </RichTextEditor>
   );
 }
+

@@ -1,6 +1,7 @@
 "use client"
+import { Product } from "@/types/ProductTypes";
 import { useState } from "react";
-import { Product } from "../Product/Product";
+
 export interface FAQ {
   id: number;
   question: string;

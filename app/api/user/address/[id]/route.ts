@@ -2,10 +2,13 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getUserFromToken } from "@/lib/auth";
 
+/* -------------------------- PUT -------------------------- */
 // ✅ Update Address
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: Request, context: any) {
   try {
-    const user = getUserFromToken();
+    const { id } = context.params;
+
+    const user = await getUserFromToken();
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -17,7 +20,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
       await prisma.userAddress.updateMany({
         where: {
           userId: user.id,
-          NOT: { id: params.id },
+          NOT: { id },
           default: true,
         },
         data: { default: false },
@@ -25,7 +28,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     }
 
     const updatedAddress = await prisma.userAddress.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         name: data.name,
         address_mobile: data.address_mobile,
@@ -40,33 +43,47 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     return NextResponse.json(updatedAddress);
   } catch (error) {
     console.error("Error updating address:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }
 
+/* ------------------------ DELETE ------------------------- */
 // ✅ Delete Address
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, context: any) {
   try {
-    const user = getUserFromToken();
+    const { id } = context.params;
+
+    const user = await getUserFromToken();
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const address = await prisma.userAddress.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!address || address.userId !== user.id) {
-      return NextResponse.json({ error: "Address not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Address not found" },
+        { status: 404 }
+      );
     }
 
     await prisma.userAddress.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
-    return NextResponse.json({ message: "Address deleted successfully" });
+    return NextResponse.json({
+      message: "Address deleted successfully",
+    });
   } catch (error) {
     console.error("Error deleting address:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }

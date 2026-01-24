@@ -2,9 +2,8 @@
 
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-
-import EditorMenuBar from "@/components/EditorMenuBar/EditorMenuBar";
 import BlogEditor from "@/components/RichTextEditor/RichTextEditor";
+import Image from "next/image"
 
 
 export default function CreateBlog() {
@@ -76,10 +75,12 @@ export default function CreateBlog() {
         {uploading && <p className="text-sm">Uploading...</p>}
 
         {image && (
-          <img
+          <Image
             src={image}
             alt="Featured"
             className="mt-2 w-48 rounded border"
+            width={100}
+            height={100}
           />
         )}
       </div>
@@ -90,7 +91,7 @@ export default function CreateBlog() {
         className="border p-2 w-full h-60"
       /> */}
 
-      <BlogEditor onChange={(html) => setValue("content", html)} />
+      <BlogEditor onChange={(html:string) => setValue("content", html)} />
     
 
       <select {...register("status")} className="border p-2">

@@ -6,7 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 // import { useTranslation } from 'next-i18next';
 // import { Transition } from '@headlessui/react';
 import { IconType } from "react-icons";
-import { FiUser, FiHeart, FiShoppingBag } from "react-icons/fi";
+import { FiUser, FiHeart } from "react-icons/fi";
 
 import { TopBar } from "./TopBar";
 // import { MegaMenu } from './MegaMenu';
@@ -84,9 +84,10 @@ export const HeaderNew = () => {
 
   return (
     <>
+    <div className="fixed w-full z-[999]">
       <TopBar />
 
-      <header className="sticky top-0 z-[900]">
+      <header className="">
         <div className=" h-14 bg-white shadow-md shadow-black-200">
           <div className="mx-auto flex h-full items-center px-4 xl:container">
             <div className="mr-5 flex shrink-0 items-center border-r border-r-gray-300 pr-10">
@@ -182,6 +183,7 @@ export const HeaderNew = () => {
         </div>
         {/* <BottomNavigation navLinks={navLinks} collections={collections} /> */}
       </header>
+      </div>
     </>
   );
 };

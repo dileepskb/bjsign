@@ -2,17 +2,15 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getUserFromToken } from "@/lib/auth";
 
-// POST /api/reviews
+/* -------------------- POST /api/reviews -------------------- */
 export async function POST(req: Request) {
-  const user = getUserFromToken();
+  const user = await getUserFromToken(); // ✅ MUST await
 
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const data = await req.json();
-
-  const { productId, rating, comment } = data;
+  const { productId, rating, comment } = await req.json();
 
   if (!productId || !rating) {
     return NextResponse.json(
@@ -27,11 +25,15 @@ export async function POST(req: Request) {
         rating,
         comment,
         productId,
-        userId: user.id,
+        userId: user.id, // ✅ now works
       },
       include: {
         user: {
-          select: { id: true, name: true, email: true },
+          select: {
+            id: true,
+            first_name: true,
+            email: true,
+          },
         },
       },
     });
@@ -46,24 +48,36 @@ export async function POST(req: Request) {
   }
 }
 
-
-
+/* -------------------- GET /api/reviews -------------------- */
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
-  const productId = searchParams.get("productId");
+  const productIdParam = searchParams.get("productId");
 
-  if (!productId) {
+  if (!productIdParam) {
     return NextResponse.json(
       { error: "Product ID is required" },
       { status: 400 }
     );
   }
 
+  const productId = Number(productIdParam); // ✅ FIX
+
+  if (isNaN(productId)) {
+    return NextResponse.json(
+      { error: "Invalid product ID" },
+      { status: 400 }
+    );
+  }
+
   const reviews = await prisma.review.findMany({
-    where: { productId },
+    where: { productId }, // ✅ number now
     include: {
       user: {
-        select: { id: true, name: true, email: true },
+        select: {
+          id: true,
+          first_name: true,
+          email: true,
+        },
       },
     },
     orderBy: { createdAt: "desc" },

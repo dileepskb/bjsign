@@ -7,8 +7,9 @@ import 'swiper/css';
 import 'swiper/css/thumbs';
 import { useEffect, useState } from 'react';
 import ReactImageMagnify from 'react-image-magnify';
-import { Product } from './Product';
+
 import Image from 'next/image';
+import { Product } from '@/types/ProductTypes';
 
 interface ProductClientProps {
   product: Product | null;

@@ -1,17 +1,15 @@
-// app/api/checkout/route.ts
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getUserFromToken } from "@/lib/auth";
 
 export async function POST(req: Request) {
   try {
-    const user = getUserFromToken();
-    console.log("dileep kumar", user)
+    const user = await getUserFromToken();
+
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await req.json();
     const {
       first_name,
       last_name,
@@ -21,11 +19,15 @@ export async function POST(req: Request) {
       city,
       state,
       postalCode,
-    } = body;
+      name,
+      address_mobile,
+      landmark,
+      default: isDefault,
+    } = await req.json();
 
-    // ✅ Update basic user info (optional)
+    // ✅ Update user basic info
     await prisma.user.update({
-      where: { id: user.id },
+      where: { id: user.id }, // id is String ✔
       data: {
         first_name,
         last_name,
@@ -34,22 +36,25 @@ export async function POST(req: Request) {
       },
     });
 
-    // ✅ Create or update address
-    const address = await prisma.userAddress.upsert({
-      where: {
-        userId: user.id,
-      },
-      update: {
+    // ✅ If new address is default → unset old defaults
+    if (isDefault === true) {
+      await prisma.userAddress.updateMany({
+        where: { userId: user.id },
+        data: { default: false },
+      });
+    }
+
+    // ✅ CREATE new address (NOT upsert)
+    const address = await prisma.userAddress.create({
+      data: {
+        name,
+        address_mobile,
         street,
         city,
         state,
         postalCode,
-      },
-      create: {
-        street,
-        city,
-        state,
-        postalCode,
+        landmark,
+        default: isDefault ?? false,
         userId: user.id,
       },
     });
@@ -61,6 +66,9 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     console.error("Checkout error:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }

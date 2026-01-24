@@ -7,12 +7,18 @@ export async function GET(request: Request) {
   const postsPerPage = 5;
   const offset = (page - 1) * postsPerPage;
 
-  // Fetch paginated posts
   const posts = await prisma.post.findMany({
     skip: offset,
     take: postsPerPage,
     orderBy: { createdAt: "desc" },
-    include: { author: { select: { name: true } } },
+    include: {
+      author: {
+        select: {
+          first_name: true,
+          last_name: true,
+        },
+      },
+    },
   });
 
   const totalPosts = await prisma.post.count();

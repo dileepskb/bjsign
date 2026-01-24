@@ -9,21 +9,28 @@ export async function POST(req: NextRequest) {
     const { session_id } = await req.json();
 
     if (!session_id) {
-      return NextResponse.json({ error: "Missing session_id" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing session_id" },
+        { status: 400 }
+      );
     }
 
-    // 🧾 Retrieve the session from Stripe
+    // 🔹 Retrieve Stripe session
     const session = await stripe.checkout.sessions.retrieve(session_id, {
       expand: ["payment_intent"],
     });
 
-    const paymentIntent = session.payment_intent as Stripe.PaymentIntent;
+    const paymentIntent = session.payment_intent as Stripe.PaymentIntent | null;
 
-    // 🛑 Case 1: Payment not completed — cancel order without refund
+    // 🛑 CASE 1: Payment NOT completed → cancel only
     if (session.payment_status !== "paid") {
       await prisma.invoice.updateMany({
-        where: { sessionId: session.id },
-        data: { orderStatus: "cancelled" },
+        where: {
+          stripeSessionId: session.id,
+        },
+        data: {
+          status: "cancelled",
+        },
       });
 
       return NextResponse.json({
@@ -32,28 +39,31 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // 🧾 Case 2: Payment completed — refund via Stripe
-    const refund = await stripe.refunds.create({
-      payment_intent: paymentIntent.id,
-      reason: "requested_by_customer",
-    });
+    // 💸 CASE 2: Payment completed → refund
+    if (paymentIntent) {
+      await stripe.refunds.create({
+        payment_intent: paymentIntent.id,
+        reason: "requested_by_customer",
+      });
+    }
 
-    // 🧾 Update DB record
+    // 🧾 Update invoice after refund
     await prisma.invoice.updateMany({
-      where: { sessionId: session.id },
+      where: {
+        stripeSessionId: session.id,
+      },
       data: {
-        orderStatus: "cancelled",
-        paymentStatus: "refunded",
+        status: "refunded",
+        stripePaymentId: paymentIntent?.id,
       },
     });
 
     return NextResponse.json({
       success: true,
       message: "Order cancelled and refunded successfully.",
-      refund,
     });
   } catch (error: any) {
-    console.error("Error cancelling order:", error);
+    console.error("❌ Cancel error:", error);
     return NextResponse.json(
       { error: error.message || "Failed to cancel order" },
       { status: 500 }

@@ -2,10 +2,10 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
-import moment from "moment";
+
 
 type Props = {
-  orderId: number;
+  orderId: string;
 };
 
 type TimelineItem = {
@@ -23,7 +23,7 @@ const steps = [
 ];
 
 export default function OrderTrack({ orderId }: Props) {
-  const [timeline, setTimeline] = useState<TimelineItem[]>([]);
+  const [, setTimeline] = useState<TimelineItem[]>([]);
   const [currentStatus, setCurrentStatus] = useState("processing");
 
   const fetchTimeline = async () => {

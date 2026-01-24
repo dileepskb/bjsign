@@ -7,45 +7,13 @@ import Image from "next/image";
 // import shopData from "@/app/components/Shop/shopData";
 // import { ProductsDummy } from "@/app/components/Shop/ProductsDummy";
 
-import { Product } from "../Product/Product";
+
 import Link from "next/link";
+import { Product } from "@/types/ProductTypes";
 
-export interface ProductImage {
-  id: number;
-  thumbnails: string[];
-  previews: string[];
-  productId: number;
-}
-
-export interface Product {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  discountedPrice?: string | null;
-  imgs: ProductImage;
-  tagImage: any[];
-  createdAt: string;
-}
-
-export interface Category {
-  id: number;
-  name: string;
-  slug: string;
-  description: string | null;
-  image: string | null;
-  parentId: number | null;
-  metaTitle: string | null;
-  metaDescription: string | null;
-  metaKeywords: string | null;
-  isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
-  products: Product[];
-}
 
 interface ProductItemBoxProps {
-  catList: Product[];
+  catList:  Product[];
   cat:string
 }
 
@@ -58,18 +26,22 @@ const ProductItemBox: React.FC<ProductItemBoxProps> = ({ catList, cat }) => {
         {/* <!-- section title --> */}
         
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-      {catList?.products.map((product) => (
+      {catList?.map((product) => (
         <div
           key={product.id}
           className="border rounded-xl p-4 shadow hover:shadow-lg transition-all duration-200"
         >
           <div className="relative w-full h-60 border">
             <Image
-              src={`${process.env.NEXT_PUBLIC_API_URL || ""}${product.imgs.thumbnails[0] || null}`}
-              alt={product.title}
-              fill
-              className="object-cover rounded-md"
-            />
+  src={
+    product.imgs?.thumbnails?.[0]
+      ? `${process.env.NEXT_PUBLIC_API_URL}${product.imgs.thumbnails[0]}`
+      : "/images/placeholder.png"
+  }
+  alt={product.title}
+  fill
+  className="object-cover rounded-md"
+/>
           </div>
 
           <div className="mt-4">

@@ -1,8 +1,9 @@
-import { getSocket } from "@/lib/socket";
+// import { getSocket } from "@/lib/socket";
 import axios from "axios";
 import moment from "moment";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Image from "next/image"
 
 interface userData{
   id?:string;
@@ -10,16 +11,19 @@ interface userData{
   last_name?:string
   email?:string
 }
-interface Props{
-   user:userData
-}
+// interface Props{
+//    user:userData
+// }
+
+type Props = {
+  user: userData;
+};
 
 const Notification = ({user}:Props) => {
 // const [unreadCount, setUnreadCount] = useState(0);
   const [updateCount, setUpdateCount] = useState(0)
   const [products, setProducts] = useState<any[]>([]);
   const [, setLoading] = useState(true);
-  const [reload, setReload] = useState(true);
   const [active, setActive] = useState(false);
   const handle = () => {
     if (active) {
@@ -29,11 +33,14 @@ const Notification = ({user}:Props) => {
     }
   };
 
+  console.log(user)
+
   useEffect(() => {
     async function loadProducts() {
       try {
         const res = await axios.get("/api/protected/allorders");
         setProducts(res.data);
+
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -42,7 +49,7 @@ const Notification = ({user}:Props) => {
     }
 
     loadProducts();
-  }, [reload, updateCount]);
+  }, [updateCount]);
 
   const unreadCount = products?.filter(
   (item) => item.isRead === "unread"
@@ -105,9 +112,12 @@ const readOrder = async (id:string) => {
             {products?.map((items, index) => (
               <li onClick={() => readOrder(items.id)} key={index} className={`dropdown-item p-4  hover:bg-white cursor-pointer ${items?.isRead ==="unread" ? 'bg-gray-100' : 'bg-white'}`}>
                 <Link href={`/admin/orders/${items.id}`} className="flex items-center">
-                <img
+                <Image
                   src="/images/empty.jpg"
                   className="w-12 h-12 rounded-full shrink-0"
+                  height={100}
+                  width={100}
+                  alt=""
                 />
 
                 <div className="ml-6">

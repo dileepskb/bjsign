@@ -1,9 +1,10 @@
 
-import BreadcrumbsNested from "@/components/Breadcrumbsnested/Breadcrumbsnested";
 import Image from "next/image";
 import Link from "next/link";
+
+export const dynamic = "force-dynamic"; // ✅ IMPORTANT
 export default async function BlogPage() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`, { cache: "no-store" });
   const blogs = await res.json();
 
   return (
@@ -24,12 +25,12 @@ export default async function BlogPage() {
 
           {/* <H1>Blogs</H1> */}
           <div className="mx-auto  grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16  sm:mt-5 sm:pt-5 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-            {blogs.map((blog: any) => (
+            {blogs.map((blog: any, i:number) => (
               // <a key={blog.id} href={`/blog/${blog.slug}`} className="">
               //   <h2 className="text-xl font-semibold">{blog.title}</h2>
               //   <p>{blog.excerpt}</p>
               // </a>
-              <article className="flex max-w-xl flex-col items-start justify-between border p-3 rounded bg-gray-50">
+              <article key={i} className="flex max-w-xl flex-col items-start justify-between border p-3 rounded bg-gray-50">
                 <Link href={`/blog/${blog.slug}`}>
                   <Image
                     src={blog.image}

@@ -6,7 +6,8 @@ import axios from "axios"
 // import { useSession } from '@/context/SessionContext';
 
 export default function CheckoutSideBar() {
-  const { cart, removeFromCart, clearCart } = useCart();
+  // const { cart, removeFromCart, clearCart } = useCart();
+   const { cart } = useCart();
   const [loading, setLoading] = useState(false)
     
     const Checkout = async (itmeData:any) => {
@@ -27,11 +28,11 @@ export default function CheckoutSideBar() {
       <div className="relative h-full">
         <div className="px-6 py-8 md:overflow-auto md:h-screen">
           <div className="space-y-4">
-             {cart.map((product) => 
+             {cart.map((product, i) => 
                           {
                           
                            return(
-            <div className="flex items-start gap-4">
+            <div key={i} className="flex items-start gap-4">
               <div className="w-24 h-24 flex p-3 shrink-0 bg-white rounded-md">
                 <Image
                   src={product?.img?.thumbnails[0]}

@@ -7,17 +7,16 @@ import { useEffect, useState } from "react";
 import { FiExternalLink } from "react-icons/fi";
 import { MdFileDownload } from "react-icons/md";
 import { MdOutlineCancel } from "react-icons/md";
-import { Dialog } from "@headlessui/react";
 import CancelOrderModal from "@/app/_components/cancelOrderModel/CancelOrderModel";
 import Link from "next/link";
 
 
-interface CancelOrderModalProps {
-  orderId: number;
-  open: boolean;
-  onClose: () => void;
-  onSuccess?: () => void;
-}
+// interface CancelOrderModalProps {
+//   orderId: number;
+//   open: boolean;
+//   onClose: () => void;
+//   onSuccess?: () => void;
+// }
 
 export interface InvoiceData {
   id: string;

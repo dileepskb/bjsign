@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+import { AdditionalDescription, Product } from "@/types/ProductTypes";
 import { useState } from "react";
-import {  AdditionalDescription, Product } from "../Product/Product";
 
 
 interface Tab {
