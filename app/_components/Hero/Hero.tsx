@@ -15,9 +15,9 @@ const Hero = () => {
   <div className="container mx-auto h-[600px] px-4">
     <div className="flex flex-col md:flex-row h-full">
       
-      <div className="flex-1 flex items-center justify-center text-center md:text-left">
-        <div className="max-w-lg">
-         <h1 className="text-white text-[50px]/[1.2] font-extrabold">
+      <div className="flex-1 flex items-center justify-center text-center md:text-left ">
+        <div className="max-w-lg bg-black/50 p-5 py-10 rounded">
+         <h1 className="text-white text-[44px]/[1.2] font-extrabold">
         <span className="font-light">Your</span> One Stop Solution <br />
         <span className="font-light">for</span> Printing Service
       </h1>
