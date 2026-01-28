@@ -22,19 +22,19 @@ interface TopbarItemProps {
 }
 
 const TopbarItem = ({ label, url, Icon }: TopbarItemProps) => (
-  <li className="mx-1 pb-px md:mr-2.5 lg:[&:nth-of-type(3)]:mr-10 lg:[&:nth-of-type(5)]:mr-10">
+  <li className="mr-[5px] pb-px md:mr-2.5">
     <Link
       href={url}
       className="flex items-center transition-colors hover:text-white text-white"
     >
-      {Icon && <Icon className="mx-1 md:text-sm"></Icon>}
+      {Icon && <Icon className="mx-[1px] md:text-sm"></Icon>}
       <span>{label}</span>
     </Link>
   </li>
 );
 
 const SocialItem = ({ url, Icon }: TopbarItemProps) => (
-  <li className="mx-0.5">
+  <li className="mx-[1px] xl:mx-0.5">
     <Link
       href={url}
       className="flex items-center transition-colors hover:text-white hover:bg-gray-600 text-white bg-black h-[22px] rounded"
@@ -79,15 +79,15 @@ export const TopBar = () => {
 
   return (
     <div className="bg-orange-400 text-[10px] text-gray-300 md:text-xs">
-      <div className="mx-auto flex items-center px-4 py-1 xl:container md:py-2.5">
+      <div className="mx-auto flex items-center px-1 py-1 xl:container md:py-2.5">
         {/* <p className="pb-2 md:pb-0">{t('topbar.discount')}</p> */}
-        <ul className="flex flex-wrap justify-center md:mr-auto">
+        <ul className="flex flex-wrap justify-center mr-auto">
           {topbarItems.map(item => (
             <TopbarItem key={item.label} {...item} />
           ))}
        
         </ul>
-        <ul className="flex flex-wrap justify-center md:ml-auto">
+        <ul className="flex flex-wrap justify-center ml-auto">
           {socialIcon.map(item => (
             <SocialItem key={item.label} {...item} />
           ))}
