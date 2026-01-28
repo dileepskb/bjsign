@@ -79,7 +79,7 @@ export const TopBar = () => {
 
   return (
     <div className="bg-orange-400 text-[10px] text-gray-300 md:text-xs">
-      <div className="mx-auto flex flex-col items-center px-4 py-1 xl:container md:flex-row md:py-2.5">
+      <div className="mx-auto flex items-center px-4 py-1 xl:container md:py-2.5">
         {/* <p className="pb-2 md:pb-0">{t('topbar.discount')}</p> */}
         <ul className="flex flex-wrap justify-center md:mr-auto">
           {topbarItems.map(item => (
