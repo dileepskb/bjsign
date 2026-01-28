@@ -29,6 +29,12 @@ export const metadata : Metadata =  {
   description: "this is ecommerce product base company",
   keywords:"printing"
 };
+export const viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#fb923c' },
+    { media: '(prefers-color-scheme: dark)', color: '#fb923c' },
+  ],
+}
 
 export default function RootLayout({
   children,
