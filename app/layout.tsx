@@ -26,7 +26,11 @@ import { MantineProvider } from "@mantine/core";
 export const metadata = {
   title: "BJ Sign World",
   description: "this is ecommerce product base company",
-  keywords:"printing"
+  keywords:"printing",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fb923c" },
+    { media: "(prefers-color-scheme: dark)", color: "#fb923c" },
+  ],
 };
 
 export default function RootLayout({
