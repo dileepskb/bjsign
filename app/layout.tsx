@@ -36,7 +36,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={lato.className}>
+      <body className={`${lato.className}`}>
         <SessionProvider>
         <CartProvider>
           <AuthProvider>

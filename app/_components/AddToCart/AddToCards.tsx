@@ -37,7 +37,7 @@ const AddToCards =() => {
       >
         Open drawer
       </button> */}
-      <button  onClick={() => setOpen(true)} className="ml-5 hidden md:block relative">
+      <button  onClick={() => setOpen(true)} className="ml-5 block relative">
         <FiShoppingBag
           className="text-neutral-700 transition-colors hover:text-violet-700"
           size="20px"
