@@ -1,20 +1,28 @@
-import Link from "next/link";
+"use client"
+// import Link from "next/link";
 import HeroFeature from "./HeroFeature";
-import  Image  from "next/image"
+// import  Image  from "next/image"
+import { useMediaQuery } from "react-responsive";
 
 const Hero = () => {
+  const isDesktop = useMediaQuery({ minWidth: 640 });
   return (
     <>
-    <section className="w-full min-h-[600px] "
+    <section className={`w-full 
+    ${isDesktop ? "min-h-[600px]" : "min-h-[350]"}
+    
+    `}
     style={{
       background:"url(/bannerbg.jpg)",
       backgroundSize:"cover",
       backgroundPosition:"right center"
     }}
     >
-  <div className="container mx-auto h-[600px] px-4">
-    <div className="flex flex-col md:flex-row h-full">
-      
+  <div className={`container mx-auto px-4 ${isDesktop ? "min-h-[600px]" : "min-h-[350]"}`}>
+    <div className={`flex flex-col md:flex-row 
+${isDesktop ? "min-h-[600px]" : "min-h-[350]"}
+    `}>
+           {isDesktop && (
       <div className="flex-1 flex items-center justify-center text-center md:text-left ">
         <div className="max-w-lg bg-black/50 p-5 py-10 rounded">
          <h1 className="text-white text-[44px]/[1.2] font-extrabold">
@@ -27,6 +35,7 @@ const Hero = () => {
       </p>
         </div>
       </div>
+           )}
 
       <div className="flex-1 flex items-end justify-center overflow-hidden">
         <img 
@@ -39,6 +48,27 @@ const Hero = () => {
     </div>
   </div>
 </section>
+
+{!isDesktop && (
+  
+        <div className="max-w-lg bg-orange-400 p-5 py-5 rounded">
+         <h1 className="text-white text-[30px]/[1.2] font-extrabold" style={{
+          textShadow:"0 1px 2px rgba(0,0,0,0.2)"
+         }}>
+        <span className="font-light">Your</span> One Stop Solution <br />
+        <span className="font-light">for</span> Printing Service
+      </h1>
+
+      <p className="text-white text-[18px] font-light mt-3"
+      style={{
+          textShadow:"0 1px 2px rgba(0,0,0,0.2)"
+         }}>
+        High-Quality Printing For All Your brand. Your style. Your print.
+      </p>
+        </div>
+
+           )}
+
     {/* <div className="relative h-[600px] overflow-hidden"
      style={{
       background:"url(/bannerbg.jpg)",
