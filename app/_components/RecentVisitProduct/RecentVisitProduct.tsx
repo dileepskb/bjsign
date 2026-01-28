@@ -69,7 +69,7 @@ const RecentVisitProduct = () => {
     //   ))}
     // </div>
        <section className="overflow-hidden py-10">
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
         {/* <!-- section title --> */}
         <div className="mb-7 flex items-center justify-between">
           <div>
@@ -91,6 +91,16 @@ const RecentVisitProduct = () => {
   spaceBetween={20}
   slidesPerView={4}
   className="h-100 w-full"
+  breakpoints={{
+              // when window width is >= 640px
+              0: {
+                slidesPerView: 2,
+              },
+              1000: {
+                slidesPerView: 4,
+                // spaceBetween: 4,
+              }
+            }}
     
     >
           {/* <!-- New Arrivals item --> */}

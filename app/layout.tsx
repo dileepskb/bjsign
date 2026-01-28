@@ -23,14 +23,11 @@ import Providers from "./providers";
 import { AuthProvider } from "@/context/AuthContext";
 import { SessionProvider } from "@/context/SessionContext";
 import { MantineProvider } from "@mantine/core";
-export const metadata = {
+import type { Metadata } from "next";
+export const metadata : Metadata =  {
   title: "BJ Sign World",
   description: "this is ecommerce product base company",
-  keywords:"printing",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fb923c" },
-    { media: "(prefers-color-scheme: dark)", color: "#fb923c" },
-  ],
+  keywords:"printing"
 };
 
 export default function RootLayout({
