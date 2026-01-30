@@ -24,13 +24,13 @@ ${isDesktop ? "min-h-[600px]" : "min-h-[350]"}
     `}>
            {isDesktop && (
       <div className="flex-1 flex items-center justify-center text-center md:text-left ">
-        <div className="max-w-lg bg-black/50 p-5 py-10 rounded">
+        <div className="max-w-lg bg-black/70 p-5 py-10 rounded">
          <h1 className="text-white text-[44px]/[1.2] font-extrabold">
         <span className="font-light">Your</span> One Stop Solution <br />
         <span className="font-light">for</span> Printing Service
       </h1>
 
-      <p className="text-white text-[18px] font-light mt-3">
+      <p className="text-white text-[16px] font-light mt-3">
         High-Quality Printing For All Your brand. Your style. Your print.
       </p>
         </div>
