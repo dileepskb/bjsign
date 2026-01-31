@@ -48,10 +48,17 @@ export interface FAQ {
   id: number;
 }
 
+
+export interface User{
+  first_name:string;
+  last_name:String;
+}
+
 export interface Review{
   id:number;
   rating:number;
   comment:string
+  user:User
 }
 
 export interface Product {
