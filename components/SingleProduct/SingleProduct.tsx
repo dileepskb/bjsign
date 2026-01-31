@@ -1,12 +1,31 @@
+"use client"
 import { Product } from "@/types/ProductTypes";
 import Image from "next/image"
 import Link from "next/link";
+import FullStar from "@/components/Star/fullStar";
+import HalfStar from "@/components/Star/halfStar";
+import BlankStar from "@/components/Star/blankStar";
+import RatingStars from "./RatingStars";
+import ReviewModel from "../ReviewModel/ReviewModel";
+import { useState } from "react";
 
 interface SingleProductProps {
   product: Product;
 }
 
 export default function SingleProduct({product}:SingleProductProps) {
+    const [open, setOpen] = useState(false)
+  console.log("dileep kumar", product)
+
+const reviews = product?.review ?? [];
+
+const rating =
+  reviews.length === 0
+    ? 0
+    : reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
+
+const reviewCount = reviews.length;
+
   return (
     <div className="rounded-lg border border-gray-200 bg-white p-1 xl:p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
       <div className="h-[100px] xl:h-[200px] w-full">
@@ -105,65 +124,19 @@ export default function SingleProduct({product}:SingleProductProps) {
          {product?.title}
         </Link>
 
-        <div className="mt-2 flex items-center gap-2">
-          <div className="flex items-center">
-            <svg
-              className="h-2.5 w-2.5 md:h-4 md:w-4 text-yellow-400"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-            </svg>
-
-            <svg
-              className="h-2.5 w-2.5 md:h-4 md:w-4 text-yellow-400"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-            </svg>
-
-            <svg
-              className="h-2.5 w-2.5 md:h-4 md:w-4 text-yellow-400"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-            </svg>
-
-            <svg
-              className="h-2.5 w-2.5 md:h-4 md:w-4 text-yellow-400"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-            </svg>
-
-            <svg
-              className="h-2.5 w-2.5 md:h-4 md:w-4 text-yellow-400"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-            </svg>
+        <div className="mt-2 flex items-center gap-2 cursor-pointer hover:underline"  onClick={() => setOpen(true)}>
+          <div className="flex items-center " >
+            <RatingStars rating={rating}  />
           </div>
 
-          <p className="text-xs md:text-sm font-medium text-gray-900 dark:text-white">
-            5.0
+          <p className="text-xs md:text-sm font-medium text-gray-900 dark:text-white" >
+             {rating.toFixed(1)}
           </p>
           <p className="text-xs md:text-sm font-medium text-gray-500 dark:text-gray-400">
-            (455)
+            ({reviewCount})
           </p>
+          {reviews && <ReviewModel open={open} close={setOpen} productReview={reviews} />}
+          
         </div>
 
         {/* <ul className="mt-2 flex items-center gap-4">

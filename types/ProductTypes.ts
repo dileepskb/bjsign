@@ -48,6 +48,12 @@ export interface FAQ {
   id: number;
 }
 
+export interface Review{
+  id:number;
+  rating:number;
+  comment:string
+}
+
 export interface Product {
   id: number;
   title: string;
@@ -64,4 +70,5 @@ export interface Product {
   productOptions: ProductOption[];
   category?: Category;
   faq?: FAQ[];
+  review:Review[]
 }
