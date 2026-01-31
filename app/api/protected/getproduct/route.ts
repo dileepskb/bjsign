@@ -16,7 +16,17 @@ export async function GET(req: Request) {
         where: { id: Number(id) },
         include: {
           imgs: true,
-          tagImage:true,
+          tagImage: true,
+          review: {
+            include: {
+              user: {
+                select: {
+                  first_name: true,
+                  last_name: true,
+                },
+              },
+            },
+          },
           additionalDescriptions: true,
           productOptions: {
             include: {
@@ -29,19 +39,29 @@ export async function GET(req: Request) {
       if (!product)
         return NextResponse.json(
           { message: "Product not found" },
-          { status: 404 }
+          { status: 404 },
         );
 
       return NextResponse.json(product, { status: 200 });
     }
- 
+
     // ✅ Get all products
     const products = await prisma.product.findMany({
       orderBy: { createdAt: "desc" },
       include: {
-        category:true,
+        category: true,
         imgs: true,
         additionalDescriptions: true,
+        review: {
+          include: {
+            user: {
+              select: {
+                first_name: true,
+                last_name: true,
+              },
+            },
+          },
+        },
         productOptions: {
           include: {
             optionValues: true,
@@ -55,7 +75,7 @@ export async function GET(req: Request) {
     console.error("❌ Error fetching products:", error);
     return NextResponse.json(
       { message: error.message || "Failed to fetch products" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

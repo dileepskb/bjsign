@@ -32,7 +32,7 @@ const Footer = () => {
                     />
                   </svg>
                 </span>
-              7285 Desert Forest Rd , Oak Hills , CA 92344
+               <span className="ms-2">7285 Desert Forest Rd , Oak Hills , CA 92344</span>
               </li>
 
               <li>
@@ -61,12 +61,12 @@ const Footer = () => {
                       fill="#3C50E0"
                     />
                   </svg>
-                  +1(707)761-7464
+                  <span className="ms-2"> +1(707)761-7464</span>
                 </a>
               </li>
 
               <li>
-                <a href="#" className="flex items-center gap-4.5">
+                <a href="#" className="flex items-center gap-4.5 mr-2">
                   <svg
                     width="24"
                     height="24"
@@ -81,7 +81,7 @@ const Footer = () => {
                       fill="#3C50E0"
                     />
                   </svg>
-                  info@bjsignworld.com
+                 {' '} <span className="ms-2">info@bjsignworld.com</span>
                 </a>
               </li>
             </ul>
