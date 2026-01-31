@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { Review } from '@/types/ProductTypes'
 import Avatar from '../Avatar/Avatar'
+import RatingStars from '../SingleProduct/RatingStars'
 // import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
 interface modelProps{
@@ -29,7 +30,10 @@ export default function ReviewModel({open,close, productReview}:modelProps) {
               transition
               className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full sm:max-w-lg data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
             >
-              <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                <div className="bg-gray-50 px-4 py-3 text-2xl font-bold sm:px-6 border-b">
+                Review
+              </div>
+              <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 overflow-scroll relative h-[400]">
                 {productReview?.map((item, index:number) => (
  <div className="sm:flex sm:items-start border-b py-3" key={index}>
                   <div className="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10">
@@ -40,6 +44,9 @@ export default function ReviewModel({open,close, productReview}:modelProps) {
                     <DialogTitle as="h3" className="text-base font-semibold text-gray-900">
                       {item?.user?.first_name}  {item?.user?.last_name}
                     </DialogTitle>
+                    <div className='flex gap-2'>
+                        <RatingStars rating={item?.rating}  /><span> ({item?.rating})</span>
+                    </div>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
                         {item?.comment}
