@@ -10,6 +10,10 @@ import PromoBanner from "./_components/PromoBanner";
 import Testimonials from "./_components/Testimonials";
 import Categories from "./_components/Categories";
 import RecentVisitProduct from "./_components/RecentVisitProduct/RecentVisitProduct";
+import TruckAndSticker from "./_components/truckAndSticker/truckAndSticker";
+import MarketingMaterial from "./_components/MarketingMaterial/MarketingMaterial";
+import SignAndBanner from "./_components/SignAndBanner/SignAndBanner";
+import TruckAndStickerHome from "./_components/truckAndSticker/TruckAndStickerHome";
 
 export default async function Home() {
   // Check if the post table exists
@@ -39,6 +43,10 @@ export default async function Home() {
     <Hero />
      <Categories />
     <NewArrival />
+    <TruckAndSticker />
+    <MarketingMaterial />
+    <SignAndBanner />
+    <TruckAndStickerHome />
     <PromoBanner />
     <Testimonials />
 
