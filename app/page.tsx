@@ -43,6 +43,7 @@ export default async function Home() {
     <Hero />
      <Categories />
     <NewArrival />
+
     <TruckAndSticker />
     <MarketingMaterial />
     <SignAndBanner />
