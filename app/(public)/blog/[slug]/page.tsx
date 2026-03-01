@@ -1,11 +1,30 @@
 import BreadcrumbsNested from "@/components/Breadcrumbsnested/Breadcrumbsnested";
 import Image from "next/image";
 import Link from "next/link";
+
+
+export async function generateStaticParams() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`
+  );
+
+  const blogs = await res.json();
+
+  return blogs.map((blog: any) => ({
+    slug: blog.slug,
+  }));
+}
+
 export default async function SingleBlog({ params }: any) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`);
   const blogs = await res.json();
 
   const blog = blogs.find((b: any) => b.slug === params.slug);
+
+
+  if (!blog) {
+    return <div>Blog not found</div>;
+  }
 
   return (
     <>    <div className="bg-gray-200 pt-3 pb-1">

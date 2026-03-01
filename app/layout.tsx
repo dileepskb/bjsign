@@ -52,7 +52,7 @@ export default function RootLayout({
                 <HeaderNew />
                 {/* <Header /> */}
                <MantineProvider> <main className="flex-1">{children}</main></MantineProvider>
-                <Newsletter />
+                {/* <Newsletter /> */}
                 <Footer />
               </div>
             </Providers>

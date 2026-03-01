@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "@/lib/jwt";
 
 export async function POST(req: Request) {
-  if (JWT_SECRET) {
+  if (!JWT_SECRET) {
     return NextResponse.json(
       { error: "JWT_SECRET missing" },
       { status: 500 }
@@ -14,17 +14,16 @@ export async function POST(req: Request) {
 
   const { email, password } = await req.json();
   if (!email || !password) {
-    return NextResponse.json({ error: "Missing fields" }, { status: 400 });
+    return NextResponse.json({ field: "Missing fields" }, { status: 400 });
   }
-
   const user = await prisma.user.findUnique({ where: { email } });
   if (!user) {
-    return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+    return NextResponse.json({ email: "Invalid Email address" }, { status: 401 });
   }
 
   const isValid = await bcrypt.compare(password, user.password);
   if (!isValid) {
-    return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+    return NextResponse.json({ password: "Invalid Password" }, { status: 401 });
   }
 
   const token = jwt.sign(

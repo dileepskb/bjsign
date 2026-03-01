@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export const dynamic = "force-dynamic"; // ✅ IMPORTANT
+// export const dynamic = "force-dynamic"; // ✅ IMPORTANT
 export default async function BlogPage() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`, { cache: "no-store" });
   const blogs = await res.json();

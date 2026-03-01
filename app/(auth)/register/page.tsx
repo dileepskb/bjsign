@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Link from "next/link";
+import LoginImage from "@/components/Auth/LoginImage/LoginImage";
 
 type RegisterFormData = {
   first_name: string;
@@ -52,11 +53,15 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <div className="flex justify-center bg-gray-50 px-4 sm:px-6 lg:px-8 pt-[80] pb-[40px]">
+    <div className="max-w-3xl w-full flex mt-5 border shadow-sm">
+       <div className="w-[40%] bg-gray-100  p-8">
+                <LoginImage />
+              </div>
+               <div className="w-[60%] bg-white p-8">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="mt-8 space-y-6 border p-3 px-6 rounded bg-white"
+          className="space-y-6 px-6 rounded bg-white"
         >
           <h2 className="text-center text-3xl font-extrabold text-orange-500">
             Register
@@ -142,6 +147,7 @@ export default function RegisterPage() {
             </Link>
           </div>
         </form>
+        </div>
       </div>
     </div>
   );
